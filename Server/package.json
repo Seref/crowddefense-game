@@ -1,0 +1,22 @@
+{
+  "name": "unity-webgl-multiplayer",
+  "author": "valia fetisov",
+  "version": "0.1.0",
+  "scripts": {
+    "resolve-install": "npx npm-force-resolutions && npm install",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "and": "0.0.3",
+    "https-proxy-agent": "^2.2.3",
+    "npm": "^6.12.0",
+    "start": "^5.1.0",
+    "ws": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
+  "resolutions": {
+    "https-proxy-agent": "^3.0.0"
+  }
+}
