@@ -29,50 +29,24 @@ public class PlayerController : MonoBehaviour
 	void LateUpdate()
 	{
 		// input
-		Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-		Vector2 inputDir = input.normalized;
+		Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"),0, Input.GetAxisRaw("Vertical"));		
 		bool running = Input.GetKey(KeyCode.LeftShift);
 
-		Move(inputDir, running);
-
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Jump();
-		}
-
+		Move(input, running);		
 	}
 
-	void Move(Vector2 inputDir, bool running)
-	{
-		if (inputDir != Vector2.zero)
-		{
-			float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
-			transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, GetModifiedSmoothTime(turnSmoothTime));
-		}
+	void Move(Vector3 input, bool running)
+	{								
+		float targetSpeed = ((running) ? runSpeed : walkSpeed) * input.magnitude;
 
-		float targetSpeed = ((running) ? runSpeed : walkSpeed) * inputDir.magnitude;
 		currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, GetModifiedSmoothTime(speedSmoothTime));
 
 		velocityY += Time.deltaTime * gravity;
-		Vector3 velocity = transform.forward * currentSpeed + Vector3.up * velocityY;
+		Vector3 velocity = input.normalized * currentSpeed + Vector3.up * velocityY;
 
 		controller.Move(velocity * Time.deltaTime);
 		currentSpeed = new Vector2(controller.velocity.x, controller.velocity.z).magnitude;
-
-		if (controller.isGrounded)
-		{
-			velocityY = 0;
-		}
-	}
-
-	void Jump()
-	{
-		if (controller.isGrounded)
-		{
-			float jumpVelocity = Mathf.Sqrt(-2 * gravity * jumpHeight);
-			velocityY = jumpVelocity;
-		}
-	}
+	}	
 
 	float GetModifiedSmoothTime(float smoothTime)
 	{

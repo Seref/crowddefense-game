@@ -35,7 +35,7 @@ public class Multiplayer : MonoBehaviour
 		GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
 
 		// connect to server
-		WebSocket w = new WebSocket(new Uri("ws://192.168.137.1:8000"));
+		WebSocket w = new WebSocket(new Uri("ws://localhost:8000"));
 		yield return StartCoroutine(w.Connect());
 		Debug.Log("CONNECTED TO WEBSOCKETS");
 
