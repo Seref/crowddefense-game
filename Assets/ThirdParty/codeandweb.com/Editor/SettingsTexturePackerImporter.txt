@@ -1,0 +1,12 @@
+version: 2
+importPivots: 1
+tpsheetFileNames:
+- Assets/Textures/Player/Player.tpsheet
+- Assets/ThirdParty/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
+textureFileNames:
+- Assets/Textures/Player/Player.png
+- Assets/ThirdParty/codeandweb.com/Example/SpriteSheet/sprites.png
+normalmapFileNames:
+- 
+- Assets/ThirdParty/codeandweb.com/Example/SpriteSheet/sprites_n.png
+enableDebugOutput: 0
