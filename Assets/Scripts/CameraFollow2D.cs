@@ -7,6 +7,7 @@ public class CameraFollow2D : MonoBehaviour
 	public Transform target;
 
 	public float smoothSpeed = 0.125f;
+	public float smoothPanSpeed = 0.25f;
 
 	public Vector2 cameraBounds = new Vector2(2, 2);
 
@@ -28,9 +29,11 @@ public class CameraFollow2D : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		if (!currentBoundingBox.Contains(new Vector2(target.position.x, target.position.y))) { 
-			desiredPosition = target.position;
-			currentBoundingBox = new Bounds(new Vector2(target.position.x, target.position.y), cameraBounds);
+		if (!currentBoundingBox.Contains(new Vector2(target.position.x, target.position.y))) {
+			var currentPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+			var offset = currentPosition - target.position;
+			desiredPosition = currentPosition - (offset* smoothPanSpeed);
+			currentBoundingBox = new Bounds(desiredPosition, cameraBounds);
 		}
 
 		Vector3 smoothPosition = Vector2.Lerp(transform.position, desiredPosition, smoothSpeed);

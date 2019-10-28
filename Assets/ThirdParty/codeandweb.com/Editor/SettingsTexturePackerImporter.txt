@@ -1,10 +1,10 @@
 version: 2
 importPivots: 1
 tpsheetFileNames:
-- Assets/Textures/Player/Player.tpsheet
+- Assets/Textures/Player/RobotPlayer.tpsheet
 - Assets/ThirdParty/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
 textureFileNames:
-- Assets/Textures/Player/Player.png
+- Assets/Textures/Player/RobotPlayer.png
 - Assets/ThirdParty/codeandweb.com/Example/SpriteSheet/sprites.png
 normalmapFileNames:
 - 
