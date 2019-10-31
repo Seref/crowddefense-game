@@ -5721,8 +5721,8 @@ MonoBehaviour:
   - objectToPool: {fileID: 8517589941758573744, guid: fb16ba36820c6ad4e853b0b86476f2c5,
       type: 3}
     poolName: Bullet
-    amountToPool: 2
-    shouldExpand: 0
+    amountToPool: 28
+    shouldExpand: 1
 --- !u!114 &1829580761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5751,12 +5751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a3eeed2ed0df045b572366c8ab6df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  otherPlayerObject: {fileID: 0}
-  smoothUpdates: 10
-  player: {fileID: 0}
-  enemies: {fileID: 0}
-  bullets: {fileID: 0}
-  address: localhost:8000
 --- !u!4 &1832394287 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4623608306245135046, guid: 53069f4ae20c69a46ab4d7d1bdb89b08,
