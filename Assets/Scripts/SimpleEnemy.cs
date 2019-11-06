@@ -15,7 +15,7 @@ public class SimpleEnemy : MonoBehaviour
 	{
 		start = transform.position;
 		agent = GetComponent<NavMeshAgent>();
-
+		
 		points = new Transform[paths.transform.childCount];
 		int i = 0;
 		foreach (Transform child in paths.transform)
