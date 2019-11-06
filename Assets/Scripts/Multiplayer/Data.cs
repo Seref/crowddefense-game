@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Multiplayer
@@ -24,7 +21,7 @@ namespace Assets.Scripts.Multiplayer
 		public int sender;
 		public DataType type;
 		public string data;
-		//public long serverTimeStamp;
+		public long serverTimeStamp;
 	}
 
 	/// <summary> DataGroup structure this is for batching multiple pieces of Data, to reduce the amount of connections
@@ -45,11 +42,12 @@ namespace Assets.Scripts.Multiplayer
 	public class DataPrefabPosition
 	{
 		public int objectID;
-		public DataPrefabType prefabType;		
+		public DataPrefabType prefabType;
+		public bool active;
 		public Vector3 position;
 		public Quaternion rotation;
 	}
-	
+
 
 	/// <summary> Example Payload, this can be replaced with something even smaller that doesn't need to be a Json string,
 	/// since the Server doesn't really need to work with it
@@ -62,7 +60,7 @@ namespace Assets.Scripts.Multiplayer
 		public Vector3 mouseclick;
 	}
 
-	public enum DataClientServerType { JOIN, LEAVE}
+	public enum DataClientServerType { JOIN, LEAVE }
 	/// <summary> Example Payload, this can be replaced with something even smaller that doesn't need to be a Json string,
 	/// since the Server doesn't really need to work with it
 	/// </summary>

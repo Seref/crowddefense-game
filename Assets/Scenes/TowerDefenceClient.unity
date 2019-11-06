@@ -629,36 +629,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53069f4ae20c69a46ab4d7d1bdb89b08, type: 3}
---- !u!1 &303024566
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 303024567}
-  m_Layer: 0
-  m_Name: Bullets
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &303024567
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303024566}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 96.36639, y: 249.57039, z: -30.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &434789562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4623608306245135046, guid: 53069f4ae20c69a46ab4d7d1bdb89b08,
@@ -1144,7 +1114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1263733787}
   m_Layer: 0
-  m_Name: Enemies
+  m_Name: ServerObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1835,36 +1805,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53069f4ae20c69a46ab4d7d1bdb89b08, type: 3}
---- !u!1 &1603185811
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1603185812}
-  m_Layer: 0
-  m_Name: Players
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1603185812
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1603185811}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.06500003, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1656153083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,16 +1945,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bad3472a9741f64a8adaad92a90989a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyObject: {fileID: 5658259264236046188, guid: a3c707749aa42f447926335e97bc5c68,
+  enemyObject: {fileID: 5658259264236046188, guid: bd00ebeb5e841844f93f81a651d5910c,
     type: 3}
-  playerObject: {fileID: 799910475897579381, guid: 2bcb2a323790535428127ed9d559e362,
+  playerObject: {fileID: 799910475897579381, guid: 07894dfaaadf3924d9a71c91f1fbb21a,
     type: 3}
   bulletObject: {fileID: 8517589941758573744, guid: fb16ba36820c6ad4e853b0b86476f2c5,
     type: 3}
-  smoothUpdates: 10
-  bullets: {fileID: 303024566}
-  player: {fileID: 1603185811}
-  enemies: {fileID: 1263733786}
+  serverObjects: {fileID: 1263733786}
 --- !u!4 &1832394287 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4623608306245135046, guid: 53069f4ae20c69a46ab4d7d1bdb89b08,

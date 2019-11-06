@@ -19,7 +19,6 @@ namespace Assets.Scripts.Multiplayer
 		//Dictonary that gives every multiplayer gameobject an id (for faster access time)
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
 
-
 		IEnumerator Start()
 		{
 			// Get all Gameobjects, so that we can order the Objects
@@ -51,7 +50,6 @@ namespace Assets.Scripts.Multiplayer
 					{
 						DataGroup data = JsonUtility.FromJson<DataGroup>(message);
 
-
 						foreach (DataPackage package in data.dataList)
 						{
 							if (package.sender == 0)
@@ -67,9 +65,9 @@ namespace Assets.Scripts.Multiplayer
 							}
 							*/
 						}
-
 					}
-					catch{
+					catch
+					{
 					}
 				}
 
@@ -77,7 +75,6 @@ namespace Assets.Scripts.Multiplayer
 				if (w.error != null)
 				{
 					Debug.LogError("Error: " + w.error);
-					Debug.Log(message);
 					break;
 				}
 
@@ -85,18 +82,21 @@ namespace Assets.Scripts.Multiplayer
 				dataGroup.dataList = new List<DataPackage>();
 
 				foreach (Transform t in playerList.transform)
-					dataGroup.dataList.Add(CreatePositionDataPackage(t, DataPrefabType.PLAYER));
+					if (t.hasChanged)
+						dataGroup.dataList.Add(CreatePositionDataPackage(t, DataPrefabType.PLAYER));
 
 				foreach (Transform t in bulletsList.transform)
-					dataGroup.dataList.Add(CreatePositionDataPackage(t, DataPrefabType.BULLETS));
+					if (t.hasChanged)
+						dataGroup.dataList.Add(CreatePositionDataPackage(t, DataPrefabType.BULLETS));
 
 				foreach (Transform t in enemyList.transform)
-					dataGroup.dataList.Add(CreatePositionDataPackage(t, DataPrefabType.ENEMY));
+					if (t.hasChanged)
+						dataGroup.dataList.Add(CreatePositionDataPackage(t, DataPrefabType.ENEMY));
 
 				var e = JsonUtility.ToJson(dataGroup).ToString();
-				Debug.Log(e);
 				w.SendString(e);
-				yield return null; //new WaitForSeconds(0.033f);
+
+				yield return new WaitForSeconds(0.020f);
 			}
 
 			// if error, close connection
@@ -112,6 +112,7 @@ namespace Assets.Scripts.Multiplayer
 			var positionData = new DataPrefabPosition();
 			positionData.objectID = gameObject.GetInstanceID();
 			positionData.prefabType = prefabType;
+			positionData.active = gameObject.gameObject.activeSelf;
 			positionData.position = gameObject.transform.position;
 			positionData.rotation = gameObject.transform.rotation;
 			dataPackage.data = JsonUtility.ToJson(positionData).ToString();
