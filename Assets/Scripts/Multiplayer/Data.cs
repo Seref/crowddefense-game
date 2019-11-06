@@ -9,12 +9,11 @@ namespace Assets.Scripts.Multiplayer
 {
 	/// <summary> Datatypes that can be used (as of now)
 	/// </summary>
-	public enum DataType { DataPosition, DataStatus, DataClientServerAction, DataClientMouseClick };
+	public enum DataType { DataPrefabPosition, DataStatus, DataClientServerAction, DataClientMouseClick };
 
 	/// <summary> DataPackage structure each information is packed inside one "package"
 	///    with an additional space for various payloads
-	/// </summary>
-	/// <param name="objectID">unique ID of every Gameobject that needs to be updated on the server</param>
+	/// </summary>	
 	/// <param name="sender">to define the direction Host -> Client or Client -> Host </param>
 	/// <param name="type">define a Type to allow for multiple different JSON structures </param>
 	/// <param name="data">data that needs to be transitted, the server doesn't have to parse it</param>
@@ -22,7 +21,6 @@ namespace Assets.Scripts.Multiplayer
 	[Serializable]
 	public class DataPackage
 	{
-		public int objectID;
 		public int sender;
 		public DataType type;
 		public string data;
@@ -44,9 +42,10 @@ namespace Assets.Scripts.Multiplayer
 	/// </summary>
 	/// <param name="position">position coordinates</param>
 	[Serializable]
-	public class DataPosition
+	public class DataPrefabPosition
 	{
-		public DataPrefabType prefabType;
+		public int objectID;
+		public DataPrefabType prefabType;		
 		public Vector3 position;
 		public Quaternion rotation;
 	}
