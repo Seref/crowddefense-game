@@ -10,7 +10,7 @@
 /[Ee]xport/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/[Ss]erver/node_modules/
+/[Ss]erver/node_modules/*
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
