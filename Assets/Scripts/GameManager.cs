@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void HostGame() {
-        /*
+        
 		if (address.text != "")
 			hostGame.address = address.text.Trim();
 		else
@@ -38,8 +38,7 @@ public class GameManager : MonoBehaviour
 
 
 		hostGame.enabled = true;
-		connectionStatus.text = "hosting";
-        */
+		connectionStatus.text = "hosting";        
 	}
 
 	public void JoinGame() {

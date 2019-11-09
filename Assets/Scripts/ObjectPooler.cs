@@ -57,7 +57,11 @@ public class ObjectPooler : MonoBehaviour
 
 			// Add sub pools to the root object pool if necessary
 			if (objectPoolName != rootPoolName)
-				parentObject.transform.parent = GameObject.Find(rootPoolName).transform;
+			{
+				var rootPool = GameObject.Find(rootPoolName);
+				if (rootPool != null)
+					parentObject.transform.parent = rootPool.transform;
+			}
 		}
 
 		return parentObject;
