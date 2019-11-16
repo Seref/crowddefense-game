@@ -17,8 +17,7 @@ namespace Assets.Scripts.Multiplayer
 	/// <param name="serverTimeStamp">Not used right now, The server needs to insert it's own Timestamp into it (useful synchronization methods)</param>
 	[Serializable]
 	public class DataPackage
-	{
-		public int sender;
+	{				
 		public DataType type;
 		public string data;
 		public long serverTimeStamp;
@@ -30,6 +29,7 @@ namespace Assets.Scripts.Multiplayer
 	[Serializable]
 	public class DataGroup
 	{
+		public int sender;
 		public List<DataPackage> dataList;
 	}
 

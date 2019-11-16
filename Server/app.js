@@ -4,8 +4,10 @@ const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 8000 })
 
 // empty object to store all players
-var serverData = ""
+var hostData = ""
+var clientData = []
 
+var players = {}
 // on new client connect
 wss.on('connection', function connection(client, req) {
     // on new message recieved
@@ -13,9 +15,13 @@ wss.on('connection', function connection(client, req) {
     client.on('message', function incoming(data) {
         // get data from string
         // store data to players object        
-        serverData = data
+
+        var udid = (JSON.parse(data)).sender;
+        
+        players[udid] = data
+
         // save player udid to the client
-        client.udid = req.connection.remoteAddress
+        client.udid = udid
     })
 })
 
@@ -26,9 +32,16 @@ function broadcastUpdate() {
     wss.clients.forEach(function each(client) {
         // filter disconnected clients
         if (client.readyState !== WebSocket.OPEN) return        
-        client.send(serverData)
+
+        if (client.udid != 0) {
+            client.send(players[0])
+        }
+        else{
+            var otherPlayers = Object.keys(players).filter(udid => udid !== client.udid)
+            client.send(JSON.stringify(otherPlayers))
+        }        
     })
 }
 
 // call broadcastUpdate every 0.1s
-setInterval(broadcastUpdate, 20)
+setInterval(broadcastUpdate, 16)

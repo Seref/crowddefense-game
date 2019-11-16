@@ -14,7 +14,7 @@ namespace Assets.Scripts.Multiplayer
 		private GameObject bulletsList;
 		private GameObject enemyList;
 
-		public string address = "localhost:8000";
+		public string address = "localhost:8000/";
 
 		//Dictonary that gives every multiplayer gameobject an id (for faster access time)
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
@@ -24,15 +24,16 @@ namespace Assets.Scripts.Multiplayer
 			// Get all Gameobjects, so that we can order the Objects
 			playerList = GameObject.Find("Players");
 			bulletsList = GameObject.Find("Bullet");
-			enemyList = GameObject.Find("Enemies");
+			enemyList = GameObject.Find("Enemy");
 
-			// connects to server
-			Debug.Log("Trying " + address);
-			if (address == "")
+			// connects to server			
+			if (address.Length <= 5)
 			{
-				address = "localhost:8000";
+				address = "localhost:8000/";
 			}
+			
 			address = "ws://" + address.ToString();
+			Debug.Log("Connecting to: " + address);
 			WebSocket w = new WebSocket(new Uri(address));
 			yield return StartCoroutine(w.Connect());
 			Debug.Log("CONNECTED TO WEBSOCKETS");
@@ -51,10 +52,7 @@ namespace Assets.Scripts.Multiplayer
 						DataGroup data = JsonUtility.FromJson<DataGroup>(message);
 
 						foreach (DataPackage package in data.dataList)
-						{
-							if (package.sender == 0)
-								continue;
-
+						{							
 							/*
 							if (package.type.Equals(DataType.DataClientMouseClick))
 							{							
@@ -79,6 +77,7 @@ namespace Assets.Scripts.Multiplayer
 				}
 
 				DataGroup dataGroup = new DataGroup();
+				dataGroup.sender = 0;
 				dataGroup.dataList = new List<DataPackage>();
 
 				foreach (Transform t in playerList.transform)
@@ -105,8 +104,7 @@ namespace Assets.Scripts.Multiplayer
 
 		private DataPackage CreatePositionDataPackage(Transform gameObject, DataPrefabType prefabType)
 		{
-			var dataPackage = new DataPackage();
-			dataPackage.sender = 0;
+			var dataPackage = new DataPackage();			
 			dataPackage.type = (int)DataType.DataPrefabPosition;
 
 			var positionData = new DataPrefabPosition();

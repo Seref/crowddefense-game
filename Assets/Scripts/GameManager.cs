@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(Timer());
 	}
 
-
 	private IEnumerator Timer()
 	{
 		while (true)

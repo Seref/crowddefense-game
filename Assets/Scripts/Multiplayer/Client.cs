@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.Multiplayer
@@ -13,17 +14,26 @@ namespace Assets.Scripts.Multiplayer
 		public GameObject playerObject;
 		public GameObject bulletObject;
 
-		public GameObject serverObjects;		
+		public GameObject serverObjects;
 
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
 
 
 		IEnumerator Start()
 		{
-			//TextMeshProUGUI t = GameObject.Find("Text_Address").GetComponent<TextMeshProUGUI>();
+			string address = "ws://localhost:8000/";
+			GameObject text_address = GameObject.Find("Text_Address");
+			if (text_address != null)
+			{
+				TextMeshProUGUI t = text_address.GetComponent<TextMeshProUGUI>();
+				if (t.text.Length > 5)
+				{
+					address = "ws://" + t.text;
+				}
+			}
 
 			// connect to server
-			WebSocket w = new WebSocket(new Uri("ws://localhost:8000/"));//+t.text));//localhost"));//
+			WebSocket w = new WebSocket(new Uri(address));
 			yield return StartCoroutine(w.Connect());
 			Debug.Log("CONNECTED TO WEBSOCKETS");
 
@@ -45,7 +55,7 @@ namespace Assets.Scripts.Multiplayer
 								continue;
 
 							DataPrefabPosition prefabPosition = JsonUtility.FromJson<DataPrefabPosition>(package.data);
-							
+
 							//check if GameObject already exists
 							GameObject gameObject = null;
 							var isGameObjectinList = gameObjectList.ContainsKey(prefabPosition.objectID);
