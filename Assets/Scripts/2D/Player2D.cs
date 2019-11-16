@@ -1,16 +1,23 @@
-﻿using UnityEngine;
-
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player2D : MonoBehaviour
 {
 
+	Rigidbody2D rb;
+
+	void Start()
+	{
+		rb = GetComponent<Rigidbody2D>();		
+	}
+	
 	void LateUpdate()
 	{
 		var mousePos = Input.mousePosition;
 		mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-		transform.rotation = Quaternion.Euler(HelperFunctions.LookAt2D(transform.position, mousePos).eulerAngles + new Vector3(0, 0, 90));
-
+		rb.rotation = HelperFunctions.LookAt2D(transform.position, mousePos).eulerAngles.z+90;
+		
 		if (Input.GetButtonDown("Fire1"))
 			Fire();
 	}
@@ -29,8 +36,7 @@ public class Player2D : MonoBehaviour
 		}
 	}
 	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		Debug.Log(collision.gameObject.tag);
+	{		
 		if (collision.gameObject.tag == "Enemy")
 			transform.gameObject.SetActive(false);
 	}

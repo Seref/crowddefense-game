@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy2D : MonoBehaviour
@@ -6,12 +7,13 @@ public class Enemy2D : MonoBehaviour
 	Vector3 start;
 	NavMeshAgent agent;
 
-	private GameObject paths;
-	private Transform[] points;
+	private Path paths;
+	private List<Vector2> points;
 	private int destPoint = 0;
+	private GameManager2D gameManager;
 
 	void Awake()
-	{		
+	{
 		agent = GetComponent<NavMeshAgent>();
 		agent.updateUpAxis = false;
 		agent.updateRotation = false;
@@ -19,18 +21,15 @@ public class Enemy2D : MonoBehaviour
 		agent.autoRepath = true;
 	}
 
-	public void StartPath(GameObject paths)
+	public void StartPath(Path paths, GameManager2D gameManager)
 	{
 		start = transform.position;
 		this.paths = paths;
-		points = new Transform[paths.transform.childCount];
 		destPoint = 0;
 
-		int i = 0;
-		foreach (Transform child in paths.transform)
-		{
-			points[i++] = child;
-		}
+		this.gameManager = gameManager;
+
+		points = paths.PointList;
 
 		GotoNextPoint();
 	}
@@ -38,15 +37,15 @@ public class Enemy2D : MonoBehaviour
 	void GotoNextPoint()
 	{
 		// Returns if no points have been set up
-		if (points.Length == 0)
+		if (points.Capacity == 0)
 			return;
 
 		// Set the agent to go to the currently selected destination.
-		agent.destination = points[destPoint].position;
+		agent.destination = points[destPoint];
 
 		// Choose the next point in the array as the destination,
 		// cycling to the start if necessary.
-		destPoint = (destPoint + 1) % points.Length;
+		destPoint = (destPoint + 1) % points.Capacity;
 	}
 
 	private Vector3 posBefore = Vector3.zero;
@@ -64,15 +63,15 @@ public class Enemy2D : MonoBehaviour
 
 	}
 
-
 	void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag == "Bullet")
 		{
-			agent.destination = points[0].position;
+			agent.destination = points[0];
 			destPoint = -1;
 			transform.position = start;
 			transform.gameObject.SetActive(false);
+			gameManager.Score += 1;
 		}
 	}
 }
