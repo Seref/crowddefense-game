@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy2D : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
 	Vector3 start;
 	NavMeshAgent agent;
@@ -10,7 +10,7 @@ public class Enemy2D : MonoBehaviour
 	private Path paths;
 	private List<Vector2> points;
 	private int destPoint = 0;
-	private GameManager2D gameManager;
+	private GameManager gameManager;
 
 	void Awake()
 	{
@@ -21,7 +21,7 @@ public class Enemy2D : MonoBehaviour
 		agent.autoRepath = true;
 	}
 
-	public void StartPath(Path paths, GameManager2D gameManager)
+	public void StartPath(Path paths, GameManager gameManager)
 	{
 		start = transform.position;
 		this.paths = paths;

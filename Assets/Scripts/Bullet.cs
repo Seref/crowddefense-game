@@ -4,23 +4,32 @@ public class Bullet : MonoBehaviour
 {
 	public float speed = 10;
 
-	private Rigidbody rigidBody;
+	private Rigidbody2D rigidBody2D;
+	private SpriteRenderer sr;
 
 	void Awake()
 	{
-		rigidBody = GetComponent<Rigidbody>();
+		rigidBody2D = GetComponent<Rigidbody2D>();
+		sr = GetComponent<SpriteRenderer>();
 	}
 
 	public void Fire()
-	{		
-			rigidBody.velocity = transform.forward * speed;		
+	{
+		rigidBody2D.velocity = transform.up * speed;
 	}
 
-	void OnTriggerEnter(Collider other)
+	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (other.gameObject.tag != "Ground")
+		rigidBody2D.velocity = new Vector3(0, 0, 0);
+		transform.gameObject.SetActive(false);
+
+	}
+
+	private void Update()
+	{
+		if (!sr.isVisible)
 		{
-			rigidBody.velocity = new Vector3(0, 0, 0);
+			rigidBody2D.velocity = new Vector3(0, 0, 0);
 			transform.gameObject.SetActive(false);
 		}
 	}

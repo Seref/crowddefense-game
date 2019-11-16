@@ -30,9 +30,9 @@ public class Player2D : MonoBehaviour
 			bullet.transform.position = transform.position + transform.up * 1.25f;
 			bullet.transform.rotation = transform.rotation;
 			bullet.SetActive(true);
-			var bullet2D = bullet.GetComponent<Bullet2D>();
-			bullet2D.speed = 20;
-			bullet2D.Fire();
+			var bulletScript = bullet.GetComponent<Bullet>();
+			bulletScript.speed = 20;
+			bulletScript.Fire();
 		}
 	}
 	private void OnTriggerEnter2D(Collider2D collision)
