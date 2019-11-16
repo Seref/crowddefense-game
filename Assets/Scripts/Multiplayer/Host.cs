@@ -31,7 +31,7 @@ namespace Assets.Scripts.Multiplayer
 			{
 				address = "localhost:8000/";
 			}
-			
+
 			address = "ws://" + address.ToString();
 			Debug.Log("Connecting to: " + address);
 			WebSocket w = new WebSocket(new Uri(address));
@@ -45,23 +45,37 @@ namespace Assets.Scripts.Multiplayer
 				// read message
 				string message = w.RecvString();
 				// check if message is not empty			
+
+				DataGroup dataGroup = new DataGroup();
+				dataGroup.sender = 0;
+				dataGroup.dataList = new List<DataPackage>();
+
 				if (message != null)
 				{
+					
 					try
 					{
+
+
+
 						DataGroup data = JsonUtility.FromJson<DataGroup>(message);
 
 						foreach (DataPackage package in data.dataList)
-						{							
-							/*
+						{
+							if (package.type.Equals(DataType.DataPing))
+							{
+								dataGroup.dataList.Add(package);
+							}
+							continue;
 							if (package.type.Equals(DataType.DataClientMouseClick))
-							{							
+							{
+								
 							}
 							else
 							{
 								continue;
 							}
-							*/
+
 						}
 					}
 					catch
@@ -76,9 +90,7 @@ namespace Assets.Scripts.Multiplayer
 					break;
 				}
 
-				DataGroup dataGroup = new DataGroup();
-				dataGroup.sender = 0;
-				dataGroup.dataList = new List<DataPackage>();
+				
 
 				foreach (Transform t in playerList.transform)
 					if (t.hasChanged)
@@ -95,7 +107,7 @@ namespace Assets.Scripts.Multiplayer
 				var e = JsonUtility.ToJson(dataGroup).ToString();
 				w.SendString(e);
 
-				yield return new WaitForSeconds(0.015f);
+				yield return new WaitForSecondsRealtime(0.013f);
 			}
 
 			// if error, close connection
@@ -104,7 +116,7 @@ namespace Assets.Scripts.Multiplayer
 
 		private DataPackage CreatePositionDataPackage(Transform gameObject, DataPrefabType prefabType)
 		{
-			var dataPackage = new DataPackage();			
+			var dataPackage = new DataPackage();
 			dataPackage.type = (int)DataType.DataPrefabPosition;
 
 			var positionData = new DataPrefabPosition();

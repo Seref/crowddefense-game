@@ -6,7 +6,7 @@ namespace Assets.Scripts.Multiplayer
 {
 	/// <summary> Datatypes that can be used (as of now)
 	/// </summary>
-	public enum DataType { DataPrefabPosition, DataStatus, DataClientServerAction, DataClientMouseClick };
+	public enum DataType { DataPrefabPosition, DataStatus, DataPing, DataClientServerAction, DataClientMouseClick };
 
 	/// <summary> DataPackage structure each information is packed inside one "package"
 	///    with an additional space for various payloads
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Multiplayer
 	/// <param name="serverTimeStamp">Not used right now, The server needs to insert it's own Timestamp into it (useful synchronization methods)</param>
 	[Serializable]
 	public class DataPackage
-	{				
+	{
 		public DataType type;
 		public string data;
 		public long serverTimeStamp;
@@ -48,6 +48,13 @@ namespace Assets.Scripts.Multiplayer
 		public Quaternion rotation;
 	}
 
+
+	[Serializable]
+	public class DataPing
+	{
+		public int id;
+		public long time;
+	}
 
 	/// <summary> Example Payload, this can be replaced with something even smaller that doesn't need to be a Json string,
 	/// since the Server doesn't really need to work with it

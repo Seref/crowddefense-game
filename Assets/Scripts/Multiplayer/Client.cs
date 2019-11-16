@@ -15,10 +15,11 @@ namespace Assets.Scripts.Multiplayer
 		public GameObject bulletObject;
 
 		public GameObject serverObjects;
+		public TextMeshProUGUI Ping;
 
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
 
-
+		private bool waitingForAnswer = false;
 		IEnumerator Start()
 		{
 			string address = "ws://192.168.0.103:8000/";
@@ -38,10 +39,12 @@ namespace Assets.Scripts.Multiplayer
 			Debug.Log("CONNECTED TO WEBSOCKETS");
 
 			DataGroup dataGroup = new DataGroup();
-			dataGroup.sender = 1;			
+			dataGroup.sender = 1;
 			var e = JsonUtility.ToJson(dataGroup).ToString();
 			w.SendString(e);
 
+
+			int pingCounter = 0;
 			// wait for messages
 			while (true)
 			{
@@ -53,9 +56,19 @@ namespace Assets.Scripts.Multiplayer
 					//create DataPackage List
 
 					DataGroup data = JsonUtility.FromJson<DataGroup>(message);					
-					if (data != null) { 
+					if (data != null)
+					{
 						foreach (DataPackage package in data.dataList)
 						{
+							if (package.type == DataType.DataPing)
+							{
+								waitingForAnswer = false;
+								DataPing s = JsonUtility.FromJson<DataPing>(package.data);
+								//Debug.Log(s.id + " diff: " + ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond + "ms\n"));
+								Ping.text = ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond) + "ms";
+							}
+
+
 							if (package.type != DataType.DataPrefabPosition)
 								continue;
 
@@ -97,6 +110,31 @@ namespace Assets.Scripts.Multiplayer
 								gameObjectList.Add(prefabPosition.objectID, gameObject);
 							}
 						}
+					}
+
+
+					if (!waitingForAnswer)
+					{
+						var pi = new DataPing();
+						pi.id = pingCounter++;
+						pi.time = DateTime.UtcNow.Ticks;
+
+						var dP = new DataPackage();
+						dP.type = DataType.DataPing;
+						dP.data = JsonUtility.ToJson(pi).ToString();
+
+
+						var el = new List<DataPackage>();
+						el.Add(dP);
+
+						DataGroup dG = new DataGroup();
+						dG.sender = 1;
+						dG.dataList = el;
+						var goop = JsonUtility.ToJson(dG).ToString();
+
+						w.SendString(goop);
+
+						waitingForAnswer = true;
 					}
 				}
 
