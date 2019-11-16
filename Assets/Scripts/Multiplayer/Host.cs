@@ -95,7 +95,7 @@ namespace Assets.Scripts.Multiplayer
 				var e = JsonUtility.ToJson(dataGroup).ToString();
 				w.SendString(e);
 
-				yield return new WaitForSeconds(0.020f);
+				yield return new WaitForSeconds(0.015f);
 			}
 
 			// if error, close connection

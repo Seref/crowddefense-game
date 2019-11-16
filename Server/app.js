@@ -18,25 +18,34 @@ wss.on('connection', function connection(client, req) {
 
         var udid = (JSON.parse(data)).sender;
         
-        players[udid] = data
-
-        // save player udid to the client
+        players[udid] = data        
+        // save player udid to the client        
         client.udid = udid
+
+        if (udid == 0)
+            broadcastUpdateClients()
+        else
+            broadcastUpdateServer()
     })
 })
 
 wss.on('error', () => console.log('error'));
 
-function broadcastUpdate() {
+function broadcastUpdateClients() {
     // broadcast messages to all clients
     wss.clients.forEach(function each(client) {
         // filter disconnected clients
         if (client.readyState !== WebSocket.OPEN) return        
-
         if (client.udid != 0) {
             client.send(players[0])
-        }
-        else{
+        }            
+    })
+}
+
+function broadcastUpdateServer() {    
+    wss.clients.forEach(function each(client) {        
+        if (client.readyState !== WebSocket.OPEN) return        
+        if (client.udid == 0) {
             var otherPlayers = Object.keys(players).filter(udid => udid !== client.udid)
             client.send(JSON.stringify(otherPlayers))
         }        
@@ -44,4 +53,4 @@ function broadcastUpdate() {
 }
 
 // call broadcastUpdate every 0.1s
-setInterval(broadcastUpdate, 16)
+//setInterval(broadcastUpdate, 15)

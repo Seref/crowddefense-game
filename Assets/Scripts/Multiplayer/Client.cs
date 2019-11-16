@@ -21,7 +21,7 @@ namespace Assets.Scripts.Multiplayer
 
 		IEnumerator Start()
 		{
-			string address = "ws://localhost:8000/";
+			string address = "ws://192.168.0.103:8000/";
 			GameObject text_address = GameObject.Find("Text_Address");
 			if (text_address != null)
 			{
@@ -37,6 +37,11 @@ namespace Assets.Scripts.Multiplayer
 			yield return StartCoroutine(w.Connect());
 			Debug.Log("CONNECTED TO WEBSOCKETS");
 
+			DataGroup dataGroup = new DataGroup();
+			dataGroup.sender = 1;			
+			var e = JsonUtility.ToJson(dataGroup).ToString();
+			w.SendString(e);
+
 			// wait for messages
 			while (true)
 			{
@@ -47,8 +52,8 @@ namespace Assets.Scripts.Multiplayer
 				{
 					//create DataPackage List
 
-					DataGroup data = JsonUtility.FromJson<DataGroup>(message);
-					if (data != null)
+					DataGroup data = JsonUtility.FromJson<DataGroup>(message);					
+					if (data != null) { 
 						foreach (DataPackage package in data.dataList)
 						{
 							if (package.type != DataType.DataPrefabPosition)
@@ -92,8 +97,8 @@ namespace Assets.Scripts.Multiplayer
 								gameObjectList.Add(prefabPosition.objectID, gameObject);
 							}
 						}
+					}
 				}
-
 
 				// if connection error, break the loop
 				if (w.error != null)
@@ -101,6 +106,7 @@ namespace Assets.Scripts.Multiplayer
 					Debug.LogError("Error: " + w.error);
 					break;
 				}
+
 				yield return 0;
 			}
 
