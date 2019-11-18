@@ -15,6 +15,7 @@ namespace Assets.Scripts.Multiplayer
 		private GameObject enemyList;
 
 		public string address = "localhost:8000/";
+		public string lobby = "Test_Server!";
 
 		//Dictonary that gives every multiplayer gameobject an id (for faster access time)
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
@@ -38,44 +39,74 @@ namespace Assets.Scripts.Multiplayer
 			yield return StartCoroutine(w.Connect());
 			Debug.Log("CONNECTED TO WEBSOCKETS");
 
+
+			// Create Lobby
+			DataSeverRequest serverRequest = new DataSeverRequest();
+			serverRequest.lobby = "SERVER_COMMAND";
+			serverRequest.request = (int)ServerRequestType.CREATE_LOBBY;
+			serverRequest.optional = lobby;
+			w.SendString(JsonUtility.ToJson(serverRequest).ToString());
+
+			// Wait until Server replies
+
+			int counter = 10 * 2;
+			bool success = false;
+			while (true)
+			{
+				string mess = w.RecvString();
+				Debug.Log("Server Reply " + mess);
+				if (mess == "ok")
+				{
+					success = true;
+					break;
+				}
+				if (counter-- <= 0)
+				{
+					break;
+				}
+				yield return new WaitForSecondsRealtime(0.016f);
+			}
+
+			if (!success)
+			{
+				Debug.Log("Failed to Host");
+				yield break;
+			}
+			else
+				Debug.Log("Created a Lobby");
+			
 			// wait for messages
-			// When ever a message get's received that updates the position (which are inside of the gameObject list, they will be updated)
 			while (true)
 			{
 				// read message
 				string message = w.RecvString();
 				// check if message is not empty			
-
-				DataGroup dataGroup = new DataGroup();
-				dataGroup.sender = 0;
-				dataGroup.dataList = new List<DataPackage>();
+				Debug.Log(message);
+				DataGroup dataGroup = new DataGroup
+				{
+					lobby = lobby,
+					dataList = new List<DataPackage>()
+				};
 
 				if (message != null)
 				{
-					
 					try
 					{
+						DataGroup client = JsonUtility.FromJson<DataGroup>(message);
 
-
-
-						DataGroup data = JsonUtility.FromJson<DataGroup>(message);
-
-						foreach (DataPackage package in data.dataList)
+						int clientID = client.clientID;
+						foreach (DataPackage package in client.dataList)
 						{
-							if (package.type.Equals(DataType.DataPing))
+							switch (package.type)
 							{
-								dataGroup.dataList.Add(package);
+								case DataType.DataPing:
+									dataGroup.dataList.Add(package);
+									break;
+								case DataType.DataClientMouseClick:
+									break;
+								default:
+									break;
 							}
-							continue;
-							if (package.type.Equals(DataType.DataClientMouseClick))
-							{
-								
-							}
-							else
-							{
-								continue;
-							}
-
 						}
 					}
 					catch
@@ -83,14 +114,11 @@ namespace Assets.Scripts.Multiplayer
 					}
 				}
 
-
 				if (w.error != null)
 				{
 					Debug.LogError("Error: " + w.error);
 					break;
 				}
-
-				
 
 				foreach (Transform t in playerList.transform)
 					if (t.hasChanged)
@@ -104,15 +132,16 @@ namespace Assets.Scripts.Multiplayer
 					if (t.hasChanged)
 						dataGroup.dataList.Add(CreatePositionDataPackage(t, DataPrefabType.ENEMY));
 
-				var e = JsonUtility.ToJson(dataGroup).ToString();
-				w.SendString(e);
+				w.SendString(JsonUtility.ToJson(dataGroup).ToString());
 
-				yield return new WaitForSecondsRealtime(0.013f);
+				yield return new WaitForSecondsRealtime(0.017f);
 			}
 
 			// if error, close connection
 			w.Close();
 		}
+
+
 
 		private DataPackage CreatePositionDataPackage(Transform gameObject, DataPrefabType prefabType)
 		{
@@ -129,5 +158,6 @@ namespace Assets.Scripts.Multiplayer
 
 			return dataPackage;
 		}
+
 	}
 }

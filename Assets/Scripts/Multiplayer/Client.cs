@@ -17,9 +17,10 @@ namespace Assets.Scripts.Multiplayer
 		public GameObject serverObjects;
 		public TextMeshProUGUI Ping;
 
-		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
+		public string lobby = "Test_Server!";
 
-		private bool waitingForAnswer = false;
+		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
+		
 		IEnumerator Start()
 		{
 			string address = "ws://192.168.0.103:8000/";
@@ -38,103 +39,115 @@ namespace Assets.Scripts.Multiplayer
 			yield return StartCoroutine(w.Connect());
 			Debug.Log("CONNECTED TO WEBSOCKETS");
 
+
+			// Join Lobby
+			DataSeverRequest serverRequest = new DataSeverRequest();
+			serverRequest.lobby = "SERVER_COMMAND";
+			serverRequest.request = (int)ServerRequestType.JOIN_LOBBY;
+			serverRequest.optional = lobby;
+			w.SendString(JsonUtility.ToJson(serverRequest).ToString());
+
+			// Wait until Server replies
+			int counter = 10 * 2;
+			bool success = false;
+			while (true)
+			{
+				string mess = w.RecvString();				
+				if (mess == "ok")
+				{
+					success = true;
+					break;
+				}
+				if (counter-- <= 0)
+				{
+					break;
+				}
+				yield return new WaitForSecondsRealtime(0.5f);
+			}
+
+			if (!success)
+			{
+				Debug.Log("Failed to Join");
+				yield break;
+			}
+			else
+				Debug.Log("Successfully Joined");
+
+
 			DataGroup dataGroup = new DataGroup();
-			dataGroup.sender = 1;
+			dataGroup.clientID = -1;
 			var e = JsonUtility.ToJson(dataGroup).ToString();
 			w.SendString(e);
 
-
 			int pingCounter = 0;
+			bool waitingForAnswer = false;
 			// wait for messages
 			while (true)
 			{
-				// read message
 				string message = w.RecvString();
 				// check if message is not empty				
 				if (message != null)
 				{
 					//create DataPackage List
 
-					DataGroup data = JsonUtility.FromJson<DataGroup>(message);					
+					DataGroup data = JsonUtility.FromJson<DataGroup>(message);
 					if (data != null)
 					{
 						foreach (DataPackage package in data.dataList)
 						{
-							if (package.type == DataType.DataPing)
+							switch (package.type)
 							{
-								waitingForAnswer = false;
-								DataPing s = JsonUtility.FromJson<DataPing>(package.data);
-								//Debug.Log(s.id + " diff: " + ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond + "ms\n"));
-								Ping.text = ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond) + "ms";
-							}
+								case DataType.DataPing:
+									{
+										waitingForAnswer = false;
+										DataPing s = JsonUtility.FromJson<DataPing>(package.data);
+										//Debug.Log(s.id + " diff: " + ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond + "ms\n"));
+										Ping.text = ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond) + "ms";
+									}
+									break;
+								case DataType.DataPrefabPosition:
+									{
+										DataPrefabPosition prefabPosition = JsonUtility.FromJson<DataPrefabPosition>(package.data);
 
+										//check if GameObject already exists
+										GameObject gameObject = null;
+										var isGameObjectinList = gameObjectList.ContainsKey(prefabPosition.objectID);
 
-							if (package.type != DataType.DataPrefabPosition)
-								continue;
+										if (isGameObjectinList)
+											gameObject = gameObjectList[prefabPosition.objectID];
 
-							DataPrefabPosition prefabPosition = JsonUtility.FromJson<DataPrefabPosition>(package.data);
-
-							//check if GameObject already exists
-							GameObject gameObject = null;
-							var isGameObjectinList = gameObjectList.ContainsKey(prefabPosition.objectID);
-
-							if (isGameObjectinList)
-								gameObject = gameObjectList[prefabPosition.objectID];
-
-							if (isGameObjectinList)
-							{
-								gameObject.transform.position = prefabPosition.position;
-								gameObject.transform.rotation = prefabPosition.rotation;
-								gameObject.SetActive(prefabPosition.active);
-							}
-							else
-							{
-								switch (prefabPosition.prefabType)
-								{
-									case DataPrefabType.ENEMY:
-										gameObject = Instantiate(enemyObject, prefabPosition.position, prefabPosition.rotation);
-										gameObject.transform.SetParent(serverObjects.transform);
-										gameObject.SetActive(prefabPosition.active);
-										break;
-									case DataPrefabType.PLAYER:
-										gameObject = Instantiate(playerObject, prefabPosition.position, prefabPosition.rotation);
-										gameObject.transform.SetParent(serverObjects.transform);
-										gameObject.SetActive(prefabPosition.active);
-										break;
-									case DataPrefabType.BULLETS:
-										gameObject = Instantiate(bulletObject, prefabPosition.position, prefabPosition.rotation);
-										gameObject.transform.SetParent(serverObjects.transform);
-										gameObject.SetActive(prefabPosition.active);
-										break;
-								}
-								gameObjectList.Add(prefabPosition.objectID, gameObject);
-							}
+										if (isGameObjectinList)
+										{
+											gameObject.transform.position = prefabPosition.position;
+											gameObject.transform.rotation = prefabPosition.rotation;
+											gameObject.SetActive(prefabPosition.active);
+										}
+										else
+										{
+											switch (prefabPosition.prefabType)
+											{
+												case DataPrefabType.ENEMY:
+													gameObject = Instantiate(enemyObject, prefabPosition.position, prefabPosition.rotation);
+													gameObject.transform.SetParent(serverObjects.transform);
+													gameObject.SetActive(prefabPosition.active);
+													break;
+												case DataPrefabType.PLAYER:
+													gameObject = Instantiate(playerObject, prefabPosition.position, prefabPosition.rotation);
+													gameObject.transform.SetParent(serverObjects.transform);
+													gameObject.SetActive(prefabPosition.active);
+													break;
+												case DataPrefabType.BULLETS:
+													gameObject = Instantiate(bulletObject, prefabPosition.position, prefabPosition.rotation);
+													gameObject.transform.SetParent(serverObjects.transform);
+													gameObject.SetActive(prefabPosition.active);
+													break;
+											}
+											gameObjectList.Add(prefabPosition.objectID, gameObject);
+										}
+									}
+									break;
+							}							
 						}
-					}
-
-
-					if (!waitingForAnswer)
-					{
-						var pi = new DataPing();
-						pi.id = pingCounter++;
-						pi.time = DateTime.UtcNow.Ticks;
-
-						var dP = new DataPackage();
-						dP.type = DataType.DataPing;
-						dP.data = JsonUtility.ToJson(pi).ToString();
-
-
-						var el = new List<DataPackage>();
-						el.Add(dP);
-
-						DataGroup dG = new DataGroup();
-						dG.sender = 1;
-						dG.dataList = el;
-						var goop = JsonUtility.ToJson(dG).ToString();
-
-						w.SendString(goop);
-
-						waitingForAnswer = true;
 					}
 				}
 
@@ -145,7 +158,33 @@ namespace Assets.Scripts.Multiplayer
 					break;
 				}
 
-				yield return 0;
+
+				if (!waitingForAnswer)
+				{
+					waitingForAnswer = true;
+					var pi = new DataPing();
+					pi.id = pingCounter++;
+					pi.time = DateTime.UtcNow.Ticks;
+
+					var dP = new DataPackage();
+					dP.type = DataType.DataPing;
+					dP.data = JsonUtility.ToJson(pi).ToString();
+
+
+					var el = new List<DataPackage>();
+					el.Add(dP);
+
+					DataGroup dG = new DataGroup();
+					dG.lobby = lobby;
+					dG.clientID = -1;
+					dG.dataList = el;
+					var goop = JsonUtility.ToJson(dG).ToString();
+
+					w.SendString(goop);					
+				}
+
+
+				yield return 0;// new WaitForSecondsRealtime(0.010f);
 			}
 
 			// if error, close connection
