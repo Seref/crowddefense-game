@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Path;
+using System.Collections;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour

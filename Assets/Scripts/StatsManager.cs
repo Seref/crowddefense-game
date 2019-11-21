@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class StatsManager : MonoBehaviour
 {
-	public StatsPanel StatsPanel;
+	public StatsPanel StatsPanel;	
 
 	private int m_Score = -1;
 	private int m_Wave = -1;
-	private int playTime = -1;
+	public int PlayTime = -1;
 
 	private TextMeshProUGUI itemScore;
 	private TextMeshProUGUI itemWave;
 	private TextMeshProUGUI itemPlayTime;
+
 
 	void Start()
 	{
@@ -21,7 +22,7 @@ public class StatsManager : MonoBehaviour
 		itemPlayTime = StatsPanel.AddItem();
 
 		Score = 0;
-		playTime = 0;
+		PlayTime = 0;
 		Wave = 0;
 
 		StartCoroutine(Timer());
@@ -31,8 +32,8 @@ public class StatsManager : MonoBehaviour
 	{
 		while (true)
 		{
-			playTime++;
-			itemPlayTime.text = "Time: " + playTime + "s";
+			PlayTime++;
+			itemPlayTime.text = "Time: " + PlayTime + "s";
 			yield return new WaitForSeconds(1);
 		}
 	}

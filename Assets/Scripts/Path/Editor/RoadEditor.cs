@@ -1,23 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 
-[CustomEditor(typeof(RoadCreator))]
-public class RoadEditor : Editor {
+namespace Assets.Scripts.Path
+{
+	[CustomEditor(typeof(RoadCreator))]
+	public class RoadEditor : Editor
+	{
 
-    RoadCreator creator;
+		RoadCreator creator;
 
-    void OnSceneGUI()
-    {
-        if (creator.autoUpdate && Event.current.type == EventType.Repaint)
-        {
-            creator.UpdateRoad();
-        }
-    }
+		void OnSceneGUI()
+		{
+			if (creator.autoUpdate && Event.current.type == EventType.Repaint)
+			{
+				creator.UpdateRoad();
+			}
+		}
 
-    void OnEnable()
-    {
-        creator = (RoadCreator)target;
-    }
+		void OnEnable()
+		{
+			creator = (RoadCreator)target;
+		}
+	}
 }

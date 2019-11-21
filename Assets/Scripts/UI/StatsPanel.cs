@@ -12,9 +12,7 @@ public class StatsPanel : MonoBehaviour
 
 	public TextMeshProUGUI AddItem(){
 		var newItem = Instantiate<TextMeshProUGUI>(TemplateItem, Vector3.zero, Quaternion.identity, transform);
-		newItem.gameObject.SetActive(true);
-		
-		
+		newItem.gameObject.SetActive(true);				
 		items.Add(newItem);
 		return newItem;
 	}

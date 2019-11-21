@@ -4,14 +4,19 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
-
 	public float coolDownTime = 20.0f;
 	public FloatingCounter floatCounter;
-	Rigidbody2D rb;
+	
+	private Rigidbody2D rb;
+	private GameManager gameManager;
+
+	private bool coolDown = false;
 
 	void Start()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		gameManager = FindObjectOfType<GameManager>();
+		
 	}
 
 	void LateUpdate()
@@ -23,9 +28,7 @@ public class Player : MonoBehaviour
 
 		if (Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
 			Fire();
-	}
-
-	private bool coolDown = false;
+	}	
 
 	private void Fire()
 	{
@@ -37,7 +40,7 @@ public class Player : MonoBehaviour
 			bullet.transform.rotation = transform.rotation;
 			bullet.SetActive(true);
 			var bulletScript = bullet.GetComponent<Bullet>();
-			bulletScript.speed = 20;
+			bulletScript.Speed = 20;
 			bulletScript.Fire();
 			var Text = Instantiate(floatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UI").transform);
 			Text.Show(coolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y);
@@ -53,8 +56,10 @@ public class Player : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.tag == "Enemy")
+		if (collision.gameObject.tag == "Enemy") { 
 			transform.gameObject.SetActive(false);
+			gameManager.GameOver();
+		}
 	}
 
 }

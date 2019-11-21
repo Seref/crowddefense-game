@@ -2,10 +2,11 @@
 
 public class Bullet : MonoBehaviour
 {
-	public float speed = 10;
+	public float Speed = 10;
 
 	private Rigidbody2D rigidBody2D;
 	private SpriteRenderer sr;
+	private bool wasVisible = false;
 
 	void Awake()
 	{
@@ -15,20 +16,29 @@ public class Bullet : MonoBehaviour
 
 	public void Fire()
 	{
-		rigidBody2D.velocity = transform.up * speed;
+		wasVisible = false;
+		rigidBody2D.velocity = transform.up * Speed;
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		rigidBody2D.velocity = new Vector3(0, 0, 0);
-		transform.gameObject.SetActive(false);
-
+		
+		if (collision.tag == "Enemy" || collision.tag == "Wall" )
+		{
+			rigidBody2D.velocity = new Vector3(0, 0, 0);
+			transform.gameObject.SetActive(false);
+		}
 	}
 
+	
 	private void Update()
 	{
-		if (!sr.isVisible)
+		if (sr.isVisible) {
+			wasVisible = true;
+		}
+		if (!sr.isVisible && wasVisible)
 		{
+			wasVisible = false;
 			rigidBody2D.velocity = new Vector3(0, 0, 0);
 			transform.gameObject.SetActive(false);
 		}
