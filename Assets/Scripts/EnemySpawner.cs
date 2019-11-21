@@ -3,17 +3,21 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-	public PathCreator pathCreator;
-	public FloatingCounter floatCounter;
-	public int count;
-	public float timer;
-	public int waveSize = 5;
+	[Header("Variables")]
+	public int Amount;
+	public float Timer;
+	public int WaveSize = 5;
 
 
-	GameManager gameManager2D;
+	[Header("Dependencies")]
+	public PathCreator PathCreator;
+	public FloatingCounter FloatCounter;
+	private StatsManager statsManager;
+
 	void Start()
 	{
-		gameManager2D = GetComponent<GameManager>();
+		statsManager = GetComponent<StatsManager>();
+
 		StartCoroutine(SpawnWaves());
 	}
 
@@ -24,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
 		var gameManager = GetComponent<GameManager>();
 		while (true)
 		{
-			gameManager.Wave++;
+			statsManager.Wave++;
 
 			for (int i = 0; i < 5; i++)
 			{
@@ -34,13 +38,13 @@ public class EnemySpawner : MonoBehaviour
 					enemy.transform.position = new Vector3(-10f + i, 10f, 0);
 					enemy.transform.rotation = Quaternion.identity;
 					enemy.SetActive(true);
-					enemy.GetComponent<Enemy>().StartPath(pathCreator.path, gameManager);
+					enemy.GetComponent<Enemy>().StartPath(PathCreator.path, statsManager);
 
 				}
-				if (count-- <= 0)
+				if (Amount-- <= 0)
 					yield break;
 			}
-			yield return new WaitForSeconds(timer);
+			yield return new WaitForSeconds(Timer);
 		}
 
 	}

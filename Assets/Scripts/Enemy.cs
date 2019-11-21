@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 	private Path paths;
 	private List<Vector2> points;
 	private int destPoint = 0;
-	private GameManager gameManager;
+	private StatsManager statsManager;
 
 	void Awake()
 	{
@@ -21,13 +21,13 @@ public class Enemy : MonoBehaviour
 		agent.autoRepath = true;
 	}
 
-	public void StartPath(Path paths, GameManager gameManager)
+	public void StartPath(Path paths, StatsManager statsManager)
 	{
 		start = transform.position;
 		this.paths = paths;
 		destPoint = 0;
 
-		this.gameManager = gameManager;
+		this.statsManager = statsManager;
 
 		points = paths.PointList;
 
@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
 	}
 
 	private Vector3 posBefore = Vector3.zero;
+
 	void Update()
 	{
 		// Choose the next destination point when the agent gets
@@ -71,7 +72,7 @@ public class Enemy : MonoBehaviour
 			destPoint = -1;
 			transform.position = start;
 			transform.gameObject.SetActive(false);
-			gameManager.Score += 1;
+			statsManager.Score += 1;
 		}
 	}
 }

@@ -5,24 +5,30 @@ using UnityEngine;
 
 public class FloatingCounter : MonoBehaviour
 {
-    private float offset = 0.0f;
+	//Simple Class that shows a Floating text either over a GameObject in WorldSpace or an UI Element	
+
+	private float offset = 0.0f;
     private Transform followTransform = null;
     private TextMeshProUGUI text;
     private float time = 20f;
+	private bool isUI = false;
 
-    void Start()
+	void Start()
     {
         text = GetComponent<TextMeshProUGUI>();
     }
 
-    public void Show(float time, Transform transform, float offset)
+    public void Show(float time, Transform transform, float offset, bool isUI = false)
     {
         Destroy(gameObject, time);
         followTransform = transform;
         this.time = time;
         this.offset = offset;
+		this.isUI = isUI;
         StartCoroutine(CountDown());
     }
+
+
 
     private IEnumerator CountDown()
     {
@@ -37,7 +43,11 @@ public class FloatingCounter : MonoBehaviour
     {
         if (followTransform != null) {
             RectTransform myRect = GetComponent<RectTransform>();
-            transform.position = RectTransformUtility.WorldToScreenPoint(null, (followTransform.position + new Vector3(0, offset, 0)));
+			if(isUI)
+				transform.position = (followTransform.position + new Vector3(0, offset, 0));
+			else
+				transform.position = RectTransformUtility.WorldToScreenPoint(null, (followTransform.position + new Vector3(0, offset, 0)));
+
         }
     }
 }

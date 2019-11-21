@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 	[Header("HUD Values")]
-	public TextMeshProUGUI dataText;
+	
 
 	[Header("Multiplayer Values")]
 	public TextMeshProUGUI connectionStatus;
@@ -16,56 +16,7 @@ public class GameManager : MonoBehaviour
 	public TextMeshProUGUI address;
 	public Host hostGame;
 
-	//Game Data
-	private int m_Score = 0;
-	public int Score
-	{
-		get { return m_Score; }
-		set
-		{
-			if (m_Score == value) return;
-			UpdateText();
-			m_Score = value;
-		}
-	}
-
-	private int m_Wave = 0;
-	public int Wave
-	{
-		get { return m_Wave; }
-		set
-		{
-			if (m_Wave == value) return;
-			UpdateText();
-			m_Wave = value;
-		}
-	}
-
-	private int PlayTime = 0;
-
-	void Start()
-	{
-		StartCoroutine(Timer());
-	}
-
-	private IEnumerator Timer()
-	{
-		while (true)
-		{
-			PlayTime++;
-			UpdateText();
-			yield return new WaitForSeconds(1);
-		}
-	}
-
-	private void UpdateText()
-	{
-		dataText.text =
-			"Enemies killed: " + Score + "\n" +
-			"Wave: " + Wave + "\n" +
-			"Time: " + PlayTime + "s";
-	}
-
+	//Game Data	
 	public void MultiplayerMenu()
 	{
 		if (multiplayerMenu.activeSelf)
