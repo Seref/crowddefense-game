@@ -21,9 +21,8 @@ public class Bullet : MonoBehaviour
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		
-		if (collision.tag == "Enemy" || collision.tag == "Wall" )
+	{		
+		if (collision.tag == "Enemy" || collision.tag == "Wall")
 		{
 			rigidBody2D.velocity = new Vector3(0, 0, 0);
 			transform.gameObject.SetActive(false);

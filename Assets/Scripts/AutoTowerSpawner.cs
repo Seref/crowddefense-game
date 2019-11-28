@@ -47,9 +47,9 @@ public class AutoTowerSpawner : MonoBehaviour
 				towerDropped = true;
 				canSpawn = false;
 				AutoSpawnButton.interactable = false;
-
+				
 				StartCoroutine(CoolDown());
-				var Text = Instantiate(FloatingCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UI").transform);
+				var Text = Instantiate(FloatingCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UIEffects").transform);
 				Text.Show(CoolDownTime, AutoSpawnButton.gameObject.transform, 0, true);
 			}
 		}
@@ -81,7 +81,7 @@ public class AutoTowerSpawner : MonoBehaviour
 
 			if (hit.collider != null)
 			{
-				if (hit.collider.CompareTag("Path") || hit.collider.CompareTag("Enemy"))
+				if (hit.collider.CompareTag("Path") || hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Bullet"))
 				{
 					canPlace = false;
 				}

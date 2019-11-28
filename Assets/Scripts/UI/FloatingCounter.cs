@@ -14,7 +14,7 @@ public class FloatingCounter : MonoBehaviour
 	private bool isUI = false;
 
 	void Start()
-    {
+    {		
         text = GetComponent<TextMeshProUGUI>();
     }
 

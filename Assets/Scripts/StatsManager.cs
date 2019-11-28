@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class StatsManager : MonoBehaviour
 {
-	public StatsPanel StatsPanel;	
+	public StatsPanel StatsPanel;
 
-	private int m_Score = -1;
-	private int m_Wave = -1;
 	public int PlayTime = -1;
+
+	private int mScore = -1;
+	private int mWave = -1;
 
 	private TextMeshProUGUI itemScore;
 	private TextMeshProUGUI itemWave;
 	private TextMeshProUGUI itemPlayTime;
-
 
 	void Start()
 	{
@@ -40,24 +40,23 @@ public class StatsManager : MonoBehaviour
 
 	public int Score
 	{
-		get { return m_Score; }
+		get { return mScore; }
 		set
 		{
-			if (m_Score == value) return;
-			m_Score = value;
-			itemScore.text = "Score: " + m_Score;
+			if (mScore == value) return;
+			mScore = value;
+			itemScore.text = "Score: " + mScore;
 		}
 	}
 
 	public int Wave
 	{
-		get { return m_Wave; }
+		get { return mWave; }
 		set
 		{
-			if (m_Wave == value) return;
-			m_Wave = value;
-			itemWave.text = "Wave: " + m_Wave;
+			if (mWave == value) return;
+			mWave = value;
+			itemWave.text = "Wave: " + mWave;
 		}
 	}
-
 }

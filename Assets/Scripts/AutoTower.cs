@@ -5,17 +5,21 @@ public class AutoTower : MonoBehaviour
 {
 
 	public float Range = 5.0f;
+	public float FocusTime = 3.0f;
 	public float CoolDownTime = 2.0f;
-	public FloatingCounter FloatCounter;
-	public bool Dropped = false;
 	public float Smoothness = 1.3f;
 
-	private Rigidbody2D rb;
+	public FloatingCounter FloatCounter;
+
+	public bool Dropped = false;
+
+	private Rigidbody2D rigidBody;
 	private bool coolDown = false;
+	private bool isFocusing = false;
 
 	void Start()
 	{
-		rb = GetComponent<Rigidbody2D>();
+		rigidBody = GetComponent<Rigidbody2D>();
 		GetComponent<CircleCollider2D>().radius = Range;
 	}
 
@@ -33,7 +37,7 @@ public class AutoTower : MonoBehaviour
 			bulletScript.Speed = 20;
 			bulletScript.Fire();
 
-			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UI").transform);
+			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UIEffects").transform);
 			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y / 2);
 			StartCoroutine(CoolDownCounter());
 		}
@@ -45,15 +49,24 @@ public class AutoTower : MonoBehaviour
 		coolDown = false;
 	}
 
+	private IEnumerator FocusCounter()
+	{
+		yield return new WaitForSeconds(FocusTime);
+		isFocusing = false;
+		currentTarget = null;
+	}
+
 	private GameObject currentTarget = null;
+	private Coroutine focusCoroutine;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag == "Enemy")
 		{
-			if (currentTarget == null)
+			if (currentTarget == null && !isFocusing)
 			{
 				currentTarget = collision.gameObject;
+				isFocusing = true;
 			}
 		}
 	}
@@ -67,12 +80,14 @@ public class AutoTower : MonoBehaviour
 				if (currentTarget.activeSelf && Dropped)
 				{
 					var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, collision.gameObject.transform.position).eulerAngles.z + 90.0f);
-					rb.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
+					rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
 					Fire();
 				}
 				else
 				{
 					currentTarget = null;
+					isFocusing = false;
+					StopFocusing();
 				}
 			}
 			else
@@ -80,15 +95,29 @@ public class AutoTower : MonoBehaviour
 				currentTarget = collision.gameObject;
 			}
 		}
-		
+
 	}
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag == "Enemy" && currentTarget != null && currentTarget == collision.gameObject)
 		{
-			currentTarget = null;
+			StartFocusing();
 		}
+	}
+
+	private void StopFocusing()
+	{
+		if (focusCoroutine != null)
+			StopCoroutine(focusCoroutine);
+	}
+
+	private void StartFocusing()
+	{
+		if (focusCoroutine != null)
+			StopCoroutine(focusCoroutine);
+
+		focusCoroutine = StartCoroutine(FocusCounter());
 	}
 
 }

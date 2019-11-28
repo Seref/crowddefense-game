@@ -1,7 +1,7 @@
 {
 "companyName": "MedienProjekt19/20",
 "productName": "CrowdDefense",
-"productVersion": "0.1 Alpha",
+"productVersion": "0.2 Alpha",
 "dataUrl": "docs.data.unityweb",
 "wasmCodeUrl": "docs.wasm.code.unityweb",
 "wasmFrameworkUrl": "docs.wasm.framework.unityweb",
@@ -10,7 +10,7 @@
 "splashScreenStyle": "Dark",
 "backgroundColor": "#231F20",
 "cacheControl": {"default": "must-revalidate"},
-"developmentBuild": true,
+"developmentBuild": false,
 "multithreading": false,
 "unityVersion": "2019.2.5f1"
 }
