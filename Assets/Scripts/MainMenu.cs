@@ -10,6 +10,6 @@ public class MainMenu : MonoBehaviour
 
 	public void LoadTutorial()
 	{
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene("Tutorial");
 	}
 }
