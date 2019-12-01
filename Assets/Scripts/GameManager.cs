@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("GameOver Screen")]
     public GameObject GameOverScreen;
+    public TextMeshProUGUI Title;
     public TextMeshProUGUI Score;
 
     [Header("Help Screen")]
@@ -37,10 +38,23 @@ public class GameManager : MonoBehaviour
         if (currentWindow.Equals(Windows.GAME)) {
             PauseGame();
             currentWindow = Windows.GAMEOVER;
-            GameOverScreen.SetActive(true);
             var Stats = GetComponent<StatsManager>();
             var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
             Score.text = Text;
+            GameOverScreen.SetActive(true);
+        }
+    }
+
+    public void GameWin()
+    {
+        if (currentWindow.Equals(Windows.GAME)) {
+            PauseGame();
+            currentWindow = Windows.GAMEOVER;
+            Title.text = "You Won!";
+            var Stats = GetComponent<StatsManager>();
+            var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
+            Score.text = Text;
+            GameOverScreen.SetActive(true);
         }
     }
 
@@ -85,7 +99,7 @@ public class GameManager : MonoBehaviour
 
     public void OpenHelpMenu()
     {
-        if (currentWindow.Equals(Windows.GAME)){
+        if (currentWindow.Equals(Windows.GAME)) {
             HelpMenuScreen.SetActive(true);
             currentWindow = Windows.HELPMENU;
             PauseGame();

@@ -53,7 +53,7 @@ public class StatsManager : MonoBehaviour
 			itemScore.text = "Score: " + mScore;
             if (Score == 51)
             {
-                gameManager.GameOver();
+                gameManager.GameWin();
             }
 
 		}

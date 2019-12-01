@@ -4644,6 +4644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameOverScreen: {fileID: 47360901}
+  Title: {fileID: 1808085441}
   Score: {fileID: 1987398155}
   HelpMenuScreen: {fileID: 1227003392}
   connectionStatus: {fileID: 1416549603}
@@ -5837,7 +5838,7 @@ GameObject:
   - component: {fileID: 1808085442}
   - component: {fileID: 1808085441}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
