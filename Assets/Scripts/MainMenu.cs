@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
 	public void LoadGame()
 	{
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene("TowerDefence");
 	}
 
 	public void LoadTutorial()
