@@ -15,7 +15,10 @@ public class StatsManager : MonoBehaviour
 	private TextMeshProUGUI itemWave;
 	private TextMeshProUGUI itemPlayTime;
 
-	void Start()
+    private GameManager gameManager;
+
+
+    void Start()
 	{
 		itemScore = StatsPanel.AddItem();
 		itemWave = StatsPanel.AddItem();
@@ -26,9 +29,11 @@ public class StatsManager : MonoBehaviour
 		Wave = 0;
 
 		StartCoroutine(Timer());
-	}
 
-	private IEnumerator Timer()
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
+    private IEnumerator Timer()
 	{
 		while (true)
 		{
@@ -46,6 +51,11 @@ public class StatsManager : MonoBehaviour
 			if (mScore == value) return;
 			mScore = value;
 			itemScore.text = "Score: " + mScore;
+            if (Score == 51)
+            {
+                gameManager.GameOver();
+            }
+
 		}
 	}
 
