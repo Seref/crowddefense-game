@@ -7,11 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-using MySql.Data;
-using MySql.Data.MySqlClient;
 
 public class DatabaseHandler : MonoBehaviour
 {
+    /*
     public string host = "beemo.at";
     public string database = "crowddefensewebsite_development";
     public string user = "crowddefense_dev";
@@ -81,4 +80,5 @@ public class DatabaseHandler : MonoBehaviour
     {
         return con.State.ToString();
     }
+    */
 }
