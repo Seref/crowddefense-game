@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     private void PauseGame()
     {
         GamePaused = true;
-        Time.timeScale = 1f;
+        Time.timeScale = 0f;
     }
     private void ContinueGame()
     {

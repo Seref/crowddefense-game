@@ -12,10 +12,13 @@ public class Enemy : MonoBehaviour
 	private List<Vector2> points;
 	private int destPoint = 0;
 	private StatsManager statsManager;
+    public AudioClip clip;
+    private AudioSource audioSource;
 
 	void Awake()
 	{
-		agent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
+        agent = GetComponent<NavMeshAgent>();
 		agent.updateUpAxis = false;
 		agent.updateRotation = false;
 		agent.autoBraking = false;
@@ -68,8 +71,9 @@ public class Enemy : MonoBehaviour
 	void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag == "Bullet")
-		{
-			agent.destination = points[0];
+		{            
+            AudioSource.PlayClipAtPoint(clip, gameObject.transform.position);
+            agent.destination = points[0];
 			destPoint = -1;
 			transform.position = start;
 			transform.gameObject.SetActive(false);

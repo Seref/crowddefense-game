@@ -9,11 +9,13 @@ public class Player : MonoBehaviour
 
 	private Rigidbody2D rigidBody;
 	private GameManager gameManager;
+    private AudioSource audioSource;
 
-	private bool coolDown = false;
+    private bool coolDown = false;
 
 	void Start()
 	{
+        audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
 		gameManager = FindObjectOfType<GameManager>();
 	}
@@ -37,7 +39,8 @@ public class Player : MonoBehaviour
 		if (bullet != null && !coolDown)
 		{
 			coolDown = true;
-			bullet.transform.position = transform.position + transform.up * 1.25f;
+            audioSource.Play();
+            bullet.transform.position = transform.position + transform.up * 1.25f;
 			bullet.transform.rotation = transform.rotation;
 			bullet.SetActive(true);
 			var bulletScript = bullet.GetComponent<Bullet>();
