@@ -2541,11 +2541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae1b531dfcbfe543b7731d8e96799be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  host: beemo.at
-  database: crowddefensewebsite_development
-  user: crowddefense_dev
-  password: x5nZf%J9wFAnB*#zZEFh%bkabbAQ^FQir^6xidyM*x^JW54e54czVZ*hpAXih^5t
-  pooling: 1
 --- !u!1 &1621098591
 GameObject:
   m_ObjectHideFlags: 0

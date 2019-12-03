@@ -1,0 +1,8 @@
+{
+	"compilerOption":{
+		"allowJs":true
+	},
+	"include":[
+		"External/CookieInteraction.js"
+	]
+}
