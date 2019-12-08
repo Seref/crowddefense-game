@@ -757,8 +757,6 @@ MonoBehaviour:
   BakePolygonCollider2D: 1
   EnableMeshRendererBeforeBaking: 1
   DisableMeshRendererAfterBaking: 1
-  _objectsToBeDeletedAfterBaking: []
-  navMeshSurface: {fileID: 0}
 --- !u!114 &288738822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1373,6 +1371,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1388,6 +1387,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e02e8f87e14b764f96201d5b5a8b290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAspectRatio: 1.7777778
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1827,26 +1839,10 @@ MonoBehaviour:
     - {x: 5.9600935, y: -4.9045277}
     isClosed: 0
     autoSetControlPoints: 0
-  anchorCol:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  controlCol:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  segmentCol:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  selectedSegmentCol:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
+  anchorCol: {r: 1, g: 0, b: 0, a: 1}
+  controlCol: {r: 1, g: 1, b: 1, a: 1}
+  segmentCol: {r: 0, g: 1, b: 0, a: 1}
+  selectedSegmentCol: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   anchorDiameter: 0.2
   controlDiameter: 0.2
   displayControlPoints: 1
@@ -4669,9 +4665,6 @@ MonoBehaviour:
   multiplayerMenu: {fileID: 1224580045}
   address: {fileID: 1995624314}
   hostGame: {fileID: 1482522669}
-  currentWindow: 0
-  gameOver: 0
-  GamePaused: 0
 --- !u!114 &1482522667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4720,8 +4713,6 @@ MonoBehaviour:
   PathCreator: {fileID: 789708967}
   FloatCounter: {fileID: 872245027861170536, guid: a1c5b0d5c7e59a34d8c36db8f228e8c7,
     type: 3}
-  statsManager: {fileID: 0}
-  gameManager: {fileID: 0}
 --- !u!114 &1482522669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4734,9 +4725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a3eeed2ed0df045b572366c8ab6df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerList: {fileID: 0}
-  bulletsList: {fileID: 0}
-  enemyList: {fileID: 0}
   address: localhost:8000
   lobby: Test_Server!
 --- !u!114 &1482522670
@@ -4759,11 +4747,6 @@ MonoBehaviour:
   NotPlaceable: {fileID: 7518015452614792017, guid: 0ebbd9cafffba5e40bbec4060d2276a5,
     type: 3}
   Additional: {fileID: 1239322915}
-  canSpawn: 1
-  time: 0
-  towerDropped: 1
-  AutoTower: {fileID: 0}
-  Cross: {fileID: 0}
 --- !u!114 &1482522671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4778,12 +4761,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StatsPanel: {fileID: 1591241501}
   PlayTime: -1
-  mScore: -1
-  mWave: -1
-  itemScore: {fileID: 0}
-  itemWave: {fileID: 0}
-  itemPlayTime: {fileID: 0}
-  gameManager: {fileID: 0}
 --- !u!1 &1516207645
 GameObject:
   m_ObjectHideFlags: 0

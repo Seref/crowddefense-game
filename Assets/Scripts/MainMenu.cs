@@ -5,10 +5,12 @@ public class MainMenu : MonoBehaviour
 {
 	public string clientID;
 	public TMPro.TextMeshProUGUI text;
+	
 
 	void Start()
 	{
-		Application.ExternalEval("OnAppReady();");
+		Application.ExternalEval(("alert(\"" + SystemInfo.deviceType.ToString() + "\");"));
+		Application.ExternalEval("OnAppReady();");		
 	}
 
 	public void LoadGame()
