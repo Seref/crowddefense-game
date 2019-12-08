@@ -5304,16 +5304,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1153016313}
     m_Modifications:
-    - target: {fileID: 8372190712254147798, guid: 43809786df17ef747963b8292696d8d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Wall
-      objectReference: {fileID: 0}
-    - target: {fileID: 8372190712254147798, guid: 43809786df17ef747963b8292696d8d9,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3089266790382631959, guid: 43809786df17ef747963b8292696d8d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5378,6 +5368,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 2.185634
+      objectReference: {fileID: 0}
+    - target: {fileID: 8372190712254147798, guid: 43809786df17ef747963b8292696d8d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8372190712254147798, guid: 43809786df17ef747963b8292696d8d9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43809786df17ef747963b8292696d8d9, type: 3}
@@ -6899,6 +6899,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 375088169}
     m_Modifications:
+    - target: {fileID: 2242712243176003654, guid: 665d3388b526fda49b13c46c9a24c1a8,
+        type: 3}
+      propertyPath: coolDownTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2242712243176003654, guid: 665d3388b526fda49b13c46c9a24c1a8,
+        type: 3}
+      propertyPath: CoolDownTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8493377818983953317, guid: 665d3388b526fda49b13c46c9a24c1a8,
         type: 3}
       propertyPath: m_Name
@@ -6958,16 +6968,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2242712243176003654, guid: 665d3388b526fda49b13c46c9a24c1a8,
-        type: 3}
-      propertyPath: coolDownTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2242712243176003654, guid: 665d3388b526fda49b13c46c9a24c1a8,
-        type: 3}
-      propertyPath: CoolDownTime
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 665d3388b526fda49b13c46c9a24c1a8, type: 3}
