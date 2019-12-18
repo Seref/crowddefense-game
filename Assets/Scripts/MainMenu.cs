@@ -5,12 +5,34 @@ public class MainMenu : MonoBehaviour
 {
 	public string clientID;
 	public TMPro.TextMeshProUGUI text;
-	
+
+	public GameObject menuButtons;
+	public TMPro.TextMeshProUGUI notSupportedBanner;
 
 	void Start()
 	{
-		Application.ExternalEval(("alert(\"" + SystemInfo.deviceType.ToString() + "\");"));
+		CheckSystemCompability();		
+		//Application.ExternalEval(("alert(\"" + SystemInfo.deviceType.ToString() + "\");"));
 		Application.ExternalEval("OnAppReady();");		
+	}
+
+	private void CheckSystemCompability()
+	{
+		if (Application.isMobilePlatform)
+		{
+			menuButtons.SetActive(false);
+			notSupportedBanner.gameObject.SetActive(true);
+			notSupportedBanner.text = "Your Device is not supported!";
+			
+		}
+		if (Screen.width < 1280 || Screen.height < 720)
+		{
+			menuButtons.SetActive(false);
+			notSupportedBanner.gameObject.SetActive(true);
+			notSupportedBanner.text = "Your Screen Resolution (lower then 720p) is not supported!";
+			
+		}
+
 	}
 
 	public void LoadGame()
@@ -27,5 +49,5 @@ public class MainMenu : MonoBehaviour
 	{
 		this.clientID = clientID;
 		text.text = clientID;
-	}
+	}	
 }
