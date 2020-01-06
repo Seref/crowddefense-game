@@ -6,17 +6,16 @@
     <title>CrowdDefense</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="TemplateData/UnityProgress.javascript"></script>
+    <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
     <script>
-        var gameInstance = UnityLoader.instantiate("gameContainer", "Build/docs.json", {onProgress: UnityProgress});
+        var gameInstance = UnityLoader.instantiate("unityContainer", "Build/docs.json", {onProgress: UnityProgress});
     </script>
 </head>
 <body>
 <div class="webgl-content">
-    <div id="gameContainer" style="width: 1280px; height: 720px"></div>
+    <div id="unityContainer" style="width: 1280px; height: 720px"></div>
 </div>
-<div class="simmer">template by: <a href="https://simmer.io" target="_blank">SIMMER.io</a></div>
-<script src="TemplateData/responsive.javascript"></script>
+<script src="TemplateData/UnityResponsive.js"></script>
 </body>
 </html>

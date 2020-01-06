@@ -29,13 +29,16 @@ public class MainMenu : MonoBehaviour
 			notSupportedBanner.text = "Your Device is not supported!";
 			
 		}
-		if (Screen.width < 1280 || Screen.height < 720)
+		else if (Screen.width < 1280 || Screen.height < 720)
 		{
 			menuButtons.SetActive(false);
 			notSupportedBanner.gameObject.SetActive(true);
 			notSupportedBanner.text = "Your screen resolution ("+Screen.width + "x" + Screen.height+") is below the minimum required 1280x720!\n";			
 		}
-
+		else {
+			menuButtons.SetActive(true);
+			notSupportedBanner.gameObject.SetActive(false);
+		}
 	}
 
 	public void LoadGame()
