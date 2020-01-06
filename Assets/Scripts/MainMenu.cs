@@ -10,12 +10,15 @@ public class MainMenu : MonoBehaviour
 	public TMPro.TextMeshProUGUI notSupportedBanner;
 
 	void Start()
-	{
-		CheckSystemCompability();		
+	{		
 		//Application.ExternalEval(("alert(\"" + SystemInfo.deviceType.ToString() + "\");"));
 		Application.ExternalEval("OnAppReady();");		
 	}
 
+	private void Update()
+	{
+		CheckSystemCompability();
+	}
 	private void CheckSystemCompability()
 	{
 		if (Application.isMobilePlatform)
@@ -29,8 +32,7 @@ public class MainMenu : MonoBehaviour
 		{
 			menuButtons.SetActive(false);
 			notSupportedBanner.gameObject.SetActive(true);
-			notSupportedBanner.text = "Your Screen Resolution (lower then 720p) is not supported!";
-			
+			notSupportedBanner.text = "Your screen resolution ("+Screen.width + "x" + Screen.height+") is below the minimum required 1280x720!\n";			
 		}
 
 	}
