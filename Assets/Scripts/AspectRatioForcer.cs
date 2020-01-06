@@ -5,10 +5,14 @@ using UnityEngine;
 public class AspectRatioForcer : MonoBehaviour
 {	
 	public float targetAspectRatio = 16f / 9f;
-
-	void Awake()
+	public float currentAspectRatio = 0f;
+	void Update()
 	{
-		GetComponent<Camera>().rect = new Rect(0f, (1.0f - Camera.main.aspect / targetAspectRatio) / 2, 1f, Camera.main.aspect / targetAspectRatio);
+		if (currentAspectRatio != Camera.main.aspect)
+		{
+			GetComponent<Camera>().rect = new Rect(0f, (1.0f - Camera.main.aspect / targetAspectRatio) / 2, 1f, Camera.main.aspect / targetAspectRatio);
+			currentAspectRatio = Camera.main.aspect;
+		}
 	}
 }
 

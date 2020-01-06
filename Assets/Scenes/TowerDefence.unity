@@ -1400,6 +1400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetAspectRatio: 1.7777778
+  currentAspectRatio: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
