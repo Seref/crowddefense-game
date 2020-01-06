@@ -19,6 +19,7 @@ public class MainMenu : MonoBehaviour
 	{
 		CheckSystemCompability();
 	}
+
 	private void CheckSystemCompability()
 	{
 		if (Application.isMobilePlatform)
