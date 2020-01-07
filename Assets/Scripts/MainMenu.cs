@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -9,15 +10,20 @@ public class MainMenu : MonoBehaviour
 	public GameObject menuButtons;
 	public TMPro.TextMeshProUGUI notSupportedBanner;
 
+
+	[DllImport("__Internal")]
+	private static extern void OnAppReady();
+
 	void Start()
-	{		
+	{
 		//Application.ExternalEval(("alert(\"" + SystemInfo.deviceType.ToString() + "\");"));
-		Application.ExternalEval("OnAppReady();");		
+		OnAppReady();
 	}
 
 	private void Update()
 	{
-		CheckSystemCompability();
+		if (!Application.isEditor)
+			CheckSystemCompability();
 	}
 
 	private void CheckSystemCompability()
@@ -27,15 +33,16 @@ public class MainMenu : MonoBehaviour
 			menuButtons.SetActive(false);
 			notSupportedBanner.gameObject.SetActive(true);
 			notSupportedBanner.text = "Your Device is not supported!";
-			
+
 		}
 		else if (Screen.width < 1280 || Screen.height < 720)
 		{
 			menuButtons.SetActive(false);
 			notSupportedBanner.gameObject.SetActive(true);
-			notSupportedBanner.text = "Your screen resolution ("+Screen.width + "x" + Screen.height+") is below the minimum required 1280x720!\n";			
+			notSupportedBanner.text = "Your screen resolution (" + Screen.width + "x" + Screen.height + ") is below the minimum required 1280x720!\n";
 		}
-		else {
+		else
+		{
 			menuButtons.SetActive(true);
 			notSupportedBanner.gameObject.SetActive(false);
 		}
@@ -55,5 +62,5 @@ public class MainMenu : MonoBehaviour
 	{
 		this.clientID = clientID;
 		text.text = clientID;
-	}	
+	}
 }
