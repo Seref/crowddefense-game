@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Path;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -8,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 	public int Amount;
 	public float Timer;
 	public int WaveSize = 5;
-
+	public int InitialAmount;
 
 	[Header("Dependencies")]
 	public PathCreator PathCreator;
@@ -21,8 +22,9 @@ public class EnemySpawner : MonoBehaviour
 	{
 		statsManager = GetComponent<StatsManager>();
 		gameManager = GetComponent<GameManager>();
-
+		InitialAmount = Amount;
 		StartCoroutine(SpawnWaves());
+
 	}
 
 	IEnumerator SpawnWaves()
@@ -30,11 +32,12 @@ public class EnemySpawner : MonoBehaviour
 		yield return new WaitForSeconds(2);
 
 		while (true)
-		{
-			statsManager.Wave++;
+		{			
+			if (Amount > 0)
+				statsManager.Wave++;
 
-			for (int i = 0; i < 5; i++)
-			{
+			for (int i = 0; i <WaveSize; i++)
+			{				
 				GameObject enemy = ObjectPooler.Instance.GetPooledObject("Enemy");
 
 				if (enemy != null)
@@ -45,9 +48,9 @@ public class EnemySpawner : MonoBehaviour
 					enemy.GetComponent<Enemy>().StartPath(PathCreator.path, statsManager);
 				}
 
-				if (Amount-- <= 0)
+				if (--Amount <= 0)
 					yield break;
-			}
+			}			
 
 			yield return new WaitForSeconds(Timer);
 		}

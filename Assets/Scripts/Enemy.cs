@@ -71,13 +71,18 @@ public class Enemy : MonoBehaviour
 	void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag == "Bullet")
-		{            
-            AudioSource.PlayClipAtPoint(clip, gameObject.transform.position);
-            agent.destination = points[0];
-			destPoint = -1;
-			transform.position = start;
-			transform.gameObject.SetActive(false);
-			statsManager.Score += 1;
+		{
+			Die();
 		}
+	}
+
+	public void Die()
+	{
+		AudioSource.PlayClipAtPoint(clip, gameObject.transform.position);
+		agent.destination = points[0];
+		destPoint = -1;
+		transform.position = start;
+		transform.gameObject.SetActive(false);
+		statsManager.Score += 1;
 	}
 }

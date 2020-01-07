@@ -30,6 +30,14 @@ public class AutoTowerSpawner : MonoBehaviour
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, Additional.transform);
 	}
 
+	public void RefillAutoTower()
+	{
+		Amount++;
+		if (!isCoolingDown)
+			AutoSpawnButton.interactable = true;
+
+	}
+
 	public void SpawnAutoTower()
 	{
 		if (Amount > 0 && canSpawn)
@@ -47,7 +55,7 @@ public class AutoTowerSpawner : MonoBehaviour
 				towerDropped = true;
 				canSpawn = false;
 				AutoSpawnButton.interactable = false;
-				
+
 				StartCoroutine(CoolDown());
 				var Text = Instantiate(FloatingCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UIEffects").transform);
 				Text.Show(CoolDownTime, AutoSpawnButton.gameObject.transform, 0, true);
@@ -55,14 +63,17 @@ public class AutoTowerSpawner : MonoBehaviour
 		}
 	}
 
+	private bool isCoolingDown = false;
 	private IEnumerator CoolDown()
 	{
 		time = CoolDownTime;
+		isCoolingDown = true;
 		while (time >= 0.0f)
 		{
 			yield return new WaitForSeconds(0.1f);
 			time -= 0.1f;
 		}
+		isCoolingDown = false;
 		if (Amount > 0)
 		{
 			AutoSpawnButton.interactable = true;
@@ -110,4 +121,6 @@ public class AutoTowerSpawner : MonoBehaviour
 			}
 		}
 	}
+
+
 }

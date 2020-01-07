@@ -51,6 +51,7 @@ public class MainMenu : MonoBehaviour
 	public void LoadGame()
 	{
 		SceneManager.LoadScene("TowerDefence");
+		DataLogger.Instance.LogStart(false);
 	}
 
 	public void LoadTutorial()

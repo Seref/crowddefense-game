@@ -16,13 +16,19 @@ public class AutoTower : MonoBehaviour
 	private Rigidbody2D rigidBody;
 	private bool coolDown = false;
 	private bool isFocusing = false;
-    private AudioSource audioSource;
+	private AudioSource audioSource;
 
 	void Start()
 	{
-        audioSource = GetComponent<AudioSource>();
-        rigidBody = GetComponent<Rigidbody2D>();
+		audioSource = GetComponent<AudioSource>();
+		rigidBody = GetComponent<Rigidbody2D>();
 		GetComponent<CircleCollider2D>().radius = Range;
+		coolDown = false;
+	}
+
+	void OnEnable()
+	{
+		coolDown = false;
 	}
 
 	private void Fire()
@@ -30,8 +36,8 @@ public class AutoTower : MonoBehaviour
 		GameObject bullet = ObjectPooler.Instance.GetPooledObject("Bullet");
 		if (bullet != null && !coolDown)
 		{
-            audioSource.Play();
-            coolDown = true;
+			audioSource.Play();
+			coolDown = true;
 			bullet.transform.position = transform.position + transform.up * 1.2f;
 			bullet.transform.rotation = transform.rotation;
 			bullet.SetActive(true);
@@ -120,7 +126,8 @@ public class AutoTower : MonoBehaviour
 		if (focusCoroutine != null)
 			StopCoroutine(focusCoroutine);
 
-		focusCoroutine = StartCoroutine(FocusCounter());
+		if (gameObject.activeSelf)
+			focusCoroutine = StartCoroutine(FocusCounter());
 	}
 
 }

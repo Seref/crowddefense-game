@@ -50,12 +50,7 @@ public class StatsManager : MonoBehaviour
 		{
 			if (mScore == value) return;
 			mScore = value;
-			itemScore.text = "Score: " + mScore;
-            if (Score == 51)
-            {
-                gameManager.GameWin();
-            }
-
+			itemScore.text = "Score: " + mScore;            
 		}
 	}
 
