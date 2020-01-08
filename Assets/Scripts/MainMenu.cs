@@ -59,6 +59,11 @@ public class MainMenu : MonoBehaviour
 		SceneManager.LoadScene("Tutorial");
 	}
 
+	public void LoadSettings()
+	{
+		SceneManager.LoadScene("SettingsMenu");
+	}
+
 	public void SetClientID(string clientID)
 	{
 		this.clientID = clientID;

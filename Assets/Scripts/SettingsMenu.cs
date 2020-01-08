@@ -54,14 +54,10 @@ public class SettingsMenu : MonoBehaviour
 		}
 	}
 
-	public void LoadGame()
+	public void BackToMainMenu()
 	{
-		SceneManager.LoadScene("TowerDefence");
-		DataLogger.Instance.LogStart(false);
+		SceneManager.LoadScene("MainMenu");		
 	}
 
-	public void LoadTutorial()
-	{
-		SceneManager.LoadScene("Tutorial");
-	}	
+	
 }

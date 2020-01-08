@@ -35,16 +35,8 @@ public class BombSpawner : MonoBehaviour
 
 	private IEnumerator SpawnTimer()
 	{
-		while (true)
-		{
-			if (--Counter <= 0)
-			{
-				Gamble();
-				Counter = Time;
-			}
-
-			yield return new WaitForSeconds(1);
-		}
+		yield return new WaitForSeconds(Time);
+		Gamble();			
 	}
 
 	private void Gamble()
