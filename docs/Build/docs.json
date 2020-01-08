@@ -1,7 +1,7 @@
 {
 "companyName": "MedienProjekt19/20",
 "productName": "CrowdDefense",
-"productVersion": "0.3 Alpha",
+"productVersion": "0.3",
 "dataUrl": "docs.data.unityweb",
 "wasmCodeUrl": "docs.wasm.code.unityweb",
 "wasmFrameworkUrl": "docs.wasm.framework.unityweb",

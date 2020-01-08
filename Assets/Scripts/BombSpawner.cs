@@ -11,7 +11,6 @@ public class BombSpawner : MonoBehaviour
 
 	public GameObject Bomb;
 	public GameObject Explosion;
-
 	public GameObject Layer;
 
 	//[Header("Dependencies")]
@@ -51,7 +50,7 @@ public class BombSpawner : MonoBehaviour
 	private void Gamble()
 	{
 		StopCoroutine(startCoroutine);
-		if (true)//Random.value < Randomness)
+		if (Random.value < Randomness)
 		{
 			SpawnBomb();
 		}
@@ -65,7 +64,7 @@ public class BombSpawner : MonoBehaviour
 
 	private void SpawnBomb()
 	{
-		Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+		Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.Range(0.1f,0.9f), Random.Range(0.1f, 0.9f)));
 		currentBomb = Instantiate(Bomb, randomPositionOnScreen, Quaternion.identity, Layer.transform);
 		deleteTimer = StartCoroutine(DeleteTimer());
 		currentBomb.GetComponent<Bomb>().callback = ExplodeEverything;
@@ -79,8 +78,7 @@ public class BombSpawner : MonoBehaviour
 	}
 
 	private void ExplodeEverything()
-	{
-		Debug.Log("Clickeeeeddd");
+	{		
 		StopCoroutine(deleteTimer);
 		RemoveBomb();
 		var Enemies = GameObject.Find("Enemy");
