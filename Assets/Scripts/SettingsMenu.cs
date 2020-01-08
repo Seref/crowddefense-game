@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SettingsMenu : MonoBehaviour
@@ -10,21 +8,35 @@ public class SettingsMenu : MonoBehaviour
 	public GameObject menuButtons;
 	public TMPro.TextMeshProUGUI notSupportedBanner;
 
+	private Settings currentSettings;
 
-	[DllImport("__Internal")]
-	private static extern string ReadSettings();
-
-	[DllImport("__Internal")]
-	private static extern void SaveSettings(string data);
-
+	public SliderItem AutoTowerBuildCooldown;
+	public SliderItem AutoTowerAmount;
+	public SliderItem AutoTowerFireCooldown;
+	public SliderItem WaveEnemyAmount;
+	public SliderItem WaveAmount;
 
 	void Start()
 	{
-#if UNITY_WEBGL
-		text.text = ReadSettings();
-		SaveSettings("My Text is amazing" + DateTime.Now.ToShortTimeString());
-#endif
+		currentSettings = SettingsManager.Instance.GetCurrentSettings();
+
+		AutoTowerBuildCooldown.SetValue(currentSettings.AutoTowerBuildCooldown);
+		AutoTowerBuildCooldown.onValueChanged = (a) => { currentSettings.AutoTowerBuildCooldown = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
+
+		AutoTowerAmount.SetValue(currentSettings.AutoTowerAmount);
+		AutoTowerAmount.onValueChanged = (a) => { currentSettings.AutoTowerAmount = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
+
+		AutoTowerFireCooldown.SetValue(currentSettings.AutoTowerFireCooldown);
+		AutoTowerFireCooldown.onValueChanged = (a) => { currentSettings.AutoTowerFireCooldown = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
+
+		WaveEnemyAmount.SetValue(currentSettings.WaveEnemyAmount);
+		WaveEnemyAmount.onValueChanged = (a) => { currentSettings.WaveEnemyAmount = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
+
+		WaveAmount.SetValue(currentSettings.WaveAmount);
+		WaveAmount.onValueChanged = (a) => { currentSettings.WaveAmount = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
 	}
+
+
 
 	private void Update()
 	{
@@ -56,8 +68,8 @@ public class SettingsMenu : MonoBehaviour
 
 	public void BackToMainMenu()
 	{
-		SceneManager.LoadScene("MainMenu");		
+		SceneManager.LoadScene("MainMenu");
 	}
 
-	
+
 }

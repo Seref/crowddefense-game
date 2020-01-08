@@ -20,6 +20,9 @@ public class AutoTower : MonoBehaviour
 
 	void Start()
 	{
+		Settings s = SettingsManager.Instance.GetCurrentSettings();
+		CoolDownTime = s.AutoTowerFireCooldown;
+
 		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
 		GetComponent<CircleCollider2D>().radius = Range;

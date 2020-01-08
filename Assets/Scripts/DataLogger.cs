@@ -5,7 +5,7 @@ public class Log
 {
 	public string userName;
 	public DateTime timeStamp;
-	public string version;
+	public int version;
 	public int score;
 	public int waveSurvived;
 	public int secondsSurvived;
@@ -14,30 +14,18 @@ public class Log
 	public int tutorialPressed;
 }
 
-public class DataLogger : MonoBehaviour
+public class DataLogger
 {
-	private static DataLogger _instance;
 
-	public static DataLogger Instance
-	{
-		get { return _instance; }
-	}
+	public static readonly DataLogger Instance = new DataLogger();
+
+
+	private DataLogger() { }
 
 	private string userName;
 
 	private Log currentRound;
-	
-	private void Awake()
-	{
-		if (_instance != null && _instance != this)
-		{
-			Destroy(this.gameObject);
-			return;
-		}
 
-		_instance = this;
-		DontDestroyOnLoad(this.gameObject);
-	}
 	public void SetUserName(string userName)
 	{
 		this.userName = userName;
@@ -50,7 +38,7 @@ public class DataLogger : MonoBehaviour
 			userName = userName,
 			timeStamp = DateTime.UtcNow,
 			restartedRound = restartedRound,
-			version = Application.version
+			version = int.Parse(Application.version)
 		};
 	}
 
@@ -62,7 +50,7 @@ public class DataLogger : MonoBehaviour
 			currentRound.win = win;
 			currentRound.waveSurvived = wavesSurvived;
 			currentRound.secondsSurvived = secondsSurvived;
-			SendData(currentRound);			
+			SendData(currentRound);
 		}
 	}
 

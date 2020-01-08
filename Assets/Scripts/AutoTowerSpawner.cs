@@ -26,6 +26,10 @@ public class AutoTowerSpawner : MonoBehaviour
 
 	public void Start()
 	{
+		Settings s = SettingsManager.Instance.GetCurrentSettings();
+		Amount = s.AutoTowerAmount;
+		CoolDownTime = s.AutoTowerBuildCooldown;
+
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, Additional.transform);
 	}
@@ -34,7 +38,10 @@ public class AutoTowerSpawner : MonoBehaviour
 	{
 		Amount++;
 		if (!isCoolingDown)
+		{
 			AutoSpawnButton.interactable = true;
+			canSpawn = true;
+		}
 
 	}
 

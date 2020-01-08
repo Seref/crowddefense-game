@@ -22,9 +22,13 @@ public class EnemySpawner : MonoBehaviour
 	{
 		statsManager = GetComponent<StatsManager>();
 		gameManager = GetComponent<GameManager>();
+
+		Settings s = SettingsManager.Instance.GetCurrentSettings();
+		Amount = s.WaveEnemyAmount*s.WaveAmount;
+		WaveSize = s.WaveEnemyAmount;
+
 		InitialAmount = Amount;
 		StartCoroutine(SpawnWaves());
-
 	}
 
 	IEnumerator SpawnWaves()
