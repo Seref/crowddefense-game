@@ -31,6 +31,12 @@ public class DataLogger
 		this.userName = userName;
 	}
 
+	public string GetUserName()
+	{
+		return userName;
+
+	}
+
 	public void LogStart(bool restartedRound = false)
 	{
 		currentRound = new Log

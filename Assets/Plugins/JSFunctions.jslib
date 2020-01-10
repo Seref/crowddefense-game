@@ -32,6 +32,10 @@
         //Copy old data to the new one then return it
         stringToUTF8(data, buffer, bufferSize);
         return buffer;
+    },
+    PrintToConsole: function(str){        
+        var data = Pointer_stringify(str);
+        console.log(data);
     }
 };
 mergeInto(LibraryManager.library, JSFunctions);

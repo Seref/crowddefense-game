@@ -24,12 +24,12 @@ namespace Assets.Scripts.Multiplayer
 	}
 
 
-	public enum ServerRequestType { CREATE_LOBBY, JOIN_LOBBY};
+	public enum ServerRequestType { CREATE_LOBBY, JOIN_LOBBY };
 	[Serializable]
 	public class DataSeverRequest
 	{
 		public int request;
-		public string lobby;		
+		public string lobby;
 		public string optional;
 	}
 
@@ -38,12 +38,11 @@ namespace Assets.Scripts.Multiplayer
 	/// <param name="dataLlist">A simple list that contains multiple DataWrapper Packets</param>
 	[Serializable]
 	public class DataGroup
-	{
-		public string lobby;
+	{		
 		public int clientID;
 		public List<DataPackage> dataList;
 	}
-	
+
 	public enum DataPrefabType { PLAYER, ENEMY, BULLETS }
 	/// <summary> Example Payload, this can be replaced with something even smaller that doesn't need to be a Json string,
 	/// since the Server doesn't really need to work with it
@@ -73,7 +72,7 @@ namespace Assets.Scripts.Multiplayer
 	/// <param name="clientID">position coordinates</param>
 	[Serializable]
 	public class DataClientMouseClick
-	{		
+	{
 		public Vector3 mouseclick;
 	}
 
@@ -87,5 +86,27 @@ namespace Assets.Scripts.Multiplayer
 	{
 		public DataClientServerType action;
 	}
+
+	//Server Data
+	[Serializable]
+	public class Header
+	{
+		public string Method;
+		public string LobbyName;
+	}
+
+	[Serializable]
+	public class Body
+	{
+		public DataGroup Data;
+	}
+
+	[Serializable]
+	public class ServerRequest
+	{
+		public Header header;
+		public Body body;
+	}
+
 
 }

@@ -34,14 +34,20 @@ public class SettingsMenu : MonoBehaviour
 
 		WaveAmount.SetValue(currentSettings.WaveAmount);
 		WaveAmount.onValueChanged = (a) => { currentSettings.WaveAmount = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
-	}
-
-
+	}	
 
 	private void Update()
 	{
 		if (!Application.isEditor)
 			CheckSystemCompability();
+	}
+
+	public void ResetSettings()
+	{
+		Settings reset = new Settings();
+		SettingsManager.Instance.SetCurrentSettings(reset);
+		currentSettings = reset;
+		SceneManager.LoadScene("SettingsMenu");
 	}
 
 	private void CheckSystemCompability()

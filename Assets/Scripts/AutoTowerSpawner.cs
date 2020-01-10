@@ -32,6 +32,7 @@ public class AutoTowerSpawner : MonoBehaviour
 
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, Additional.transform);
+		Cross.SetActive(false);
 	}
 
 	public void RefillAutoTower()

@@ -20,7 +20,7 @@ namespace Assets.Scripts.Multiplayer
 		public string lobby = "Test_Server!";
 
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
-		
+
 		IEnumerator Start()
 		{
 			string address = "ws://192.168.0.103:8000/";
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Multiplayer
 			bool success = false;
 			while (true)
 			{
-				string mess = w.RecvString();				
+				string mess = w.RecvString();
 				if (mess == "ok")
 				{
 					success = true;
@@ -146,7 +146,7 @@ namespace Assets.Scripts.Multiplayer
 										}
 									}
 									break;
-							}							
+							}
 						}
 					}
 				}
@@ -175,12 +175,11 @@ namespace Assets.Scripts.Multiplayer
 					el.Add(dP);
 
 					DataGroup dG = new DataGroup();
-					dG.lobby = lobby;
 					dG.clientID = -1;
 					dG.dataList = el;
 					var goop = JsonUtility.ToJson(dG).ToString();
 
-					w.SendString(goop);					
+					w.SendString(goop);
 				}
 
 
