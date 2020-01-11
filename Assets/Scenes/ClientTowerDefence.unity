@@ -2300,7 +2300,7 @@ GameObject:
   - component: {fileID: 652134710}
   m_Layer: 0
   m_Name: Additional
-  m_TagString: Untagged
+  m_TagString: Additional
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6644,7 +6644,6 @@ GameObject:
   - component: {fileID: 1482522668}
   - component: {fileID: 1482522671}
   - component: {fileID: 1482522666}
-  - component: {fileID: 1482522667}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6688,36 +6687,6 @@ MonoBehaviour:
   address: wss://localhost:8080/endpoint
   lobbyName: 
   Ping: {fileID: 244619006}
---- !u!114 &1482522667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1482522664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56dd5421c0f025d478280c7f8731569d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rootPoolName: ObjectPools
-  pooledObjects: []
-  itemsToPool:
-  - objectToPool: {fileID: 5969614008972406921, guid: d17460d39017bd145adf631e0b4272b0,
-      type: 3}
-    poolName: Bullet
-    amountToPool: 5
-    shouldExpand: 1
-  - objectToPool: {fileID: 8493377818983953317, guid: 7694572657cb0064da2dca79d63ccaf2,
-      type: 3}
-    poolName: Enemy
-    amountToPool: 10
-    shouldExpand: 1
-  - objectToPool: {fileID: 8493377818983953317, guid: 1c7a7e38f0fcde9419ea8a2d947f6a65,
-      type: 3}
-    poolName: AutoTower
-    amountToPool: 5
-    shouldExpand: 1
 --- !u!114 &1482522668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7579,6 +7548,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3881471435709595672, guid: f48451a68515db646b378043f528f8b7,
+        type: 3}
+      propertyPath: clientManager
+      value: 
+      objectReference: {fileID: 1482522666}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f48451a68515db646b378043f528f8b7, type: 3}
 --- !u!43 &1654659446
@@ -9732,8 +9706,8 @@ GameObject:
   - component: {fileID: 2078671088}
   - component: {fileID: 2078671087}
   m_Layer: 5
-  m_Name: AdditionalText
-  m_TagString: UIEffects
+  m_Name: AdditionalUI
+  m_TagString: AdditionalUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

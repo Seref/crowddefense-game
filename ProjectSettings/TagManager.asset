@@ -10,7 +10,8 @@ TagManager:
   - UI
   - Path
   - AutoTower
-  - UIEffects
+  - Additional
+  - AdditionalUI
   layers:
   - Default
   - TransparentFX

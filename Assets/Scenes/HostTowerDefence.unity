@@ -6835,8 +6835,8 @@ GameObject:
   - component: {fileID: 1423013615}
   - component: {fileID: 1423013614}
   m_Layer: 5
-  m_Name: AdditionalUIEffects
-  m_TagString: UIEffects
+  m_Name: AdditionalUI
+  m_TagString: AdditionalUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7107,6 +7107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a3eeed2ed0df045b572366c8ab6df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clientPlayer: {fileID: 0}
   address: wss://localhost:8080/endpoint
   lobbyName: 
 --- !u!114 &1482522667
@@ -7199,7 +7200,6 @@ MonoBehaviour:
     type: 3}
   NotPlaceable: {fileID: 7518015452614792017, guid: 0ebbd9cafffba5e40bbec4060d2276a5,
     type: 3}
-  Additional: {fileID: 2101197270}
 --- !u!114 &1482522671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7231,7 +7231,6 @@ MonoBehaviour:
   Bomb: {fileID: 3867867420854498092, guid: b3a3010247ac59941b0a3d1468103205, type: 3}
   Explosion: {fileID: 2473727216997390540, guid: 5e75f27d11bd6344083ba26b1cd6d5f4,
     type: 3}
-  Layer: {fileID: 2101197270}
 --- !u!1 &1499422680
 GameObject:
   m_ObjectHideFlags: 0
@@ -10142,7 +10141,7 @@ GameObject:
   - component: {fileID: 2101197271}
   m_Layer: 0
   m_Name: Additional
-  m_TagString: Untagged
+  m_TagString: Additional
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

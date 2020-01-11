@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Multiplayer;
+using Assets.Scripts.Multiplayer.Host;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,7 +26,6 @@ public class HostGameManager : MonoBehaviour
 	public BombSpawner bombSpawner;
 
 	public HostManager hostManager;
-
 
 	void Start()
 	{

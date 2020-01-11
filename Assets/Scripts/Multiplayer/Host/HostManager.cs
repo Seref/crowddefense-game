@@ -2,20 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace Assets.Scripts.Multiplayer
+namespace Assets.Scripts.Multiplayer.Host
 {
-	//a hybrid authorative server approach
 	public class HostManager : MonoBehaviour
 	{
-
-		public EventSystem eventSystem = null;
-		//Lists of GameObjects that will appear on the scene
 		private GameObject playerList;
 		private GameObject bulletsList;
 		private GameObject enemyList;
 		private GameObject autoTowerList;
+
+		public GameObject clientPlayer;
 
 		public string address = "wss://localhost:8080/endpoint";
 
@@ -29,6 +26,17 @@ namespace Assets.Scripts.Multiplayer
 		{
 			StartCoroutine(ConnectToLobbyIEnumerator(lobbyName, callback));
 		}
+
+		public void WaitForPlayers(Action<bool, string> callback = null)
+		{
+			StartCoroutine(WaitForPlayersIEnumerator(callback));
+		}
+
+		public void StartTransmitting()
+		{
+			StartCoroutine(TransmitData());
+		}
+
 
 		private IEnumerator ConnectToLobbyIEnumerator(string lobbyName, Action<bool, string> callback = null)
 		{
@@ -85,11 +93,6 @@ namespace Assets.Scripts.Multiplayer
 
 		}
 
-		public void WaitForPlayers(Action<bool, string> callback = null)
-		{
-			StartCoroutine(WaitForPlayersIEnumerator(callback));
-		}
-
 		private IEnumerator WaitForPlayersIEnumerator(Action<bool, string> callback = null)
 		{
 			Debug.Log("Waiting for other Players");
@@ -118,13 +121,7 @@ namespace Assets.Scripts.Multiplayer
 				}
 		}
 
-
-		public void StartTransmitting()
-		{
-			StartCoroutine(TransmitData());
-		}
-
-		//Checks for new Messages from the Clients, processes them and sends the new Data
+		//Currently one big Loop that receives&sends data from clients/to clients 
 		private IEnumerator TransmitData()
 		{
 			// Get all Gameobjects, so that we can order the Objects
@@ -156,9 +153,8 @@ namespace Assets.Scripts.Multiplayer
 						}
 					};
 
-					// read message
+					// read messages
 					string message = currentWebSocket.RecvString();
-
 					if (message != null)
 					{
 						try
@@ -174,7 +170,18 @@ namespace Assets.Scripts.Multiplayer
 										break;
 
 									case DataType.DataClientInput:
-										
+										{
+											DataClientInput dataClientInput = JsonUtility.FromJson<DataClientInput>(package.data);
+											switch (dataClientInput.type)
+											{
+												case DataClientInputType.MoveTower:
+													
+													break;
+												case DataClientInputType.ShootBullet:
+													break;
+											}
+
+										}
 										break;
 									default:
 										break;

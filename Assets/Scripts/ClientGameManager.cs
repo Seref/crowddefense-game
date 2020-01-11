@@ -1,4 +1,5 @@
 using Assets.Scripts.Multiplayer;
+using Assets.Scripts.Multiplayer.Client;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,16 +32,7 @@ public class ClientGameManager : MonoBehaviour
 		Application.targetFrameRate = 60;
 
 		clientManager = GetComponent<ClientManager>();
-	}
-
-	public void StartLobby()
-	{
-		clientManager.enabled = true;
-	}
-
-	void LateUpdate()
-	{
-	}
+	}	
 
 	public void GameOver()
 	{

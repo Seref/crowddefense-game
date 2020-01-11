@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,18 +10,20 @@ public class Player : MonoBehaviour
 
 	private Rigidbody2D rigidBody;
 	private GameManager gameManager;
-    private AudioSource audioSource;
+	private AudioSource audioSource;
 
-    private bool coolDown = false;
+	private bool coolDown = false;
+	private GameObject additionalUI;
 
 	void Start()
 	{
-        audioSource = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
 		gameManager = FindObjectOfType<GameManager>();
+		additionalUI = GameObject.FindWithTag("AdditionalUI");
 	}
 
-	void LateUpdate()
+	void Update()
 	{
 		if (Input.GetKey(KeyCode.LeftControl) && !EventSystem.current.IsPointerOverGameObject())
 		{
@@ -39,15 +42,15 @@ public class Player : MonoBehaviour
 		if (bullet != null && !coolDown)
 		{
 			coolDown = true;
-            audioSource.Play();
-            bullet.transform.position = transform.position + transform.up * 1.25f;
+			audioSource.Play();
+			bullet.transform.position = transform.position + transform.up * 1.25f;
 			bullet.transform.rotation = transform.rotation;
 			bullet.SetActive(true);
 			var bulletScript = bullet.GetComponent<Bullet>();
 			bulletScript.Speed = 20;
 			bulletScript.Fire();
 
-			var Text = Instantiate(floatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UIEffects").transform);
+			var Text = Instantiate(floatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, additionalUI.transform);
 			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y);
 			StartCoroutine(CoolDownCounter());
 		}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI;
+using System.Collections;
 using UnityEngine;
 
 public class AutoTower : MonoBehaviour
@@ -49,7 +50,7 @@ public class AutoTower : MonoBehaviour
 			bulletScript.Speed = 20;
 			bulletScript.Fire();
 
-			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UIEffects").transform);
+			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
 			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y / 2);
 			StartCoroutine(CoolDownCounter());
 		}

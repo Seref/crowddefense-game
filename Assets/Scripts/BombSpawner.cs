@@ -10,8 +10,7 @@ public class BombSpawner : MonoBehaviour
 	public int Time = 15;
 
 	public GameObject Bomb;
-	public GameObject Explosion;
-	public GameObject Layer;
+	public GameObject Explosion;	
 
 	//[Header("Dependencies")]
 	private int Counter = 0;
@@ -22,6 +21,7 @@ public class BombSpawner : MonoBehaviour
 	private StatsManager statsManager;
 	private AutoTowerSpawner autoTowerSpawner;
 	private EnemySpawner enemySpawner;
+	private GameObject additionalLayer;
 
 	void Start()
 	{
@@ -31,6 +31,7 @@ public class BombSpawner : MonoBehaviour
 		statsManager = GetComponent<StatsManager>();
 		autoTowerSpawner = GetComponent<AutoTowerSpawner>();
 		enemySpawner = GetComponent<EnemySpawner>();
+		additionalLayer = GameObject.FindGameObjectWithTag("Additional");
 	}
 
 	private IEnumerator SpawnTimer()
@@ -57,7 +58,7 @@ public class BombSpawner : MonoBehaviour
 	private void SpawnBomb()
 	{
 		Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.Range(0.1f,0.9f), Random.Range(0.1f, 0.9f)));
-		currentBomb = Instantiate(Bomb, randomPositionOnScreen, Quaternion.identity, Layer.transform);
+		currentBomb = Instantiate(Bomb, randomPositionOnScreen, Quaternion.identity, additionalLayer.transform);
 		deleteTimer = StartCoroutine(DeleteTimer());
 		currentBomb.GetComponent<Bomb>().callback = ExplodeEverything;
 	}
@@ -85,7 +86,7 @@ public class BombSpawner : MonoBehaviour
 				{
 					var position = child.transform.position;
 					child.SetActive(false);					
-					var e = Instantiate(Explosion, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), Layer.transform);
+					var e = Instantiate(Explosion, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), additionalLayer.transform);
 					e.transform.localScale = new Vector2(Random.Range(0.3f, 0.5f), Random.Range(0.3f, 0.5f));
 					autoTowerSpawner.RefillAutoTower();
 				}
@@ -102,7 +103,7 @@ public class BombSpawner : MonoBehaviour
 					var position = child.transform.position;
 					Enemy enemy = child.GetComponent<Enemy>();
 					enemy.Die();
-					var e = Instantiate(Explosion, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), Layer.transform);
+					var e = Instantiate(Explosion, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), additionalLayer.transform);
 					e.transform.localScale = new Vector2(Random.Range(0.3f, 0.5f), Random.Range(0.3f, 0.5f));
 					
 				}

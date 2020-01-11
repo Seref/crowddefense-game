@@ -1,32 +1,35 @@
 ﻿using UnityEngine;
 
-public class ClientBullet : MonoBehaviour
+namespace Assets.Scripts.Multiplayer.Client
 {
-	public float Speed = 10;
-
-	private Rigidbody2D rigidBody2D;
-	private SpriteRenderer sr;
-	private bool wasVisible = false;
-
-	void OnEnable()
+	public class ClientBullet : MonoBehaviour
 	{
-		rigidBody2D = GetComponent<Rigidbody2D>();
-		sr = GetComponent<SpriteRenderer>();
-		wasVisible = false;
-		rigidBody2D.velocity = transform.up * Speed;
-	}
+		public float Speed = 10;
 
-	private void Update()
-	{
-		if (sr.isVisible)
+		private Rigidbody2D rigidBody2D;
+		private SpriteRenderer sr;
+		private bool wasVisible = false;
+
+		void OnEnable()
 		{
-			wasVisible = true;
-		}
-		if (!sr.isVisible && wasVisible)
-		{
+			rigidBody2D = GetComponent<Rigidbody2D>();
+			sr = GetComponent<SpriteRenderer>();
 			wasVisible = false;
-			rigidBody2D.velocity = new Vector3(0, 0, 0);
-			transform.gameObject.SetActive(false);
+			rigidBody2D.velocity = transform.up * Speed;
+		}
+
+		private void Update()
+		{
+			if (sr.isVisible)
+			{
+				wasVisible = true;
+			}
+			if (!sr.isVisible && wasVisible)
+			{
+				wasVisible = false;
+				rigidBody2D.velocity = new Vector3(0, 0, 0);
+				transform.gameObject.SetActive(false);
+			}
 		}
 	}
 }

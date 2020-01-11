@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,7 +15,8 @@ public class AutoTowerSpawner : MonoBehaviour
 	public Button AutoSpawnButton;
 	public FloatingCounter FloatingCounter;
 	public GameObject NotPlaceable;
-	public GameObject Additional;
+	private GameObject additionalLayer;
+	private GameObject additionalLayerUI;
 
 	private bool canSpawn = true;
 	private float time = 0.0f;
@@ -26,12 +28,14 @@ public class AutoTowerSpawner : MonoBehaviour
 
 	public void Start()
 	{
+		additionalLayer = GameObject.FindGameObjectWithTag("Additional");
+		additionalLayerUI = GameObject.FindGameObjectWithTag("AdditionalUI");
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
 		Amount = s.AutoTowerAmount;
 		CoolDownTime = s.AutoTowerBuildCooldown;
 
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
-		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, Additional.transform);
+		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, additionalLayer.transform);
 		Cross.SetActive(false);
 	}
 
@@ -65,7 +69,7 @@ public class AutoTowerSpawner : MonoBehaviour
 				AutoSpawnButton.interactable = false;
 
 				StartCoroutine(CoolDown());
-				var Text = Instantiate(FloatingCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("UIEffects").transform);
+				var Text = Instantiate(FloatingCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, additionalLayerUI.transform);
 				Text.Show(CoolDownTime, AutoSpawnButton.gameObject.transform, 0, true);
 			}
 		}

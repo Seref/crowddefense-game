@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Multiplayer
+namespace Assets.Scripts.Multiplayer.Client
 {
 	//a hybrid authorative server approach
 	public class ClientManager : MonoBehaviour
@@ -20,6 +20,8 @@ namespace Assets.Scripts.Multiplayer
 		public string lobbyName;
 
 		private ClientGameManager gameManager;
+
+
 
 
 		//Dictonary that gives every multiplayer gameobject an id (for faster access time)
