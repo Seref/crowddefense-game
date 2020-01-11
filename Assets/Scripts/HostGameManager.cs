@@ -16,8 +16,6 @@ public class HostGameManager : MonoBehaviour
 	[Header("Multiplayer Screen")]
 	public GameObject HostLobbyMenuScreen;
 
-
-
 	private enum Windows { GAME, GAMEOVER, HELPMENU };
 	private Windows currentWindow = Windows.GAME;
 
@@ -42,12 +40,7 @@ public class HostGameManager : MonoBehaviour
 		autoTowerSpawner = GetComponent<AutoTowerSpawner>();
 		bombSpawner = GetComponent<BombSpawner>();
 		hostManager = GetComponent<HostManager>();		
-	}
-
-	public void StartLobby()
-	{
-		hostManager.enabled = true;
-	}
+	}	
 
 	public void StartGame()
 	{

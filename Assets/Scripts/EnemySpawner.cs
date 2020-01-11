@@ -46,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
 
 				if (enemy != null)
 				{
-					enemy.transform.position = new Vector3(-10f + i, 10f, 0);
+					enemy.transform.position = new Vector3(-10f + i, 15f, 0);
 					enemy.transform.rotation = Quaternion.identity;
 					enemy.SetActive(true);
 					enemy.GetComponent<Enemy>().StartPath(PathCreator.path, statsManager);

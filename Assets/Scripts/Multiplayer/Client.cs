@@ -35,17 +35,13 @@ namespace Assets.Scripts.Multiplayer
 			}
 
 			// connect to server
+			// connect to server
+			// connect to server
 			WebSocket w = new WebSocket(new Uri(address));
 			yield return StartCoroutine(w.Connect());
 			Debug.Log("CONNECTED TO WEBSOCKETS");
 
 
-			// Join Lobby
-			DataSeverRequest serverRequest = new DataSeverRequest();
-			serverRequest.lobby = "SERVER_COMMAND";
-			serverRequest.request = (int)ServerRequestType.JOIN_LOBBY;
-			serverRequest.optional = lobby;
-			w.SendString(JsonUtility.ToJson(serverRequest).ToString());
 
 			// Wait until Server replies
 			int counter = 10 * 2;

@@ -4,13 +4,22 @@ using UnityEngine.UI;
 
 public class HostManagerMenu : MonoBehaviour
 {
+	[Header("Create Lobby Menu")]
+	public GameObject LobbyCreateMenu;
 	public TMPro.TMP_InputField Lobbyname;
-	public HostManager hostManager;
 
 	public Button StartHosting;
 	public TMPro.TextMeshProUGUI ErrorMessage;
 
-	public WaitingForPlayers WaitingforPlayers;
+	[Header("Wait For Screen Menu")]
+	public GameObject WaitingforPlayers;
+
+	public TMPro.TextMeshProUGUI WaitingforPlayersLobbyname;
+	public TMPro.TextMeshProUGUI WaitingforPlayersMessage;
+
+	[Header("Dependencies")]
+	public HostManager hostManager;
+	public HostGameManager hostGameManager;
 
 	public void TryAndConnect()
 	{
@@ -20,21 +29,26 @@ public class HostManagerMenu : MonoBehaviour
 		DisplayMessage("Trying to create and connect to lobby", Color.white);
 		if (Lobbyname.text != null && Lobbyname.text != "")
 		{
-			StartCoroutine(hostManager.ConnectToLobby(Lobbyname.text, (a, b) =>
+			hostManager.ConnectToLobby(Lobbyname.text, (a, b) =>
 			{
 				if (a)
 				{
-					WaitingforPlayers.gameObject.SetActive(true);
-					WaitingforPlayers.Lobbyname.text = "Lobbyname: "+Lobbyname.text;
-					this.gameObject.SetActive(false);					
+					LobbyCreateMenu.SetActive(false);
+					WaitingforPlayers.SetActive(true);
+					WaitingforPlayersLobbyname.text = "Lobbyname: " + Lobbyname.text;
+					hostManager.WaitForPlayers((c, d) =>
+					{
+						gameObject.SetActive(false);
+						hostManager.StartTransmitting();
+						hostGameManager.StartGame();						
+					});
 				}
 				else
 				{
 					StartHosting.interactable = true;
 					DisplayMessage(b, Color.red);
 				}
-
-			}));
+			});
 		}
 		else
 		{
