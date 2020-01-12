@@ -232,7 +232,7 @@ namespace Assets.Scripts.Multiplayer.Host
 
 					currentWebSocket.SendString(JsonUtility.ToJson(serverRequest).ToString());
 
-					yield return new WaitForFixedUpdate();
+					yield return 0;
 				}
 		}
 
