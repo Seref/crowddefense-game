@@ -27,7 +27,7 @@ public class HostGameManager : MonoBehaviour
 
 	public HostManager hostManager;
 
-	void Start()
+	void Awake()
 	{
 		if (Application.isEditor)
 			DataLogger.Instance.LogStart();

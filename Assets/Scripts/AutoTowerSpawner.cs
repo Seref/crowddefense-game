@@ -47,7 +47,6 @@ public class AutoTowerSpawner : MonoBehaviour
 			AutoSpawnButton.interactable = true;
 			canSpawn = true;
 		}
-
 	}
 
 	public void SpawnAutoTower()

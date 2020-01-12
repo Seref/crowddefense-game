@@ -26,12 +26,13 @@ public class AutoTower : MonoBehaviour
 
 		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
-		GetComponent<CircleCollider2D>().radius = Range;
+		GetComponent<CircleCollider2D>().radius = Range;		
 		coolDown = false;
 	}
 
 	void OnEnable()
 	{
+		Dropped = false;
 		coolDown = false;
 	}
 

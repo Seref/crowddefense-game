@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 	public StatsManager statsManager;
 	public BombSpawner bombSpawner;
 
-	void Start()
+	void Awake()
 	{
 		if (Application.isEditor)
 			DataLogger.Instance.LogStart();

@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/TowerDefence.unity
     guid: 6ee34bf994a10cf47b07dcd71a8084b7
   - enabled: 1
-    path: Assets/Scenes/TowerDefenceClient.unity
-    guid: 1659f735eb26d29428d2f16b495ca904
-  - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: c0725d8093c3d8f4cb36da977d08d33c
   - enabled: 1

@@ -4,36 +4,67 @@ using UnityEngine;
 
 namespace Assets.Scripts.Multiplayer
 {
-	public enum DataType { DataPrefabPosition, DataPing, DataClientInput };
 
+	//Enum of possible DataTypes that can be sent
+	public enum DataType {DEFAULT, DataPing, DataBullet, DataClientInput, DataTowerDummy, DataEnemy, DataAutoTower };
+
+	//A single Datapackage with some custom payload
 
 	[Serializable]
 	public class DataPackage
 	{
 		public DataType type;
 		public string data;
-		public long serverTimeStamp;
 	}
 
+	//Batching multiple packages to allow for better performance
 	[Serializable]
 	public class DataGroup
 	{
 		public int clientID;
+		public long serverTimeStamp;
 		public List<DataPackage> dataList;
 	}
 
-	public enum DataPrefabType { PLAYER, ENEMY, BULLETS, CLIENT, EXPLOSIONEFFECT, TIME }
-
+	//Here are some DataPoints that get sent from the Client to the Server or vice versa, objectID is the "Unity" generated ID and should be unique!		
+	//The approach before used one general type for multiple prefabs, though it's probably better to seperate them like this for easier changes
 	[Serializable]
-	public class DataPrefabPosition
+	public class DataBullet
 	{
 		public int objectID;
-		public DataPrefabType prefabType;
 		public bool active;
 		public Vector3 position;
 		public Quaternion rotation;
-		public string additional;
 	}
+
+	[Serializable]
+	public class DataAutoTower
+	{
+		public int objectID;
+		public bool active;
+		public Vector3 position;
+		public Quaternion rotation;
+	}
+
+	[Serializable]
+	public class DataEnemy
+	{
+		public int objectID;
+		public bool active;
+		public Vector3 position;
+		public Quaternion rotation;
+	}
+
+	[Serializable]
+	public class DataTowerDummy
+	{
+		public int objectID;
+		public bool active;
+		public bool shooting;
+		public int duration;
+		public Vector3 position;
+		public float rotation;
+	}	
 
 	[Serializable]
 	public class DataPing
@@ -42,20 +73,17 @@ namespace Assets.Scripts.Multiplayer
 		public long time;
 	}
 
-	public enum DataClientInputType { MoveTower, ShootBullet, DragAutoTower, PlaceAutoTower }
+	public enum DataClientInputType { TowerShoot, AutoTowerDrag, AutoTowerPlace }
 	[Serializable]
 	public class DataClientInput
 	{
 		public DataClientInputType type;
-		public Vector3 position;
+		public Vector3 position;		
 		public string additional;
 	}
 
-	[Serializable]
-	public class DataClientMouseClick
-	{
-		public Vector3 mouseclick;
-	}
+	
+
 
 
 	//RELAY SERVER COMMUNICATION Data formats!

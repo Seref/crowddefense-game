@@ -1,5 +1,7 @@
-﻿using System;
+﻿using redisU.framework;
+using System;
 using UnityEngine;
+
 
 public class Log
 {
@@ -19,8 +21,16 @@ public class DataLogger
 
 	public static readonly DataLogger Instance = new DataLogger();
 
+	private string currentVersion = "";
 
-	private DataLogger() { }
+	private DataLogger()
+	{
+		/*
+		var redis = new RedisConnection("www.beemo.at", 6379);
+		currentVersion = redis.Get<string,string>("game-currentversion");
+		redis.EndConnection();		
+		*/
+	}
 
 	private string userName;
 
@@ -34,7 +44,6 @@ public class DataLogger
 	public string GetUserName()
 	{
 		return userName;
-
 	}
 
 	public void LogStart(bool restartedRound = false)

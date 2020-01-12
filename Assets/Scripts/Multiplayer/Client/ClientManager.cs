@@ -8,25 +8,36 @@ namespace Assets.Scripts.Multiplayer.Client
 	//a hybrid authorative server approach
 	public class ClientManager : MonoBehaviour
 	{
+		[Header("Prefabs")]
 		public GameObject enemyObject;
-		public GameObject playerObject;
 		public GameObject bulletObject;
+		public GameObject autoTowerObject;
 
+		[Header("Tower")]
+		public TowerDummy hostDummy;		
+		public GameObject clientTower;
+
+
+		[Header("Creation GameObject")]
 		public GameObject serverObjects;
 
+		[Header("Ping display for UI")]
+		public TMPro.TextMeshProUGUI Ping;
+
+		[Header("Relay Server Address")]
 		public string address = "wss://localhost:8080/endpoint";
 
 		private WebSocket currentWebSocket;
-		public string lobbyName;
+		private string lobbyName;
 
 		private ClientGameManager gameManager;
-
-
-
+		private bool waitingForPing = false;
 
 		//Dictonary that gives every multiplayer gameobject an id (for faster access time)
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
 
+		//List which will be filled with Useractions and then added to the current DataList
+		private readonly List<DataPackage> actionDataList = new List<DataPackage>();
 
 		void Start()
 		{
@@ -41,6 +52,22 @@ namespace Assets.Scripts.Multiplayer.Client
 		public void ReceiveData()
 		{
 			StartCoroutine(ReceiveDataIEnumerator());
+		}
+
+		//The Client can AddEvents from outside, these will be sent to the Server
+		public void AddFireEvent(DataClientInputType dataInput, Vector3 position)
+		{
+			var dataPackage = new DataPackage()
+			{
+				type = DataType.DataClientInput,
+				data = JsonUtility.ToJson(new DataClientInput()
+				{
+					type = dataInput,
+					position = position
+
+				})
+			};
+			actionDataList.Add(dataPackage);
 		}
 
 		private IEnumerator ConnectToLobbyIEnumerator(string lobName, Action<bool, string> callback = null)
@@ -117,16 +144,13 @@ namespace Assets.Scripts.Multiplayer.Client
 			callback?.Invoke(true, "Success, joined lobby!");
 		}
 
-		private List<DataPackage> currentDataList;
-		private readonly List<DataPackage> actionDataList = new List<DataPackage>();
-
 		private IEnumerator ReceiveDataIEnumerator()
 		{
 			if (currentWebSocket != null)
 			{
 				while (true)
 				{
-					currentDataList = new List<DataPackage>();
+					var currentDataList = new List<DataPackage>();
 
 					DataGroup dataGroup = new DataGroup
 					{
@@ -156,24 +180,23 @@ namespace Assets.Scripts.Multiplayer.Client
 							var serverResponse = JsonUtility.FromJson<ServerRequest>(message);
 
 							if (serverResponse != null)
-
 							{
 								if (serverResponse.header.method == "HOST_LEFT")
 								{
-									Debug.Log("Host Left!!");
 									gameManager.BackToMainMenu();
 								}
 								else
 								{
-									ProcessData(serverResponse.body.data);
+									ProcessServerData(serverResponse.body.data);
 								}
 							}
 						}
-						catch
+						catch (Exception e)
 						{
-							Debug.Log("Error in parsing Response");
+							Debug.LogError(e.Message);
 						}
 					}
+
 					// if connection error, break the loop
 					if (currentWebSocket.error != null)
 					{
@@ -186,37 +209,36 @@ namespace Assets.Scripts.Multiplayer.Client
 						type = DataType.DataPing
 					};
 
-					if (!waitingForAnswer)
+					if (!waitingForPing)
 					{
-						waitingForAnswer = true;
+						waitingForPing = true;
 
-						var pi = new DataPing
+						var ping = new DataPing
 						{
-							id = pingCounter++,
 							time = DateTime.UtcNow.Ticks
 						};
-						dataPackage.data = JsonUtility.ToJson(pi).ToString();
+
+						dataPackage.data = JsonUtility.ToJson(ping).ToString();
 
 						currentDataList.Add(dataPackage);
 					}
+
+					currentDataList.Add(MultiplayerHelper.CreateTowerDummyData(clientTower));					
 
 					foreach (var datPack in actionDataList)
 					{
 						currentDataList.Add(datPack);
 					}
-					currentDataList.Clear();
+					actionDataList.Clear();					
 
 					currentWebSocket.SendString(JsonUtility.ToJson(serverRequest));
-					yield return 0;
+					yield return new WaitForFixedUpdate();
 				}
 			}
 		}
 
-		private bool waitingForAnswer = false;
-		public TMPro.TextMeshProUGUI Ping;
-		private int pingCounter;
-
-		private void ProcessData(DataGroup data)
+		//Big method that processes the DataBatch (needs to be splitted into smaller methods later on)
+		private void ProcessServerData(DataGroup data)
 		{
 			if (data != null)
 			{
@@ -226,72 +248,115 @@ namespace Assets.Scripts.Multiplayer.Client
 					{
 						case DataType.DataPing:
 							{
-								waitingForAnswer = false;
+								waitingForPing = false;
 								DataPing s = JsonUtility.FromJson<DataPing>(package.data);
-								//Debug.Log(s.id + " diff: " + ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond + "ms\n"));
 								Ping.text = ((DateTime.UtcNow.Ticks - s.time) / TimeSpan.TicksPerMillisecond) + "ms";
 							}
 							break;
-						case DataType.DataPrefabPosition:
+
+						case DataType.DataBullet:
 							{
-								DataPrefabPosition prefabPosition = JsonUtility.FromJson<DataPrefabPosition>(package.data);
+								DataBullet deserializedData = JsonUtility.FromJson<DataBullet>(package.data);
 
-								//check if GameObject already exists
+								//check if GameObject already exists otherwise create it!
+								var isGameObjectinList = gameObjectList.ContainsKey(deserializedData.objectID);
+
 								GameObject gameObject = null;
-								var isGameObjectinList = gameObjectList.ContainsKey(prefabPosition.objectID);
-
 								if (isGameObjectinList)
-									gameObject = gameObjectList[prefabPosition.objectID];
+									gameObject = gameObjectList[deserializedData.objectID];
 
 								if (isGameObjectinList)
 								{
-									gameObject.transform.position = prefabPosition.position;
-									gameObject.transform.rotation = prefabPosition.rotation;
-									gameObject.SetActive(prefabPosition.active);
+									gameObject.transform.position = deserializedData.position;
+									gameObject.transform.rotation = deserializedData.rotation;
+									gameObject.SetActive(deserializedData.active);
 								}
 								else
 								{
-									switch (prefabPosition.prefabType)
-									{
-										case DataPrefabType.ENEMY:
-											gameObject = Instantiate(enemyObject, prefabPosition.position, prefabPosition.rotation);
-											gameObject.transform.SetParent(serverObjects.transform);
-											gameObject.SetActive(prefabPosition.active);
-											break;
-										case DataPrefabType.PLAYER:
-											gameObject = Instantiate(playerObject, prefabPosition.position, prefabPosition.rotation);
-											gameObject.transform.SetParent(serverObjects.transform);
-											gameObject.SetActive(prefabPosition.active);
-											break;
-										case DataPrefabType.BULLETS:
-											gameObject = Instantiate(bulletObject, prefabPosition.position, prefabPosition.rotation);
-											gameObject.transform.SetParent(serverObjects.transform);
-											gameObject.SetActive(prefabPosition.active);
-											break;
-									}
+									gameObject = Instantiate(bulletObject, deserializedData.position, deserializedData.rotation);
+									gameObject.transform.SetParent(serverObjects.transform);
+									gameObject.SetActive(deserializedData.active);
 
-									gameObjectList.Add(prefabPosition.objectID, gameObject);
+									gameObjectList.Add(deserializedData.objectID, gameObject);
 								}
+							}
+							break;
+
+						case DataType.DataEnemy:
+							{								
+								DataEnemy deserializedData = JsonUtility.FromJson<DataEnemy>(package.data);
+								//check if GameObject already exists otherwise create it!
+								var isGameObjectinList = gameObjectList.ContainsKey(deserializedData.objectID);
+
+								GameObject gameObject = null;
+								if (isGameObjectinList)
+									gameObject = gameObjectList[deserializedData.objectID];
+
+								//Either apply the update, or create the Gameobject + add it to the hashmap
+								if (isGameObjectinList)
+								{
+									var Enemy = gameObject.GetComponent<ClientEnemy>();
+									Enemy.UpdateData(deserializedData.position, deserializedData.rotation, deserializedData.active);
+								}
+								else
+								{
+									gameObject = Instantiate(enemyObject, deserializedData.position, deserializedData.rotation);
+									gameObject.transform.SetParent(serverObjects.transform);
+									gameObject.SetActive(deserializedData.active);
+
+									gameObjectList.Add(deserializedData.objectID, gameObject);
+								}
+							}
+							break;
+
+						case DataType.DataClientInput:
+							{
+								DataClientInput dataClientInput = JsonUtility.FromJson<DataClientInput>(package.data);
+								switch (dataClientInput.type)
+								{
+									case DataClientInputType.TowerShoot:
+										hostDummy.ShootBullet(1);
+										break;
+								}
+							}
+							break;
+						case DataType.DataAutoTower:
+							{
+								DataAutoTower deserializedData = JsonUtility.FromJson<DataAutoTower>(package.data);
+								//check if GameObject already exists otherwise create it!
+								var isGameObjectinList = gameObjectList.ContainsKey(deserializedData.objectID);
+
+								GameObject gameObject = null;
+								if (isGameObjectinList)
+									gameObject = gameObjectList[deserializedData.objectID];
+
+								//Either apply the update, or create the Gameobject + add it to the hashmap
+								if (isGameObjectinList)
+								{
+									DataAutoTower dataTowerDummy = JsonUtility.FromJson<DataAutoTower>(package.data);
+									var towerDummy = gameObject.GetComponent<TowerDummy>();
+									towerDummy.UpdateData(dataTowerDummy.position, dataTowerDummy.rotation.eulerAngles.z);
+									gameObject.SetActive(deserializedData.active);
+								}
+								else
+								{
+									gameObject = Instantiate(autoTowerObject, deserializedData.position, deserializedData.rotation);
+									gameObject.transform.SetParent(serverObjects.transform);
+									gameObject.SetActive(deserializedData.active);
+									gameObjectList.Add(deserializedData.objectID, gameObject);
+								}
+							}
+							break;
+
+						case DataType.DataTowerDummy:
+							{
+								DataTowerDummy dataTowerDummy = JsonUtility.FromJson<DataTowerDummy>(package.data);
+								hostDummy.UpdateData(dataTowerDummy.position, dataTowerDummy.rotation);								
 							}
 							break;
 					}
 				}
 			}
-		}
-
-		public void AddEvent(DataClientInputType dataInput, Vector3 position)
-		{
-			var dataPackage = new DataPackage()
-			{
-				type = DataType.DataClientInput,
-				data = JsonUtility.ToJson(new DataClientInput()
-				{
-					type = dataInput,
-					position = position
-
-				})
-			};
-			actionDataList.Add(dataPackage);
 		}
 
 		private void SendMessage(DataGroup dataGroup)
@@ -310,22 +375,6 @@ namespace Assets.Scripts.Multiplayer.Client
 			};
 
 			currentWebSocket.SendString(JsonUtility.ToJson(serverRequest));
-		}
-
-		private DataPackage CreatePositionDataPackage(Transform gameObject, DataPrefabType prefabType)
-		{
-			var dataPackage = new DataPackage();
-			dataPackage.type = (int)DataType.DataPrefabPosition;
-
-			var positionData = new DataPrefabPosition();
-			positionData.objectID = gameObject.GetInstanceID();
-			positionData.prefabType = prefabType;
-			positionData.active = gameObject.gameObject.activeSelf;
-			positionData.position = gameObject.transform.position;
-			positionData.rotation = gameObject.transform.rotation;
-			dataPackage.data = JsonUtility.ToJson(positionData).ToString();
-
-			return dataPackage;
 		}
 
 	}

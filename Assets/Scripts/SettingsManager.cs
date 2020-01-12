@@ -1,7 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 
+[Serializable]
 public class Settings
 {
 	//AutoTower Default Settings
@@ -28,7 +30,7 @@ public class SettingsManager
 
 	private SettingsManager()
 	{
-		LoadCurrentSettings();		
+		LoadCurrentSettings();
 	}
 
 
@@ -52,7 +54,11 @@ public class SettingsManager
 		{
 			Debug.Log("Couldn't load previously saved stuff");
 			currentSettings = new Settings();
-		}		
+		}
+	}
+
+	public void LoadTemporarySettings(Settings newSettings) {
+		currentSettings = newSettings;
 	}
 
 	public Settings GetCurrentSettings()
@@ -70,7 +76,7 @@ public class SettingsManager
 		catch
 		{
 			Debug.Log("Couldn't save stuff permanently");
-		}		
+		}
 	}
 
 }

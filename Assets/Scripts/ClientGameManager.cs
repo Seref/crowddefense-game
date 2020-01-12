@@ -23,7 +23,7 @@ public class ClientGameManager : MonoBehaviour
 
 	public ClientManager clientManager;
 
-	void Start()
+	void Awake()
 	{
 		if (Application.isEditor)
 			DataLogger.Instance.LogStart();
@@ -32,7 +32,7 @@ public class ClientGameManager : MonoBehaviour
 		Application.targetFrameRate = 60;
 
 		clientManager = GetComponent<ClientManager>();
-	}	
+	}
 
 	public void GameOver()
 	{
