@@ -1,5 +1,5 @@
-﻿using redisU.framework;
-using System;
+﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 
@@ -7,7 +7,7 @@ public class Log
 {
 	public string userName;
 	public DateTime timeStamp;
-	public int version;
+	public string version;
 	public int score;
 	public int waveSurvived;
 	public int secondsSurvived;
@@ -21,16 +21,9 @@ public class DataLogger
 
 	public static readonly DataLogger Instance = new DataLogger();
 
-	private string currentVersion = "";
-
-	private DataLogger()
-	{
-		/*
-		var redis = new RedisConnection("www.beemo.at", 6379);
-		currentVersion = redis.Get<string,string>("game-currentversion");
-		redis.EndConnection();		
-		*/
-	}
+	private string currentVersion = Application.version;
+	
+	private DataLogger(){}
 
 	private string userName;
 
@@ -53,7 +46,7 @@ public class DataLogger
 			userName = userName,
 			timeStamp = DateTime.UtcNow,
 			restartedRound = restartedRound,
-			version = int.Parse(Application.version)
+			version = currentVersion
 		};
 	}
 

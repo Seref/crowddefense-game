@@ -25,7 +25,6 @@ namespace Assets.Scripts.Multiplayer.Host
 		private GameObject enemyList;
 		private GameObject autoTowerList;
 
-
 		public void ConnectToLobby(string lobbyName, Action<bool, string> callback = null)
 		{
 			StartCoroutine(ConnectToLobbyIEnumerator(lobbyName, callback));

@@ -58,7 +58,6 @@ public class Enemy : MonoBehaviour
 	{
 		// Choose the next destination point when the agent gets
 		// close to the current one.
-
 		if (!agent.pathPending && agent.remainingDistance < 0.5f && points != null && destPoint != -1)
 			GotoNextPoint();
 
@@ -74,6 +73,11 @@ public class Enemy : MonoBehaviour
 		{
 			Die();
 		}
+		if (collision.gameObject.tag == "Bullet")
+		{
+			Die();
+		}
+
 	}
 
 	public void Die()
@@ -85,4 +89,5 @@ public class Enemy : MonoBehaviour
 		transform.gameObject.SetActive(false);
 		statsManager.Score += 1;
 	}
+	
 }

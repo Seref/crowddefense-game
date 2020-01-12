@@ -15,7 +15,7 @@ namespace Assets.Scripts.Multiplayer
 	{
 		public DataType type;
 		public string data;
-	}
+	}	
 
 	//Batching multiple packages to allow for better performance
 	[Serializable]
@@ -49,8 +49,7 @@ namespace Assets.Scripts.Multiplayer
 	public class DataCurrentStats
 	{
 		public string stats;
-	}
-
+	}	
 
 	[Serializable]
 	public class DataAutoTower
@@ -68,7 +67,7 @@ namespace Assets.Scripts.Multiplayer
 		public bool active;
 		public Vector3 position;
 		public Quaternion rotation;
-	}
+	}	
 
 	[Serializable]
 	public class DataTowerDummy
@@ -97,7 +96,6 @@ namespace Assets.Scripts.Multiplayer
 		public string additional;
 	}
 
-	
 
 
 

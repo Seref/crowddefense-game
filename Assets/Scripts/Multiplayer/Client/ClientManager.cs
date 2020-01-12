@@ -32,7 +32,7 @@ namespace Assets.Scripts.Multiplayer.Client
 
 		private ClientGameManager gameManager;
 		private bool waitingForPing = false;
-
+		
 		//Dictonary that gives every multiplayer gameobject an id (for faster access time)
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
 

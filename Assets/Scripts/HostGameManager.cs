@@ -22,8 +22,7 @@ public class HostGameManager : MonoBehaviour
 
 	public EnemySpawner enemySpawner;
 	public AutoTowerSpawner autoTowerSpawner;
-	public StatsManager statsManager;
-	public BombSpawner bombSpawner;
+	public StatsManager statsManager;	
 
 	public HostManager hostManager;
 
@@ -37,8 +36,7 @@ public class HostGameManager : MonoBehaviour
 
 		enemySpawner = GetComponent<EnemySpawner>();
 		statsManager = GetComponent<StatsManager>();
-		autoTowerSpawner = GetComponent<AutoTowerSpawner>();
-		bombSpawner = GetComponent<BombSpawner>();
+		autoTowerSpawner = GetComponent<AutoTowerSpawner>();		
 		hostManager = GetComponent<HostManager>();		
 	}	
 
@@ -46,8 +44,7 @@ public class HostGameManager : MonoBehaviour
 	{
 		enemySpawner.enabled = true;
 		statsManager.enabled = true;
-		autoTowerSpawner.enabled = true;
-		bombSpawner.enabled = true;		
+		autoTowerSpawner.enabled = true;			
 	}
 
 	void LateUpdate()

@@ -6095,7 +6095,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227003392}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
@@ -7250,7 +7250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1482522665}
   - component: {fileID: 1482522669}
-  - component: {fileID: 1482522671}
+  - component: {fileID: 1482522672}
   - component: {fileID: 1482522668}
   - component: {fileID: 1482522670}
   - component: {fileID: 1482522673}
@@ -7366,7 +7366,6 @@ MonoBehaviour:
   enemySpawner: {fileID: 0}
   autoTowerSpawner: {fileID: 0}
   statsManager: {fileID: 0}
-  bombSpawner: {fileID: 0}
   hostManager: {fileID: 0}
 --- !u!114 &1482522670
 MonoBehaviour:
@@ -7387,20 +7386,20 @@ MonoBehaviour:
     type: 3}
   NotPlaceable: {fileID: 7518015452614792017, guid: 0ebbd9cafffba5e40bbec4060d2276a5,
     type: 3}
---- !u!114 &1482522671
+--- !u!114 &1482522672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482522664}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d01937fcbf60ce84c9989accb4bc765d, type: 3}
+  m_Script: {fileID: 11500000, guid: e2452d97fd41ced47843e6eb62871ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   StatsPanel: {fileID: 1591241501}
-  PlayTime: -1
+  PlayTime: 0
 --- !u!114 &1482522673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10018,7 +10017,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1482522669}
         m_MethodName: CloseHelpMenu
         m_Mode: 1
         m_Arguments:
