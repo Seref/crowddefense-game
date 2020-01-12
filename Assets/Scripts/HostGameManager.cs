@@ -22,7 +22,7 @@ public class HostGameManager : MonoBehaviour
 
 	public EnemySpawner enemySpawner;
 	public AutoTowerSpawner autoTowerSpawner;
-	public StatsManager statsManager;	
+	public StatsManager statsManager;
 
 	public HostManager hostManager;
 
@@ -32,19 +32,19 @@ public class HostGameManager : MonoBehaviour
 			DataLogger.Instance.LogStart();
 
 		Application.runInBackground = true;
-		Application.targetFrameRate = 60;		
+		Application.targetFrameRate = 60;
 
 		enemySpawner = GetComponent<EnemySpawner>();
 		statsManager = GetComponent<StatsManager>();
-		autoTowerSpawner = GetComponent<AutoTowerSpawner>();		
-		hostManager = GetComponent<HostManager>();		
-	}	
+		autoTowerSpawner = GetComponent<AutoTowerSpawner>();
+		hostManager = GetComponent<HostManager>();
+	}
 
 	public void StartGame()
 	{
 		enemySpawner.enabled = true;
 		statsManager.enabled = true;
-		autoTowerSpawner.enabled = true;			
+		autoTowerSpawner.enabled = true;
 	}
 
 	void LateUpdate()
@@ -53,37 +53,37 @@ public class HostGameManager : MonoBehaviour
 		{
 			if (statsManager.Score >= enemySpawner.InitialAmount)
 			{
-				GameWin();
+				GameEnd(true);
 			}
 		}
 	}
 
-	public void GameOver()
+	public void GameEnd(bool isWin)
 	{
 		if (currentWindow.Equals(Windows.GAME))
 		{
-			PauseGame();
-			currentWindow = Windows.GAMEOVER;
-			var Stats = GetComponent<StatsManager>();
-			var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
-			Score.text = Text;
-			DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime);
-			GameOverScreen.SetActive(true);
-		}
-	}
-
-	public void GameWin()
-	{
-		if (currentWindow.Equals(Windows.GAME))
-		{
-			PauseGame();
-			currentWindow = Windows.GAMEOVER;
-			Title.text = "You Won!";
-			var Stats = GetComponent<StatsManager>();
-			var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
-			Score.text = Text;
-			DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime);
-			GameOverScreen.SetActive(true);
+			GameObject.FindWithTag("AdditionalUI").SetActive(false);
+			if (isWin)
+			{
+				PauseGame();
+				currentWindow = Windows.GAMEOVER;
+				Title.text = "You Won!";
+				var Stats = GetComponent<StatsManager>();
+				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
+				Score.text = Text;
+				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime);
+				GameOverScreen.SetActive(true);
+			}
+			else
+			{
+				PauseGame();
+				currentWindow = Windows.GAMEOVER;
+				var Stats = GetComponent<StatsManager>();
+				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
+				Score.text = Text;
+				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime);
+				GameOverScreen.SetActive(true);
+			}
 		}
 	}
 
@@ -103,7 +103,7 @@ public class HostGameManager : MonoBehaviour
 			DataLogger.Instance.LogTutorialPressed();
 
 			HelpMenuScreen.SetActive(true);
-			currentWindow = Windows.HELPMENU;			
+			currentWindow = Windows.HELPMENU;
 		}
 	}
 
@@ -112,11 +112,12 @@ public class HostGameManager : MonoBehaviour
 		if (currentWindow.Equals(Windows.HELPMENU))
 		{
 			HelpMenuScreen.SetActive(false);
-			currentWindow = Windows.GAME;			
+			currentWindow = Windows.GAME;
 		}
 	}
 
-	public void BackToMainMenu() {
+	public void BackToMainMenu()
+	{
 		SceneManager.LoadScene("MainMenu");
 	}
 

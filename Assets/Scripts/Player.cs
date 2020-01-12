@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
 		if (collision.gameObject.tag == "Enemy")
 		{
 			transform.gameObject.SetActive(false);
-			gameManager.GameOver();
+			gameManager.GameEnd(false);
 		}
 	}
 

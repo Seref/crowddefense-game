@@ -3,51 +3,25 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class MultiplayerStatsManager : MonoBehaviour
-{
-	public StatsPanel StatsPanel;
-
-	public int PlayTime = -1;
-
+public class MultiplayerStatsManager : StatsManager
+{	
 	private int mHostScore = -1;
-	private int mClientScore = -1;
-	private int mWave = -1;
+	private int mClientScore = -1;	
+	
+	private TextMeshProUGUI itemEnemyScore;		    
 
-	private TextMeshProUGUI itemYourScore;
-	private TextMeshProUGUI itemEnemyScore;
-	private TextMeshProUGUI itemWave;
-	private TextMeshProUGUI itemPlayTime;
-
-    private GameManager gameManager;
-
-
-    void Start()
+	new void Start()
 	{
-		itemYourScore = StatsPanel.AddItem();
-		itemEnemyScore = StatsPanel.AddItem();
-		itemWave = StatsPanel.AddItem();
-		itemPlayTime = StatsPanel.AddItem();
-
+		base.Start();
+		itemEnemyScore = StatsPanel.AddItem();				
 
 		HostScore = 0;
 		ClientScore = 0;
 		PlayTime = 0;
-		Wave = 0;
-
-		StartCoroutine(Timer());
-
-        gameManager = FindObjectOfType<GameManager>();
+		Wave = 0;		
+        
     }
 
-    private IEnumerator Timer()
-	{
-		while (true)
-		{
-			PlayTime++;
-			itemPlayTime.text = "Time: " + PlayTime + "s";
-			yield return new WaitForSeconds(1);
-		}
-	}
 
 	public int HostScore
 	{
@@ -55,8 +29,7 @@ public class MultiplayerStatsManager : MonoBehaviour
 		set
 		{
 			if (mHostScore == value) return;
-			mHostScore = value;
-			itemYourScore.text = "Host Score: " + mHostScore;            
+			mHostScore = value;			
 		}
 	}
 
@@ -71,14 +44,5 @@ public class MultiplayerStatsManager : MonoBehaviour
 		}
 	}
 
-	public int Wave
-	{
-		get { return mWave; }
-		set
-		{
-			if (mWave == value) return;
-			mWave = value;
-			itemWave.text = "Wave: " + mWave;
-		}
-	}
+	
 }

@@ -19,7 +19,7 @@ public class StatsManager : MonoBehaviour
     private GameManager gameManager;
 
 
-    void Start()
+    public void Start()
 	{
 		itemScore = StatsPanel.AddItem();
 		itemWave = StatsPanel.AddItem();

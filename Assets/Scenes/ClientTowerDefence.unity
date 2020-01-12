@@ -2471,7 +2471,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &703997944
 GameObject:
@@ -6131,11 +6131,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 728633182}
     m_Modifications:
-    - target: {fileID: -587548174240780359, guid: 2e96d6e90d70d9b46811b20176922760,
-        type: 3}
-      propertyPath: CoolDownTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8493377818983953317, guid: 2e96d6e90d70d9b46811b20176922760,
         type: 3}
       propertyPath: m_Name
@@ -6145,6 +6140,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: -587548174240780359, guid: 2e96d6e90d70d9b46811b20176922760,
+        type: 3}
+      propertyPath: CoolDownTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8493377818983953319, guid: 2e96d6e90d70d9b46811b20176922760,
         type: 3}
@@ -6746,7 +6746,7 @@ Transform:
   - {fileID: 1227003396}
   - {fileID: 47360902}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1473460632
 GameObject:
@@ -6961,7 +6961,7 @@ MonoBehaviour:
   clientTower: {fileID: 198242229}
   serverObjects: {fileID: 1762126859}
   Ping: {fileID: 244619006}
-  address: wss://localhost:8080/endpoint
+  address: wss://beemo.at:9005/endpoint
 --- !u!114 &1482522667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7959,7 +7959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 92.500015, y: 0}
+  m_AnchoredPosition: {x: 92.5, y: 0}
   m_SizeDelta: {x: 185, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1680015879
@@ -9926,7 +9926,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9974,5 +9974,5 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 15
+  m_SortingOrder: 500
   m_TargetDisplay: 0

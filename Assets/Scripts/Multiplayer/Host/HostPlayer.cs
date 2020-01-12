@@ -72,7 +72,7 @@ public class HostPlayer : MonoBehaviour
 		if (collision.gameObject.tag == "Enemy")
 		{
 			transform.gameObject.SetActive(false);
-			gameManager.GameOver();
+			gameManager.GameEnd(false);
 		}
 	}
 

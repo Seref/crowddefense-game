@@ -46,37 +46,38 @@ public class GameManager : MonoBehaviour
 		{
 			if (statsManager.Score >= enemySpawner.InitialAmount)
 			{
-				GameWin();
+				GameEnd(true);
 			}
 		}
 	}
 
-	public void GameOver()
+	public void GameEnd(bool isWin)
 	{
 		if (currentWindow.Equals(Windows.GAME))
 		{
-			PauseGame();
-			currentWindow = Windows.GAMEOVER;
-			var Stats = GetComponent<StatsManager>();
-			var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
-			Score.text = Text;
-			DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime);
-			GameOverScreen.SetActive(true);
-		}
-	}
-
-	public void GameWin()
-	{
-		if (currentWindow.Equals(Windows.GAME))
-		{
-			PauseGame();
-			currentWindow = Windows.GAMEOVER;
-			Title.text = "You Won!";
-			var Stats = GetComponent<StatsManager>();
-			var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
-			Score.text = Text;
-			DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime);
-			GameOverScreen.SetActive(true);
+			GameObject.FindWithTag("AdditionalUI").SetActive(false);
+			if (isWin)
+			{
+				PauseGame();
+				currentWindow = Windows.GAMEOVER;
+				Title.text = "You Won!";
+				var Stats = GetComponent<StatsManager>();
+				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
+				Score.text = Text;
+				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime);
+				GameOverScreen.SetActive(true);
+			}
+			else
+			{
+				PauseGame();
+				currentWindow = Windows.GAMEOVER;
+				Title.text = "Game Over!";
+				var Stats = GetComponent<StatsManager>();
+				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
+				Score.text = Text;
+				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime);
+				GameOverScreen.SetActive(true);
+			}
 		}
 	}
 
