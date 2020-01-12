@@ -79,8 +79,7 @@ public class ClientGameManager : MonoBehaviour
 			DataLogger.Instance.LogTutorialPressed();
 
 			HelpMenuScreen.SetActive(true);
-			currentWindow = Windows.HELPMENU;
-			PauseGame();
+			currentWindow = Windows.HELPMENU;			
 		}
 	}
 
@@ -89,8 +88,7 @@ public class ClientGameManager : MonoBehaviour
 		if (currentWindow.Equals(Windows.HELPMENU))
 		{
 			HelpMenuScreen.SetActive(false);
-			currentWindow = Windows.GAME;
-			ContinueGame();
+			currentWindow = Windows.GAME;			
 		}
 	}
 

@@ -23,8 +23,7 @@ public class ClientAutoTowerSpawner : MonoBehaviour
 
 	private bool towerDropped = true;
 	private GameObject AutoTower;
-	private GameObject Cross;
-
+	private GameObject Cross;	
 
 	public void Start()
 	{
