@@ -40,7 +40,7 @@ namespace Assets.Scripts.Multiplayer.Host
 						hostManager.WaitForPlayers((c, d) =>
 						{
 							gameObject.SetActive(false);
-							hostManager.StartTransmitting();
+							hostManager.StartTransmitting();							
 							hostGameManager.StartGame();
 						});
 					}

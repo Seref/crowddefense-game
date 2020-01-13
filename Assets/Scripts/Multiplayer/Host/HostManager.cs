@@ -23,19 +23,7 @@ namespace Assets.Scripts.Multiplayer.Host
 
 		private GameObject bulletsList;
 		private GameObject enemyList;
-		private GameObject autoTowerList;
-
-
-		private static GameObject instance;
-		void Start()
-		{
-			DontDestroyOnLoad(gameObject);
-			if (instance == null)
-				instance = gameObject;
-			else
-				Destroy(gameObject);
-		}
-
+		private GameObject autoTowerList;	
 
 		public void ConnectToLobby(string lobbyName, Action<bool, string> callback = null)
 		{
