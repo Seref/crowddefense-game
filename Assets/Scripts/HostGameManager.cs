@@ -53,7 +53,7 @@ public class HostGameManager : MonoBehaviour
 		{
 			if (statsManager.Score >= enemySpawner.InitialAmount)
 			{
-				GameEnd(true);
+				GameEnd(true);				
 			}
 		}
 	}
@@ -63,6 +63,7 @@ public class HostGameManager : MonoBehaviour
 		if (currentWindow.Equals(Windows.GAME))
 		{
 			GameObject.FindWithTag("AdditionalUI").SetActive(false);
+			hostManager.EndGame(isWin);
 			if (isWin)
 			{
 				PauseGame();

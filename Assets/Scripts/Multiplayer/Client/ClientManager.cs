@@ -14,7 +14,7 @@ namespace Assets.Scripts.Multiplayer.Client
 		public GameObject autoTowerObject;
 
 		[Header("Tower")]
-		public TowerDummy hostDummy;		
+		public TowerDummy hostDummy;
 		public GameObject clientTower;
 
 
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Multiplayer.Client
 
 		private ClientGameManager gameManager;
 		private bool waitingForPing = false;
-		
+
 		//Dictonary that gives every multiplayer gameobject an id (for faster access time)
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
 
@@ -51,6 +51,7 @@ namespace Assets.Scripts.Multiplayer.Client
 
 		public void ReceiveData()
 		{
+			StartCoroutine(SendData());
 			StartCoroutine(ReceiveDataIEnumerator());
 		}
 
@@ -144,97 +145,107 @@ namespace Assets.Scripts.Multiplayer.Client
 			callback?.Invoke(true, "Success, joined lobby!");
 		}
 
-		private IEnumerator ReceiveDataIEnumerator()
+		private IEnumerator SendData()
 		{
-			if (currentWebSocket != null)
+			while (currentWebSocket != null && currentWebSocket.IsConnected())
 			{
-				while (true)
+
+				var currentDataList = new List<DataPackage>();
+
+				DataGroup dataGroup = new DataGroup
 				{
-					var currentDataList = new List<DataPackage>();
+					clientID = -1,
+					dataList = currentDataList
+				};
 
-					DataGroup dataGroup = new DataGroup
+				foreach (var datPack in actionDataList)
+				{
+					currentDataList.Add(datPack);
+				}
+				actionDataList.Clear();
+
+				ServerRequest serverRequest = new ServerRequest
+				{
+					header = new Header()
 					{
-						clientID = -1,
-						dataList = currentDataList
+						method = "DATA_TRANSFER",
+						lobbyName = lobbyName
+					},
+
+					body = new Body()
+					{
+						data = dataGroup
+					}
+				};
+
+
+
+				var dataPackage = new DataPackage
+				{
+					type = DataType.DataPing
+				};
+
+				if (!waitingForPing)
+				{
+					waitingForPing = true;
+
+					var ping = new DataPing
+					{
+						time = DateTime.UtcNow.Ticks
 					};
 
-					ServerRequest serverRequest = new ServerRequest
+					dataPackage.data = JsonUtility.ToJson(ping).ToString();
+
+					currentDataList.Add(dataPackage);
+				}
+
+				currentDataList.Add(MultiplayerHelper.CreateTowerDummyData(clientTower));
+
+				currentWebSocket.SendString(JsonUtility.ToJson(serverRequest));
+				yield return 0;
+			}
+
+		}
+
+		private IEnumerator ReceiveDataIEnumerator()
+		{			
+			while (currentWebSocket != null && currentWebSocket.IsConnected())
+			{
+				string message = currentWebSocket.RecvString();
+				if (message != null)
+				{
+					try
 					{
-						header = new Header()
-						{
-							method = "DATA_TRANSFER",
-							lobbyName = lobbyName
-						},
+						var serverResponse = JsonUtility.FromJson<ServerRequest>(message);
 
-						body = new Body()
+						if (serverResponse != null)
 						{
-							data = dataGroup
-						}
-					};
-
-					string message = currentWebSocket.RecvString();
-					if (message != null)
-					{
-						try
-						{
-							var serverResponse = JsonUtility.FromJson<ServerRequest>(message);
-
-							if (serverResponse != null)
+							if (serverResponse.header.method == "HOST_LEFT")
 							{
-								if (serverResponse.header.method == "HOST_LEFT")
-								{
-									gameManager.BackToMainMenu();
-								}
-								else
-								{
-									ProcessServerData(serverResponse.body.data);
-								}
+								gameManager.BackToMainMenu();
+							}
+							else
+							{
+								ProcessServerData(serverResponse.body.data);
 							}
 						}
-						catch (Exception e)
-						{
-							Debug.LogError(e.Message);
-						}
 					}
-
-					// if connection error, break the loop
-					if (currentWebSocket.error != null)
+					catch (Exception e)
 					{
-						Debug.LogError("Error: " + currentWebSocket.error);
-						break;
+						Debug.LogError(e.Message);
 					}
-
-					var dataPackage = new DataPackage
-					{
-						type = DataType.DataPing
-					};
-
-					if (!waitingForPing)
-					{
-						waitingForPing = true;
-
-						var ping = new DataPing
-						{
-							time = DateTime.UtcNow.Ticks
-						};
-
-						dataPackage.data = JsonUtility.ToJson(ping).ToString();
-
-						currentDataList.Add(dataPackage);
-					}
-
-					currentDataList.Add(MultiplayerHelper.CreateTowerDummyData(clientTower));					
-
-					foreach (var datPack in actionDataList)
-					{
-						currentDataList.Add(datPack);
-					}
-					actionDataList.Clear();					
-
-					currentWebSocket.SendString(JsonUtility.ToJson(serverRequest));
-					yield return 0;
 				}
+
+				// if connection error, break the loop
+				if (currentWebSocket.error != null)
+				{
+					Debug.LogError("Error: " + currentWebSocket.error);
+					break;
+				}
+
+				yield return 0;
 			}
+
 		}
 
 		//Big method that processes the DataBatch (needs to be splitted into smaller methods later on)
@@ -283,7 +294,7 @@ namespace Assets.Scripts.Multiplayer.Client
 							break;
 
 						case DataType.DataEnemy:
-							{								
+							{
 								DataEnemy deserializedData = JsonUtility.FromJson<DataEnemy>(package.data);
 								//check if GameObject already exists otherwise create it!
 								var isGameObjectinList = gameObjectList.ContainsKey(deserializedData.objectID);
@@ -351,7 +362,15 @@ namespace Assets.Scripts.Multiplayer.Client
 						case DataType.DataTowerDummy:
 							{
 								DataTowerDummy dataTowerDummy = JsonUtility.FromJson<DataTowerDummy>(package.data);
-								hostDummy.UpdateData(dataTowerDummy.position, dataTowerDummy.rotation);								
+								hostDummy.UpdateData(dataTowerDummy.position, dataTowerDummy.rotation);
+							}
+							break;
+						case DataType.DataGameState:
+							{
+								DataGameState dataGameState = JsonUtility.FromJson<DataGameState>(package.data);
+								//dataGameState.state.
+								bool isWin = dataGameState.state == DataGameStates.GameWin;
+								GetComponent<ClientGameManager>().GameEnd(isWin);
 							}
 							break;
 					}
@@ -377,5 +396,16 @@ namespace Assets.Scripts.Multiplayer.Client
 			currentWebSocket.SendString(JsonUtility.ToJson(serverRequest));
 		}
 
+		private void OnDestroy()
+		{
+			if (currentWebSocket != null)
+				currentWebSocket.Close();
+		}
+
+		private void OnApplicationQuit()
+		{
+			if (currentWebSocket != null)
+				currentWebSocket.Close();
+		}
 	}
 }

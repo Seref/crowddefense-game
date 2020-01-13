@@ -11,7 +11,7 @@ public class HostPlayer : MonoBehaviour
 	public FloatingCounter floatCounter;
 
 	private Rigidbody2D rigidBody;
-	private GameManager gameManager;
+	private HostGameManager gameManager;
 	private AudioSource audioSource;
 	private HostManager hostManager;
 
@@ -22,7 +22,7 @@ public class HostPlayer : MonoBehaviour
 	{
 		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
-		gameManager = FindObjectOfType<GameManager>();
+		gameManager = FindObjectOfType <HostGameManager>();
 		additionalUI = GameObject.FindWithTag("AdditionalUI");
 		hostManager = FindObjectOfType<HostManager>();
 	}

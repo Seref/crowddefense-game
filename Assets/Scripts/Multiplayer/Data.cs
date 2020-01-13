@@ -6,7 +6,7 @@ namespace Assets.Scripts.Multiplayer
 {
 
 	//Enum of possible DataTypes that can be sent
-	public enum DataType {DataPing, DataBullet, DataClientInput, DataTowerDummy, DataEnemy, DataAutoTower };
+	public enum DataType {DataPing, DataBullet, DataClientInput, DataTowerDummy, DataEnemy, DataAutoTower, DataGameState };
 
 	//A single Datapackage with some custom payload
 
@@ -37,7 +37,8 @@ namespace Assets.Scripts.Multiplayer
 		public Quaternion rotation;
 	}
 
-	public enum DataGameStates { Start, Pause, Stop, Rematch};
+
+	public enum DataGameStates { GameOver, GameWin};
 
 	[Serializable]
 	public class DataGameState
@@ -113,6 +114,7 @@ namespace Assets.Scripts.Multiplayer
 	{
 		public DataGroup data;
 	}
+
 
 	[Serializable]
 	public class ServerRequest

@@ -22,7 +22,7 @@ public class WebSocket
 	}
 
 	public void SendString(string str)
-	{
+	{		
 		Send(Encoding.UTF8.GetBytes (str));
 	}
 
@@ -73,6 +73,11 @@ public class WebSocket
 		return buffer;
 	}
 
+	public bool IsConnected()
+	{		
+		return SocketState(m_NativeRef) == 1;
+	}
+
 	public IEnumerator Connect()
 	{
 		m_NativeRef = SocketCreate (mUrl.ToString());
@@ -81,6 +86,7 @@ public class WebSocket
 			yield return 0;
 	}
  
+	
 	public void Close()
 	{
 		SocketClose(m_NativeRef);
@@ -114,6 +120,11 @@ public class WebSocket
 		m_Socket.ConnectAsync();
 		while (!m_IsConnected && m_Error == null)
 			yield return 0;
+	}
+	public bool IsConnected()
+	{
+
+		return m_Socket.ReadyState == WebSocketSharp.WebSocketState.Open;
 	}
 
 	public void Send(byte[] buffer)

@@ -17,13 +17,25 @@ namespace Assets.Scripts.Multiplayer.Host
 		public readonly Dictionary<int, GameObject> gameObjectList = new Dictionary<int, GameObject>();
 		private readonly List<DataPackage> actionDataList = new List<DataPackage>();
 
-		private WebSocket currentWebSocket;
+		private static WebSocket currentWebSocket;
 
 		private string lobbyName;
 
 		private GameObject bulletsList;
 		private GameObject enemyList;
 		private GameObject autoTowerList;
+
+
+		private static GameObject instance;
+		void Start()
+		{
+			DontDestroyOnLoad(gameObject);
+			if (instance == null)
+				instance = gameObject;
+			else
+				Destroy(gameObject);
+		}
+
 
 		public void ConnectToLobby(string lobbyName, Action<bool, string> callback = null)
 		{
@@ -37,6 +49,7 @@ namespace Assets.Scripts.Multiplayer.Host
 
 		public void StartTransmitting()
 		{
+			StartCoroutine(ProcessData());
 			StartCoroutine(TransmitData());
 		}
 
@@ -91,6 +104,7 @@ namespace Assets.Scripts.Multiplayer.Host
 					break;
 				}
 
+
 				yield return new WaitForSecondsRealtime(0.25f);
 			}
 
@@ -124,6 +138,86 @@ namespace Assets.Scripts.Multiplayer.Host
 				}
 		}
 
+
+		private IEnumerator ProcessData()
+		{
+			while (currentWebSocket != null && currentWebSocket.IsConnected())
+			{
+				// read messages
+				string message = currentWebSocket.RecvString();
+				if (message != null)
+				{
+					try
+					{
+						ServerRequest sr = JsonUtility.FromJson<ServerRequest>(message);
+						DataGroup client = sr.body.data;
+						try
+						{
+							var serverResponse = JsonUtility.FromJson<ServerRequest>(message);
+
+							if (serverResponse != null)
+							{
+								if (serverResponse.header.method == "GUEST_LEFT")
+								{
+									GetComponent<HostGameManager>().BackToMainMenu();
+								}
+							}
+						}
+						catch
+						{
+						}
+
+						foreach (DataPackage package in client.dataList)
+						{
+							switch (package.type)
+							{
+								case DataType.DataPing:
+									actionDataList.Add(package);
+									break;
+
+								case DataType.DataTowerDummy:
+									{
+										DataTowerDummy dataTowerDummy = JsonUtility.FromJson<DataTowerDummy>(package.data);
+										clientTower.UpdateData(dataTowerDummy.position, dataTowerDummy.rotation);
+									}
+									break;
+								case DataType.DataClientInput:
+									{
+										DataClientInput dataClientInput = JsonUtility.FromJson<DataClientInput>(package.data);
+										switch (dataClientInput.type)
+										{
+											case DataClientInputType.TowerShoot:
+												clientTower.Fire();
+												break;
+										}
+									}
+									break;
+								case DataType.DataAutoTower:
+									{
+
+									}
+									break;
+								default:
+									break;
+							}
+						}
+					}
+					catch
+					{
+						Debug.Log("Error while deserializing the Data");
+					}
+				}
+
+				if (currentWebSocket.error != null)
+				{
+					Debug.LogError("Error: " + currentWebSocket.error);
+					break;
+				}
+
+				yield return 0;
+			}
+		}
+
 		//Currently one big Loop that receives&sends data from clients/to clients 
 		private IEnumerator TransmitData()
 		{
@@ -132,108 +226,72 @@ namespace Assets.Scripts.Multiplayer.Host
 			enemyList = GameObject.Find("Enemy");
 			autoTowerList = GameObject.Find("AutoTower");
 
-			if (currentWebSocket != null)
-				while (true)
+			
+
+			while (currentWebSocket != null && currentWebSocket.IsConnected())
+			{
+				DataGroup dataGroup = new DataGroup
 				{
-					DataGroup dataGroup = new DataGroup
+					clientID = -1,
+					dataList = new List<DataPackage>()
+				};
+
+				ServerRequest serverRequest = new ServerRequest
+				{
+					header = new Header()
 					{
-						clientID = -1,
-						dataList = new List<DataPackage>()
-					};
+						method = "DATA_TRANSFER",
+						lobbyName = lobbyName
+					},
 
-					ServerRequest serverRequest = new ServerRequest
+					body = new Body()
 					{
-						header = new Header()
-						{
-							method = "DATA_TRANSFER",
-							lobbyName = lobbyName
-						},
-
-						body = new Body()
-						{
-							data = dataGroup
-						}
-					};
-
-					// read messages
-					string message = currentWebSocket.RecvString();
-					if (message != null)
-					{
-						try
-						{
-							ServerRequest sr = JsonUtility.FromJson<ServerRequest>(message);
-							DataGroup client = sr.body.data;
-							foreach (DataPackage package in client.dataList)
-							{
-								switch (package.type)
-								{
-									case DataType.DataPing:
-										dataGroup.dataList.Add(package);
-										break;
-
-									case DataType.DataTowerDummy:
-										{
-											DataTowerDummy dataTowerDummy = JsonUtility.FromJson<DataTowerDummy>(package.data);
-											clientTower.UpdateData(dataTowerDummy.position, dataTowerDummy.rotation);
-										}
-										break;
-									case DataType.DataClientInput:
-										{
-											DataClientInput dataClientInput = JsonUtility.FromJson<DataClientInput>(package.data);
-											switch (dataClientInput.type)
-											{
-												case DataClientInputType.TowerShoot:
-													clientTower.Fire();
-													break;
-											}
-										}
-										break;
-									case DataType.DataAutoTower:
-										{
-
-										}
-										break;
-									default:
-										break;
-								}
-							}
-						}
-						catch
-						{
-							Debug.Log("Error while deserializing the Data");
-						}
+						data = dataGroup
 					}
+				};			
 
-					if (currentWebSocket.error != null)
-					{
-						Debug.LogError("Error: " + currentWebSocket.error);
-						break;
-					}
-
-					foreach (Transform t in bulletsList.transform)
-						if (t.hasChanged)
-							dataGroup.dataList.Add(MultiplayerHelper.CreateBulletData(t.gameObject));
-
-					foreach (Transform t in enemyList.transform)
-						if (t.hasChanged)
-							dataGroup.dataList.Add(MultiplayerHelper.CreateEnemyData(t.gameObject));
-
-					foreach (Transform t in autoTowerList.transform)
-						if (t.hasChanged)
-							dataGroup.dataList.Add(MultiplayerHelper.CreateAutoTowerData(t.gameObject));
-
-					dataGroup.dataList.Add(MultiplayerHelper.CreateTowerDummyData(hostTower.gameObject));
-
-					foreach (var datPack in actionDataList)
-					{
-						dataGroup.dataList.Add(datPack);
-					}
-					actionDataList.Clear();
-
-					currentWebSocket.SendString(JsonUtility.ToJson(serverRequest).ToString());
-
-					yield return 0;
+				if (currentWebSocket.error != null)
+				{
+					Debug.LogError("Error: " + currentWebSocket.error);
+					break;
 				}
+
+				foreach (var datPack in actionDataList)
+				{
+					dataGroup.dataList.Add(datPack);
+				}
+				actionDataList.Clear();
+
+
+				foreach (Transform t in bulletsList.transform)
+					if (t.hasChanged)
+						dataGroup.dataList.Add(MultiplayerHelper.CreateBulletData(t.gameObject));
+
+				foreach (Transform t in enemyList.transform)
+					if (t.hasChanged)
+						dataGroup.dataList.Add(MultiplayerHelper.CreateEnemyData(t.gameObject));
+
+				foreach (Transform t in autoTowerList.transform)
+					if (t.hasChanged)
+						dataGroup.dataList.Add(MultiplayerHelper.CreateAutoTowerData(t.gameObject));
+
+				dataGroup.dataList.Add(MultiplayerHelper.CreateTowerDummyData(hostTower.gameObject));
+
+				currentWebSocket.SendString(JsonUtility.ToJson(serverRequest).ToString());
+				yield return new WaitForSecondsRealtime(0.02f);
+			}
+		}
+
+		//The Client can AddEvents from outside, these will be sent to the Server
+		public void EndGame(bool isWin)
+		{
+			DataPackage endData;
+			if (isWin)
+				endData = MultiplayerHelper.CreateGameState(DataGameStates.GameWin);
+			else
+				endData = MultiplayerHelper.CreateGameState(DataGameStates.GameOver);
+
+			actionDataList.Add(endData);
 		}
 
 		//The Client can AddEvents from outside, these will be sent to the Server
