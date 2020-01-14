@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//this is the helper function
 
 public static class HelperFunctions {
 	public static Quaternion LookAt2D(Vector2 target, Vector2 pivot) {
