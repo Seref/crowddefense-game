@@ -36,6 +36,21 @@
     PrintToConsole: function(str){        
         var data = Pointer_stringify(str);
         console.log(data);
+    },
+    PushGameData: function(data){
+        var UserD = Pointer_stringify(data);
+        if(document.location.host.includes("beemo.at"))                                
+        fetch(
+            "https://game.beemo.at/statistics",
+            {
+                method: "POST",
+                cache: "no-cache",      
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: UserD
+            }
+        );
     }
 };
 mergeInto(LibraryManager.library, JSFunctions);

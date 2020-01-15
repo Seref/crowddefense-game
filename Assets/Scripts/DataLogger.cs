@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 
+
 public class Log
 {
 	public string userName;
@@ -18,12 +19,16 @@ public class Log
 
 public class DataLogger
 {
+	public static bool DEBUG = true;
+
+	[DllImport("__Internal")]
+	private static extern void PushGameData(string data);
 
 	public static readonly DataLogger Instance = new DataLogger();
 
 	private string currentVersion = Application.version;
-	
-	private DataLogger(){}
+
+	private DataLogger() { }
 
 	private string userName;
 
@@ -68,10 +73,28 @@ public class DataLogger
 			currentRound.tutorialPressed = currentRound.tutorialPressed + 1;
 	}
 
+	private string ConvertBool(bool b)
+	{
+		return (b ? "true" : "false");
+	}
+
 	public void SendData(Log log)
 	{
+		//(string username, string score, string wavesurvived, string secoondssurvived, string win, string restartround, string tutorialpressed)
 		var logData = JsonUtility.ToJson(log).ToString();
 		Console.WriteLine(logData);
+
+		var send = "Username=" + log.userName + "&" +
+			"Score=" + log.score.ToString() + "&" +
+			"WaveSurvived=" + log.waveSurvived.ToString() + "&" +
+			"SecondsSurvived=" + log.secondsSurvived.ToString() + "&" +
+			"Win=" + ConvertBool(log.win) + "&" +
+			"RestartedRound=" + ConvertBool(log.restartedRound) + "&" +
+			"TutorialPressed=" + log.tutorialPressed.ToString();
+
+		if (!DEBUG)
+			PushGameData(send);
+
 		Debug.Log(logData);
 	}
 }
