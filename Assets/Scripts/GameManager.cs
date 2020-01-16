@@ -89,6 +89,11 @@ public class GameManager : MonoBehaviour
 		DataLogger.Instance.LogStart(true);
 	}
 
+	public void BackToTheMenu()
+	{		
+		SceneManager.LoadScene("MainMenu");
+	}
+
 	public void OpenHelpMenu()
 	{
 		if (currentWindow.Equals(Windows.GAME))

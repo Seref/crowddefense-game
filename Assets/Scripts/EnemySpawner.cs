@@ -38,8 +38,6 @@ public class EnemySpawner : MonoBehaviour
 
 		while (true)
 		{			
-			if (Amount > 0)
-				statsManager.Wave++;
 
 			for (int i = 0; i <WaveSize; i++)
 			{				

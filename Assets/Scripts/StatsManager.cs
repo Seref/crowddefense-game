@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -16,10 +17,10 @@ public class StatsManager : MonoBehaviour
 	private TextMeshProUGUI itemWave;
 	private TextMeshProUGUI itemPlayTime;
 
-    private GameManager gameManager;
+	private GameManager gameManager;
 
 
-    public void Start()
+	public void Start()
 	{
 		itemScore = StatsPanel.AddItem();
 		itemWave = StatsPanel.AddItem();
@@ -31,10 +32,10 @@ public class StatsManager : MonoBehaviour
 
 		StartCoroutine(Timer());
 
-        gameManager = FindObjectOfType<GameManager>();
-    }
+		gameManager = FindObjectOfType<GameManager>();
+	}
 
-    private IEnumerator Timer()
+	private IEnumerator Timer()
 	{
 		while (true)
 		{
@@ -51,7 +52,9 @@ public class StatsManager : MonoBehaviour
 		{
 			if (mScore == value) return;
 			mScore = value;
-			itemScore.text = "Score: " + mScore;            
+			itemScore.text = "Score: " + mScore;
+			if (gameManager != null)
+				Wave = (int)(Math.Max(mScore, 1) / gameManager.enemySpawner.WaveSize);
 		}
 	}
 
