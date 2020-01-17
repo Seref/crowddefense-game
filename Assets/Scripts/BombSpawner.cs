@@ -26,9 +26,7 @@ public class BombSpawner : MonoBehaviour
     private bool bombExist = false;
 
 	void Start()
-	{
-        if (bombExist)
-        {
+	{        
 
             Counter = Time;
 
@@ -37,7 +35,7 @@ public class BombSpawner : MonoBehaviour
             autoTowerSpawner = GetComponent<AutoTowerSpawner>();
             enemySpawner = GetComponent<EnemySpawner>();
             additionalLayer = GameObject.FindGameObjectWithTag("Additional");
-        }
+        
 	}
 
 	private IEnumerator SpawnTimer()
