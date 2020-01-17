@@ -19,7 +19,6 @@ public class Log
 
 public class DataLogger
 {
-	public static bool DEBUG = true;
 
 	[DllImport("__Internal")]
 	private static extern void PushGameData(string data);
@@ -92,7 +91,7 @@ public class DataLogger
 			"RestartedRound=" + ConvertBool(log.restartedRound) + "&" +
 			"TutorialPressed=" + log.tutorialPressed.ToString();
 
-		if (!DEBUG)
+		
 			PushGameData(send);
 
 		Debug.Log(logData);
