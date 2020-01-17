@@ -38,7 +38,8 @@
         console.log(data);
     },
     PushGameData: function(data){
-        var UserD = Pointer_stringify(data);               
+        var UserD = Pointer_stringify(data);
+	if(document.location.host.includes("beemo.at"))            
         fetch(
             "https://game.beemo.at/statistics",
             {
