@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 		enemySpawner.enabled = true;
 		statsManager.enabled = true;
 		autoTowerSpawner.enabled = true;
-		bombSpawner.enabled = true;
+		//bombSpawner.enabled = false;
 	}
 
 	void LateUpdate()
