@@ -26,7 +26,6 @@ public class BombSpawner : MonoBehaviour
 
 	void Start()
 	{
-
         Counter = Time;
         startCoroutine = StartCoroutine(SpawnTimer());
         statsManager = GetComponent<StatsManager>();
