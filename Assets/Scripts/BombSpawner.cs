@@ -23,18 +23,16 @@ public class BombSpawner : MonoBehaviour
 	private EnemySpawner enemySpawner;
 	private GameObject additionalLayer;
 
-    private bool bombExist = false;
 
 	void Start()
-	{        
+	{
 
-            Counter = Time;
-
-            startCoroutine = StartCoroutine(SpawnTimer());
-            statsManager = GetComponent<StatsManager>();
-            autoTowerSpawner = GetComponent<AutoTowerSpawner>();
-            enemySpawner = GetComponent<EnemySpawner>();
-            additionalLayer = GameObject.FindGameObjectWithTag("Additional");
+        Counter = Time;
+        startCoroutine = StartCoroutine(SpawnTimer());
+        statsManager = GetComponent<StatsManager>();
+        autoTowerSpawner = GetComponent<AutoTowerSpawner>();
+        enemySpawner = GetComponent<EnemySpawner>();
+        additionalLayer = GameObject.FindGameObjectWithTag("Additional");
         
 	}
 
