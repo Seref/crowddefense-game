@@ -63,7 +63,11 @@ public class AutoTowerSpawner : MonoBehaviour
 				AutoTower.layer = LayerMask.NameToLayer("UI");
 				AutoTower.SetActive(true);
 
-				towerDropped = true;
+
+                Settings s = SettingsManager.Instance.GetCurrentSettings();
+                AutoTower.GetComponent<AutoTower>().CoolDownTime = s.AutoTowerFireCooldown;
+
+                towerDropped = true;
 				canSpawn = false;
 				AutoSpawnButton.interactable = false;
 

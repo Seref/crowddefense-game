@@ -16,7 +16,7 @@ public class Settings
     //AutoTower Default Settings
     public float FastAutoTowerBuildCooldown = 20;
     public float FastAutoTowerAmount = 3;
-    public float FastAutoTowerFireCooldown = 1;
+    public float FastAutoTowerFireCooldown = 1.0f;
 
     //Wave Default Settings
     public int WaveEnemyAmount = 5;

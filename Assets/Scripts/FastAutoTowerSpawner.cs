@@ -61,11 +61,11 @@ public class FastAutoTowerSpawner : MonoBehaviour
 				AutoTower.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				AutoTower.transform.rotation = Quaternion.identity;
 				AutoTower.layer = LayerMask.NameToLayer("UI");
-				AutoTower.SetActive(true);
+                
+                AutoTower.SetActive(true);
 
                 Settings s = SettingsManager.Instance.GetCurrentSettings();
                 AutoTower.GetComponent<AutoTower>().CoolDownTime = s.FastAutoTowerFireCooldown;
-                AutoTower.GetComponent<AutoTower>().Smoothness = s.FastAutoTowerFireCooldown;
 
                 towerDropped = true;
 				canSpawn = false;
