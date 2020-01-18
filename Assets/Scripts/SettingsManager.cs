@@ -6,13 +6,20 @@ using UnityEngine;
 [Serializable]
 public class Settings
 {
+
+
 	//AutoTower Default Settings
 	public int AutoTowerBuildCooldown = 10;
 	public int AutoTowerAmount = 3;
 	public int AutoTowerFireCooldown = 2;
 
-	//Wave Default Settings
-	public int WaveEnemyAmount = 5;
+    //AutoTower Default Settings
+    public float FastAutoTowerBuildCooldown = 20;
+    public float FastAutoTowerAmount = 3;
+    public float FastAutoTowerFireCooldown = 1;
+
+    //Wave Default Settings
+    public int WaveEnemyAmount = 5;
 	public int WaveAmount = 10;
 }
 

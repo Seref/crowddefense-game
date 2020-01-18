@@ -9,7 +9,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 
 	[Header("Variables")]
 	public float CoolDownTime = 20.0f;
-	public int Amount = 3;
+	public float Amount = 3;
 
 	[Header("Dependencies")]
 	public Button AutoSpawnButton;
@@ -31,8 +31,8 @@ public class FastAutoTowerSpawner : MonoBehaviour
 		additionalLayer = GameObject.FindGameObjectWithTag("Additional");
 		additionalLayerUI = GameObject.FindGameObjectWithTag("AdditionalUI");
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
-		Amount = s.AutoTowerAmount;
-		CoolDownTime = s.AutoTowerBuildCooldown;
+		Amount = s.FastAutoTowerAmount;
+		CoolDownTime = s.FastAutoTowerBuildCooldown;
 
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, additionalLayer.transform);
@@ -63,7 +63,11 @@ public class FastAutoTowerSpawner : MonoBehaviour
 				AutoTower.layer = LayerMask.NameToLayer("UI");
 				AutoTower.SetActive(true);
 
-				towerDropped = true;
+                Settings s = SettingsManager.Instance.GetCurrentSettings();
+                AutoTower.GetComponent<AutoTower>().CoolDownTime = s.FastAutoTowerFireCooldown;
+                AutoTower.GetComponent<AutoTower>().Smoothness = s.FastAutoTowerFireCooldown;
+
+                towerDropped = true;
 				canSpawn = false;
 				AutoSpawnButton.interactable = false;
 

@@ -12,6 +12,8 @@ TagManager:
   - AutoTower
   - Additional
   - AdditionalUI
+  - UIEffects
+  - AutoTowerWhite
   layers:
   - Default
   - TransparentFX
