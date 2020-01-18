@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
 		rigidBody = GetComponent<Rigidbody2D>();
 		gameManager = FindObjectOfType<GameManager>();
 		additionalUI = GameObject.FindWithTag("AdditionalUI");
-	}
+        audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
+    }
 
 	void Update()
 	{

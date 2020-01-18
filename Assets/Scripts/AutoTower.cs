@@ -25,7 +25,8 @@ public class AutoTower : MonoBehaviour
 		rigidBody = GetComponent<Rigidbody2D>();
 		GetComponent<CircleCollider2D>().radius = Range;		
 		coolDown = false;
-	}
+        audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
+    }
 
 	void OnEnable()
 	{

@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
 	{				
 		SetClientID("Prototyp 2"); //TODO: Remove
 
+        if(!Application.isEditor)
 		OnAppReady();
 	}
 
