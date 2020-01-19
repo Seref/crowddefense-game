@@ -13,17 +13,18 @@ public class Enemy : MonoBehaviour
 	private int destPoint = 0;
 	private StatsManager statsManager;
 	public AudioClip clip;
-	private AudioSource audioSource;
 
 	void Awake()
 	{
-		audioSource = GetComponent<AudioSource>();
 		agent = GetComponent<NavMeshAgent>();
 		agent.updateUpAxis = false;
 		agent.updateRotation = false;
 		agent.autoBraking = false;
 		agent.autoRepath = true;
-	}
+       
+
+
+    }
 
 	void OnEnable()
 	{
@@ -87,7 +88,8 @@ public class Enemy : MonoBehaviour
 		if (!isDead)
 		{
 			isDead = true;
-			AudioSource.PlayClipAtPoint(clip, gameObject.transform.position);
+			AudioSource.PlayClipAtPoint(clip, gameObject.transform.position, (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f));
+
 			transform.position = start;
 			agent.destination = points[0];
 			destPoint = -1;

@@ -3,22 +3,36 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 
+
 [Serializable]
 public class Settings
 {
+    //zum Settings Datenbank
+    public int version = SettingsManager.VERSION;
+
+    //General Settings
+    public int MasterSound = 100;
+
 	//AutoTower Default Settings
 	public int AutoTowerBuildCooldown = 10;
 	public int AutoTowerAmount = 3;
 	public int AutoTowerFireCooldown = 2;
 
-	//Wave Default Settings
-	public int WaveEnemyAmount = 5;
+    //AutoTower Default Settings
+    public float FastAutoTowerBuildCooldown = 20;
+    public float FastAutoTowerAmount = 3;
+    public float FastAutoTowerFireCooldown = 1.0f;
+
+    //Wave Default Settings
+    public int WaveEnemyAmount = 5;
 	public int WaveAmount = 10;
 }
 
 public class SettingsManager
 {
-	[DllImport("__Internal")]
+    public static int VERSION = 1;
+
+    [DllImport("__Internal")]
 	private static extern string ReadSettings();
 
 	[DllImport("__Internal")]
@@ -47,12 +61,18 @@ public class SettingsManager
 			var e = ReadSettings();
 			if (e != "error")
 			{
-				currentSettings = JsonUtility.FromJson<Settings>(e);
-			}
+                var dec = HelperFunctions.DecompressString(e);
+
+				currentSettings = JsonUtility.FromJson<Settings>(dec);
+
+                if (currentSettings.version != VERSION)            
+                    currentSettings = new Settings();
+            }
 		}
 		catch
 		{
 			Debug.Log("Couldn't load previously saved stuff");
+
 			currentSettings = new Settings();
 		}
 	}
@@ -71,7 +91,7 @@ public class SettingsManager
 		currentSettings = newSettings;
 		try
 		{
-			SaveSettings(JsonUtility.ToJson(newSettings).ToString());
+			SaveSettings(HelperFunctions.CompressString(JsonUtility.ToJson(newSettings).ToString()));
 		}
 		catch
 		{

@@ -4,13 +4,12 @@ using UnityEngine.SceneManagement;
 public class SettingsMenu : MonoBehaviour
 {
 	public TMPro.TextMeshProUGUI text;
-
-	public GameObject menuButtons;
-	public TMPro.TextMeshProUGUI notSupportedBanner;
-
+    
 	private Settings currentSettings;
 
-	public SliderItem AutoTowerBuildCooldown;
+
+    public SliderItem MasterSound;
+    public SliderItem AutoTowerBuildCooldown;
 	public SliderItem AutoTowerAmount;
 	public SliderItem AutoTowerFireCooldown;
 	public SliderItem WaveEnemyAmount;
@@ -20,7 +19,11 @@ public class SettingsMenu : MonoBehaviour
 	{
 		currentSettings = SettingsManager.Instance.GetCurrentSettings();
 
-		AutoTowerBuildCooldown.SetValue(currentSettings.AutoTowerBuildCooldown);
+        MasterSound.SetValue(currentSettings.MasterSound);
+        MasterSound.onValueChanged = (a) => { currentSettings.MasterSound = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
+
+
+        AutoTowerBuildCooldown.SetValue(currentSettings.AutoTowerBuildCooldown);
 		AutoTowerBuildCooldown.onValueChanged = (a) => { currentSettings.AutoTowerBuildCooldown = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
 
 		AutoTowerAmount.SetValue(currentSettings.AutoTowerAmount);
@@ -34,42 +37,14 @@ public class SettingsMenu : MonoBehaviour
 
 		WaveAmount.SetValue(currentSettings.WaveAmount);
 		WaveAmount.onValueChanged = (a) => { currentSettings.WaveAmount = a; SettingsManager.Instance.SetCurrentSettings(currentSettings); };
-	}	
-
-	private void Update()
-	{
-		if (!Application.isEditor)
-			CheckSystemCompability();
 	}
 
-	public void ResetSettings()
+    public void ResetSettings()
 	{
 		Settings reset = new Settings();
 		SettingsManager.Instance.SetCurrentSettings(reset);
 		currentSettings = reset;
 		SceneManager.LoadScene("SettingsMenu");
-	}
-
-	private void CheckSystemCompability()
-	{
-		if (Application.isMobilePlatform)
-		{
-			menuButtons.SetActive(false);
-			notSupportedBanner.gameObject.SetActive(true);
-			notSupportedBanner.text = "Your Device is not supported!";
-
-		}
-		else if (Screen.width < 1280 || Screen.height < 720)
-		{
-			menuButtons.SetActive(false);
-			notSupportedBanner.gameObject.SetActive(true);
-			notSupportedBanner.text = "Your screen resolution (" + Screen.width + "x" + Screen.height + ") is below the minimum required 1280x720!\n";
-		}
-		else
-		{
-			menuButtons.SetActive(true);
-			notSupportedBanner.gameObject.SetActive(false);
-		}
 	}
 
 	public void BackToMainMenu()
