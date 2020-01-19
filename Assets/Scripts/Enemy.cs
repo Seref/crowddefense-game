@@ -20,10 +20,7 @@ public class Enemy : MonoBehaviour
 		agent.updateUpAxis = false;
 		agent.updateRotation = false;
 		agent.autoBraking = false;
-		agent.autoRepath = true;
-       
-
-
+		agent.autoRepath = true;       
     }
 
 	void OnEnable()

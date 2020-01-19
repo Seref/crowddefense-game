@@ -96,14 +96,20 @@ public class AutoTowerSpawner : MonoBehaviour
 		}
 	}
 
-	void Update()
+
+	
+	void LateUpdate()
 	{
 		if (towerDropped && AutoTower != null)
 		{
-			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			bool canPlace = true;
+			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);			
 
-			RaycastHit2D hit = Physics2D.CircleCast(p1, 1f, Vector3.forward, 0f, 1 << 0);
+			var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			AutoTower.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+			
+			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.65f, Vector3.forward, 10f, 1 << LayerMask.NameToLayer("Default"));
+
+			bool canPlace = true;
 
 			if (hit.collider != null)
 			{
@@ -113,8 +119,8 @@ public class AutoTowerSpawner : MonoBehaviour
 				}
 			}
 
-			var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			AutoTower.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+
+			
 
 			if (!EventSystem.current.IsPointerOverGameObject() && canPlace)
 			{
@@ -124,8 +130,9 @@ public class AutoTowerSpawner : MonoBehaviour
 				if (Input.GetButtonDown("Fire1"))
 				{
 					towerDropped = false;
-					AutoTower.layer = LayerMask.NameToLayer("Default");
+					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
 					AutoTower.GetComponent<AutoTower>().Dropped = true;
+					AutoTower = null;
 				}
 			}
 			else
