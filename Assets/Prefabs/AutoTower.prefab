@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Range: 4.5
-  FocusTime: 3
+  FocusTime: 15
   CoolDownTime: 2
   Smoothness: 4
   FloatCounter: {fileID: 872245027861170536, guid: a1c5b0d5c7e59a34d8c36db8f228e8c7,

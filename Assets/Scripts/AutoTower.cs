@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AutoTower : MonoBehaviour
@@ -71,17 +72,47 @@ public class AutoTower : MonoBehaviour
 	private GameObject currentTarget = null;
 	private Coroutine focusCoroutine;
 
+	private readonly List<GameObject> Focustargets = new List<GameObject>();
+	private readonly HashSet<GameObject> IsInRange = new HashSet<GameObject>();
+
+	private GameObject GetCurrentTarget()
+	{
+		foreach (var target in Focustargets)
+		{
+			if (IsInRange.Contains(target))
+			{
+				return target;
+			}
+		}
+
+		return null;
+	}
+
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
+		IsInRange.Add(collision.gameObject);
+		Focustargets.Add(collision.gameObject);
+
 		if (collision.gameObject.tag == "Enemy")
 		{
 			if (currentTarget == null && !isFocusing)
 			{
 				currentTarget = collision.gameObject;
-				isFocusing = true;
+				isFocusing = true;		
 			}
 		}
 	}
+
+	void LateUpdate()
+	{		
+		foreach(var target in Focustargets.ToArray())
+		{
+			if (!target.activeSelf)
+				Focustargets.Remove(target);
+		}
+	}
+
+	
 
 	private void OnTriggerStay2D(Collider2D collision)
 	{
@@ -104,7 +135,7 @@ public class AutoTower : MonoBehaviour
 			}
 			else
 			{
-				currentTarget = collision.gameObject;
+				currentTarget = GetCurrentTarget();
 			}
 		}
 
@@ -112,6 +143,7 @@ public class AutoTower : MonoBehaviour
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
+		IsInRange.Remove(collision.gameObject);
 		if (collision.gameObject.tag == "Enemy" && currentTarget != null && currentTarget == collision.gameObject)
 		{
 			StartFocusing();
