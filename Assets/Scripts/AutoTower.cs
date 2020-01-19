@@ -89,17 +89,11 @@ public class AutoTower : MonoBehaviour
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		IsInRange.Add(collision.gameObject);
-		Focustargets.Add(collision.gameObject);
-
+	{		
 		if (collision.gameObject.tag == "Enemy")
 		{
-			if (currentTarget == null && !isFocusing)
-			{
-				currentTarget = collision.gameObject;
-				isFocusing = true;		
-			}
+			IsInRange.Add(collision.gameObject);
+			Focustargets.Add(collision.gameObject);			
 		}
 	}
 
@@ -110,59 +104,21 @@ public class AutoTower : MonoBehaviour
 			if (!target.activeSelf)
 				Focustargets.Remove(target);
 		}
-	}
 
-	
-
-	private void OnTriggerStay2D(Collider2D collision)
-	{
-		if (collision.gameObject.tag == "Enemy")
+		currentTarget = GetCurrentTarget();
+		if (currentTarget != null)
 		{
-			if (currentTarget != null)
+			if (currentTarget.activeSelf && Dropped)
 			{
-				if (currentTarget.activeSelf && Dropped)
-				{
-					var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, collision.gameObject.transform.position).eulerAngles.z + 90.0f);
-					rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
-					Fire();
-				}
-				else
-				{
-					currentTarget = null;
-					isFocusing = false;
-					StopFocusing();
-				}
-			}
-			else
-			{
-				currentTarget = GetCurrentTarget();
+				var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, currentTarget.transform.position).eulerAngles.z + 90.0f);
+				rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
+				Fire();
 			}
 		}
-
-	}
+	}	
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		IsInRange.Remove(collision.gameObject);
-		if (collision.gameObject.tag == "Enemy" && currentTarget != null && currentTarget == collision.gameObject)
-		{
-			StartFocusing();
-		}
-	}
-
-	private void StopFocusing()
-	{
-		if (focusCoroutine != null)
-			StopCoroutine(focusCoroutine);
-	}
-
-	private void StartFocusing()
-	{
-		if (focusCoroutine != null)
-			StopCoroutine(focusCoroutine);
-
-		if (gameObject.activeSelf)
-			focusCoroutine = StartCoroutine(FocusCounter());
-	}
-
+		IsInRange.Remove(collision.gameObject);		
+	}	
 }
