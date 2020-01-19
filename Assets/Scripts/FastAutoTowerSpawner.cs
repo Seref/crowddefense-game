@@ -103,7 +103,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			bool canPlace = true;
 
-			RaycastHit2D hit = Physics2D.CircleCast(p1, 1f, Vector3.forward, 0f, 1 << 0);
+			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.65f, Vector3.forward, 0f, 1 << LayerMask.NameToLayer("Default"));
 
 			if (hit.collider != null)
 			{
@@ -124,8 +124,9 @@ public class FastAutoTowerSpawner : MonoBehaviour
 				if (Input.GetButtonDown("Fire1"))
 				{
 					towerDropped = false;
-					AutoTower.layer = LayerMask.NameToLayer("Default");
+					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
 					AutoTower.GetComponent<AutoTower>().Dropped = true;
+					AutoTower = null;
 				}
 			}
 			else
