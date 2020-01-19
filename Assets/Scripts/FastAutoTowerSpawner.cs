@@ -103,7 +103,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			bool canPlace = true;
 
-			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.65f, Vector3.forward, 0f, 1 << LayerMask.NameToLayer("Default"));
+			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.62f, Vector3.forward, 0f, 1 << LayerMask.NameToLayer("Default"));
 
 			if (hit.collider != null)
 			{
