@@ -37,8 +37,9 @@ public class GameManager : MonoBehaviour
 		enemySpawner.enabled = true;
 		statsManager.enabled = true;
 		autoTowerSpawner.enabled = true;
-		//bombSpawner.enabled = false;
-	}
+        ContinueGame();
+        //bombSpawner.enabled = false;
+    }
 
 	void LateUpdate()
 	{
@@ -90,8 +91,9 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void BackToTheMenu()
-	{		
-		SceneManager.LoadScene("MainMenu");
+	{
+        ContinueGame();
+        SceneManager.LoadScene("MainMenu");
 	}
 
 	public void OpenHelpMenu()
