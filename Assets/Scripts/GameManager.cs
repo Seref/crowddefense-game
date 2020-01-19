@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 		enemySpawner.enabled = true;
 		statsManager.enabled = true;
 		autoTowerSpawner.enabled = true;
+		ContinueGame();
 		//bombSpawner.enabled = false;
 	}
 
@@ -90,7 +91,8 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void BackToTheMenu()
-	{		
+	{
+		ContinueGame();
 		SceneManager.LoadScene("MainMenu");
 	}
 
