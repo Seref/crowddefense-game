@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AutoTower : MonoBehaviour
@@ -71,66 +72,53 @@ public class AutoTower : MonoBehaviour
 	private GameObject currentTarget = null;
 	private Coroutine focusCoroutine;
 
+	private readonly List<GameObject> Focustargets = new List<GameObject>();
+	private readonly HashSet<GameObject> IsInRange = new HashSet<GameObject>();
+
+	private GameObject GetCurrentTarget()
+	{
+		foreach (var target in Focustargets)
+		{
+			if (IsInRange.Contains(target))
+			{
+				return target;
+			}
+		}
+
+		return null;
+	}
+
 	private void OnTriggerEnter2D(Collider2D collision)
-	{
+	{		
 		if (collision.gameObject.tag == "Enemy")
 		{
-			if (currentTarget == null && !isFocusing)
-			{
-				currentTarget = collision.gameObject;
-				isFocusing = true;
-			}
+			IsInRange.Add(collision.gameObject);
+			Focustargets.Add(collision.gameObject);			
 		}
 	}
 
-	private void OnTriggerStay2D(Collider2D collision)
-	{
-		if (collision.gameObject.tag == "Enemy")
+	void LateUpdate()
+	{		
+		foreach(var target in Focustargets.ToArray())
 		{
-			if (currentTarget != null)
-			{
-				if (currentTarget.activeSelf && Dropped)
-				{
-					var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, collision.gameObject.transform.position).eulerAngles.z + 90.0f);
-					rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
-					Fire();
-				}
-				else
-				{
-					currentTarget = null;
-					isFocusing = false;
-					StopFocusing();
-				}
-			}
-			else
-			{
-				currentTarget = collision.gameObject;
-			}
+			if (!target.activeSelf)
+				Focustargets.Remove(target);
 		}
 
-	}
+		currentTarget = GetCurrentTarget();
+		if (currentTarget != null)
+		{
+			if (currentTarget.activeSelf && Dropped)
+			{
+				var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, currentTarget.transform.position).eulerAngles.z + 90.0f);
+				rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
+				Fire();
+			}
+		}
+	}	
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		if (collision.gameObject.tag == "Enemy" && currentTarget != null && currentTarget == collision.gameObject)
-		{
-			StartFocusing();
-		}
-	}
-
-	private void StopFocusing()
-	{
-		if (focusCoroutine != null)
-			StopCoroutine(focusCoroutine);
-	}
-
-	private void StartFocusing()
-	{
-		if (focusCoroutine != null)
-			StopCoroutine(focusCoroutine);
-
-		if (gameObject.activeSelf)
-			focusCoroutine = StartCoroutine(FocusCounter());
-	}
-
+		IsInRange.Remove(collision.gameObject);		
+	}	
 }

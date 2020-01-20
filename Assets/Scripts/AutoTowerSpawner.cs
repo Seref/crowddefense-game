@@ -15,6 +15,8 @@ public class AutoTowerSpawner : MonoBehaviour
 	public Button AutoSpawnButton;
 	public FloatingCounter FloatingCounter;
 	public GameObject NotPlaceable;
+	public GameObject Placeable;
+
 	private GameObject additionalLayer;
 	private GameObject additionalLayerUI;
 
@@ -22,7 +24,7 @@ public class AutoTowerSpawner : MonoBehaviour
 	private float time = 0.0f;
 
 	private bool towerDropped = true;
-	private GameObject AutoTower;
+	private GameObject AutoTower;	
 	private GameObject Cross;
 
 
@@ -37,6 +39,8 @@ public class AutoTowerSpawner : MonoBehaviour
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, additionalLayer.transform);
 		Cross.SetActive(false);
+		Placeable.transform.position = new Vector3(Placeable.transform.position.x, Placeable.transform.position.y, 8);
+		Placeable.SetActive(false);
 	}
 
 	public void RefillAutoTower()
@@ -69,6 +73,7 @@ public class AutoTowerSpawner : MonoBehaviour
 
                 towerDropped = true;
 				canSpawn = false;
+				Placeable.SetActive(true);
 				AutoSpawnButton.interactable = false;
 
 				StartCoroutine(CoolDown());
@@ -107,7 +112,7 @@ public class AutoTowerSpawner : MonoBehaviour
 			var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			AutoTower.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
 			
-			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.65f, Vector3.forward, 10f, 1 << LayerMask.NameToLayer("Default"));
+			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.1f, Vector3.forward, 10f, 1 << LayerMask.NameToLayer("Default"));
 
 			bool canPlace = true;
 
@@ -133,6 +138,7 @@ public class AutoTowerSpawner : MonoBehaviour
 					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
 					AutoTower.GetComponent<AutoTower>().Dropped = true;
 					AutoTower = null;
+					Placeable.SetActive(false);
 				}
 			}
 			else
