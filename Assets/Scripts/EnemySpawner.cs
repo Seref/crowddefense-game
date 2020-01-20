@@ -32,13 +32,16 @@ public class EnemySpawner : MonoBehaviour
 		StartCoroutine(SpawnWaves());
 	}
 
+	private bool stronggenes = false;
+
 	IEnumerator SpawnWaves()
 	{
 		yield return new WaitForSeconds(2);
 
 		while (true)
-		{			
+		{
 
+			
 			for (int i = 0; i <WaveSize; i++)
 			{				
 				GameObject enemy = ObjectPooler.Instance.GetPooledObject("Enemy");
@@ -48,13 +51,17 @@ public class EnemySpawner : MonoBehaviour
 					enemy.transform.position = new Vector3(-10f + i, 15f, 0);
 					enemy.transform.rotation = Quaternion.identity;
 					enemy.SetActive(true);
-					enemy.GetComponent<Enemy>().StartPath(PathCreator.path, statsManager);
+					var enemyScript = enemy.GetComponent<Enemy>();
+					enemyScript.StartPath(PathCreator.path, statsManager);
+					enemyScript.SetEnemyStrength(stronggenes);
 				}
 
 				if (--Amount <= 0)
 					yield break;
-			}			
 
+				
+			}
+			stronggenes = !stronggenes;
 			yield return new WaitForSeconds(Timer);
 		}
 
