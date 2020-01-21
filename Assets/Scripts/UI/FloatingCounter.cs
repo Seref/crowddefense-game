@@ -21,7 +21,7 @@ namespace Assets.Scripts.UI
 
 		public void Show(float time, Transform transform, float offset, bool isUI = false)
 		{
-			Destroy(gameObject, time);
+			Destroy(gameObject, time+0.1f);
 			followTransform = transform;
 			this.time = time;
 			this.offset = offset;
