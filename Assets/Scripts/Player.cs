@@ -26,8 +26,9 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.LeftControl) && !EventSystem.current.IsPointerOverGameObject())
-		{
+		if ((Input.GetKey(KeyCode.LeftControl) && !EventSystem.current.IsPointerOverGameObject()) || (Input.GetKey(KeyCode.Mouse1) && !EventSystem.current.IsPointerOverGameObject()))
+
+        {
 			var mousePos = Input.mousePosition;
 			mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 			rigidBody.rotation = HelperFunctions.LookAt2D(transform.position, mousePos).eulerAngles.z + 90;
