@@ -9,13 +9,18 @@
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="%UNITY_WEBGL_LOADER_URL%"></script>
     <script>
-        var gameInstance = UnityLoader.instantiate("unityContainer", "%UNITY_WEBGL_BUILD_URL%", {onProgress: UnityProgress});		
+        var unityInstance = UnityLoader.instantiate("unityContainer", "%UNITY_WEBGL_BUILD_URL%", {onProgress: UnityProgress});		
+        
+        function OnAppReady() {
+		    unityInstance.SendMessage('GameManager', 'SetClientID', "Prototyp User");
+	    }
     </script>
 </head>
 <body>
 <div class="webgl-content">
     <div id="unityContainer" style="width: %UNITY_WIDTH%px; height: %UNITY_HEIGHT%px"></div>
 </div>
+<button class="unity-fullscreen" onclick="unityInstance.SetFullscreen(1);"></button>
 <script src="TemplateData/UnityResponsive.js"></script>
 </body>
 </html>

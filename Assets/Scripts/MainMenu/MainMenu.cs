@@ -6,17 +6,16 @@ public class MainMenu : MonoBehaviour
 {
 	public string clientID;
 	public TMPro.TextMeshProUGUI text;
-	
+
+	private bool userNameSet = false;
 
 	[DllImport("__Internal")]
 	private static extern void OnAppReady();
 
 	void Start()
-	{				
-		SetClientID("Prototyp 2"); //TODO: Remove
-
-        if(!Application.isEditor)
-		OnAppReady();
+	{		
+		if (!Application.isEditor)
+			OnAppReady();
 	}
 
 	public void LoadGame()
@@ -27,7 +26,7 @@ public class MainMenu : MonoBehaviour
 
 	public void LoadMultiplayerGame()
 	{
-		SceneManager.LoadScene("MultiplayerMenu");		
+		SceneManager.LoadScene("MultiplayerMenu");
 	}
 
 	public void LoadTutorial()
@@ -40,10 +39,15 @@ public class MainMenu : MonoBehaviour
 		SceneManager.LoadScene("SettingsMenu");
 	}
 
+
 	public void SetClientID(string clientID)
 	{
-		this.clientID = clientID;
-		text.text = clientID;
-		DataLogger.Instance.SetUserName(clientID);
+		if (!userNameSet)
+		{
+			userNameSet = true;
+			this.clientID = clientID;
+			text.text = clientID;
+			DataLogger.Instance.SetUserName(clientID);			
+		}
 	}
 }
