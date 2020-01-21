@@ -10,6 +10,7 @@ public class AutoTower : MonoBehaviour
 	public float FocusTime = 3.0f;
 	public float CoolDownTime = 2.0f;
 	public float Smoothness = 1.3f;
+	public int lives = 1;
 
 	public FloatingCounter FloatCounter;
 
@@ -19,10 +20,11 @@ public class AutoTower : MonoBehaviour
 	private bool coolDown = false;
 	private bool isFocusing = false;
 	private AudioSource audioSource;
+	private SpriteRenderer sp;
 
 	void Start()
 	{
-		audioSource = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();		
 		rigidBody = GetComponent<Rigidbody2D>();
 		GetComponent<CircleCollider2D>().radius = Range;		
 		coolDown = false;
@@ -33,7 +35,7 @@ public class AutoTower : MonoBehaviour
 	{
 		Dropped = false;
 		coolDown = false;
-	}
+	}	
 
 	private void Fire()
 	{

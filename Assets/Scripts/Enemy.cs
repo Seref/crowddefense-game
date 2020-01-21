@@ -10,18 +10,21 @@ public class Enemy : MonoBehaviour
 
 	private Path paths;
 	private List<Vector2> points;
+	public int lives = 1;
 	private int destPoint = 0;
+	private SpriteRenderer sp;
 	private StatsManager statsManager;
 	public AudioClip clip;
 
 	void Awake()
 	{
+		sp = GetComponent<SpriteRenderer>();
 		agent = GetComponent<NavMeshAgent>();
 		agent.updateUpAxis = false;
 		agent.updateRotation = false;
 		agent.autoBraking = false;
-		agent.autoRepath = true;       
-    }
+		agent.autoRepath = true;		
+	}
 
 	void OnEnable()
 	{
@@ -39,6 +42,20 @@ public class Enemy : MonoBehaviour
 		points = paths.PointList;
 
 		GotoNextPoint();
+	}
+
+	public void SetEnemyStrength(bool strong)
+	{
+		if (strong)
+		{			
+			sp.color = new Color(0.75f, 0.25f, 0.8f, 1f);
+			lives = 5;
+		}
+		else
+		{
+			sp.color = Color.white;
+			lives = 1;
+		}
 	}
 
 	void GotoNextPoint()
@@ -74,7 +91,9 @@ public class Enemy : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Bullet")
 		{
-			Die();
+			if (--lives <= 0) { 
+				Die();
+			}
 		}
 	}
 
