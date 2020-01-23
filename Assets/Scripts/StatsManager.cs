@@ -46,7 +46,7 @@ public class StatsManager : MonoBehaviour
 		{
 			if (mMoney == value) return;
 			mMoney = value;
-			itemMoney.text = "Bank Balance: " + mMoney+ "$";
+			itemMoney.text = "Money: " + mMoney+ "$";
 		}
 	}
 

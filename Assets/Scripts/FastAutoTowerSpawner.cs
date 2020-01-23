@@ -16,9 +16,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 	public GameObject Placeable;
 
 	private GameObject additionalLayer;
-	private GameObject additionalLayerUI;
-
-	private bool canSpawn = true;	
+	private GameObject additionalLayerUI;	
 
 	private bool towerDropped = true;
 	private GameObject AutoTower;
@@ -44,8 +42,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 
 	public void RefillAutoTower()
 	{		
-		AutoSpawnButton.interactable = true;
-		canSpawn = true;		
+		AutoSpawnButton.interactable = true;		
 	}
 
 	public void SpawnAutoTower()
@@ -59,11 +56,14 @@ public class FastAutoTowerSpawner : MonoBehaviour
 				AutoTower.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				AutoTower.transform.rotation = Quaternion.identity;
 				AutoTower.layer = LayerMask.NameToLayer("UI");
-
+				
 				AutoTower.SetActive(true);
 
 				Settings s = SettingsManager.Instance.GetCurrentSettings();
-				AutoTower.GetComponent<AutoTower>().CoolDownTime = s.FastAutoTowerFireCooldown;
+				var AutoTowerScript = AutoTower.GetComponent<AutoTower>();
+				AutoTowerScript.CoolDownTime = s.FastAutoTowerFireCooldown;
+				AutoTowerScript.AutoTowerUpgradeIncrease = s.FastAutoTowerUpgradeIncrease;
+				AutoTowerScript.AutoTowerUpgradeTime = s.FastAutoTowerUpgradeTime;
 
 				towerDropped = false;				
 				Placeable.SetActive(true);
@@ -102,7 +102,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 				{
 					towerDropped = true;
 					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
-					AutoTower.GetComponent<AutoTower>().Dropped = true;
+					AutoTower.GetComponent<AutoTower>().Drop();
 					AutoTower = null;
 					Placeable.SetActive(false);
 				}

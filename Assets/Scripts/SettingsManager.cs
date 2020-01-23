@@ -14,12 +14,16 @@ public class Settings
     public int MasterSound = 100;
 
 	//AutoTower Default Settings
-	public int AutoTowerBuildCost = 20;	
+	public int AutoTowerBuildCost = 20;
+	public float AutoTowerUpgradeTime = 20;
+	public float AutoTowerUpgradeIncrease = 1.2f;
 	public float AutoTowerFireCooldown = 2.0f;
 
     //AutoTower Default Settings
-    public int FastAutoTowerBuildCost = 50;    
-    public float FastAutoTowerFireCooldown = 1.0f;
+    public int FastAutoTowerBuildCost = 50;
+	public float FastAutoTowerUpgradeTime = 30;
+	public float FastAutoTowerUpgradeIncrease = 1.2f;
+	public float FastAutoTowerFireCooldown = 1.0f;
 
     //Wave Default Settings
     public int WaveEnemyAmount = 5;

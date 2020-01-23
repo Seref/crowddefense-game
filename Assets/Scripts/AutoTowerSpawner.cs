@@ -16,9 +16,7 @@ public class AutoTowerSpawner : MonoBehaviour
 	public GameObject Placeable;
 
 	private GameObject additionalLayer;
-	private GameObject additionalLayerUI;
-
-	private bool canSpawn = true;
+	private GameObject additionalLayerUI;	
 
 	private bool towerDropped = true;
 	private GameObject AutoTower;
@@ -43,15 +41,14 @@ public class AutoTowerSpawner : MonoBehaviour
 
 	public void RefillAutoTower()
 	{
-		AutoSpawnButton.interactable = true;
-		canSpawn = true;
+		AutoSpawnButton.interactable = true;		
 	}
 
 	public void SpawnAutoTower()
 	{
 		if (statsManager.Money >= Cost && towerDropped)
 		{
-			AutoTower = ObjectPooler.Instance.GetPooledObject("FastAutoTowerWhite");
+			AutoTower = ObjectPooler.Instance.GetPooledObject("AutoTower");
 			if (AutoTower != null)
 			{
 				statsManager.Money -= Cost;
@@ -61,8 +58,12 @@ public class AutoTowerSpawner : MonoBehaviour
 
 				AutoTower.SetActive(true);
 
-				Settings s = SettingsManager.Instance.GetCurrentSettings();
-				AutoTower.GetComponent<AutoTower>().CoolDownTime = s.FastAutoTowerFireCooldown;
+				Settings s = SettingsManager.Instance.GetCurrentSettings();				
+				var AutoTowerScript = AutoTower.GetComponent<AutoTower>();
+				AutoTowerScript.CoolDownTime = s.AutoTowerFireCooldown;
+				AutoTowerScript.AutoTowerUpgradeIncrease = s.AutoTowerUpgradeIncrease;
+				AutoTowerScript.AutoTowerUpgradeTime = s.AutoTowerUpgradeTime;
+
 
 				towerDropped = false;
 				Placeable.SetActive(true);
@@ -71,6 +72,8 @@ public class AutoTowerSpawner : MonoBehaviour
 			}
 		}
 	}
+
+	
 
 	void Update()
 	{
@@ -101,7 +104,7 @@ public class AutoTowerSpawner : MonoBehaviour
 				{
 					towerDropped = true;
 					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
-					AutoTower.GetComponent<AutoTower>().Dropped = true;
+					AutoTower.GetComponent<AutoTower>().Drop();
 					AutoTower = null;
 					Placeable.SetActive(false);
 				}
