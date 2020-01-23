@@ -1814,6 +1814,7 @@ GameObject:
   - component: {fileID: 754859430}
   - component: {fileID: 754859433}
   - component: {fileID: 754859432}
+  - component: {fileID: 754859431}
   m_Layer: 5
   m_Name: AdditionalUI
   m_TagString: AdditionalUI
@@ -1840,6 +1841,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &754859431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754859429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &754859432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2836,7 +2854,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Basic Autonomous Tower
+  m_text: 'Basic Autonomous Tower
+
+    Price: 20$'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2905,12 +2925,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 879875556}
-    characterCount: 22
+    characterCount: 33
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
+    spaceCount: 4
+    wordCount: 5
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -3905,8 +3925,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5149,8 +5169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a234b7dc397f041a70e0649b890a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoolDownTime: 20
-  Amount: 3
+  Cost: 20
   AutoSpawnButton: {fileID: 1659660650}
   FloatingCounter: {fileID: 872245027861170536, guid: a1c5b0d5c7e59a34d8c36db8f228e8c7,
     type: 3}
@@ -5169,8 +5188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07bfc5cb641a2534fb2b660a76f42999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoolDownTime: 10
-  Amount: 3
+  Cost: 50
   AutoSpawnButton: {fileID: 127780266}
   FloatingCounter: {fileID: 872245027861170536, guid: a1c5b0d5c7e59a34d8c36db8f228e8c7,
     type: 3}
@@ -5610,7 +5628,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Fast Autonomous Tower '
+  m_text: "Fast Autonomous Tower \nPrice: 50$"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5679,12 +5697,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1580606987}
-    characterCount: 22
+    characterCount: 33
     spriteCount: 0
-    spaceCount: 3
-    wordCount: 3
+    spaceCount: 5
+    wordCount: 5
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0

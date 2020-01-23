@@ -10,7 +10,8 @@ public class Bomb : MonoBehaviour
 
 	void OnMouseDown()
 	{
-		if (Input.GetMouseButtonDown(0)) {			
+		if (Input.GetMouseButtonDown(0)) {
+			Debug.Log("Clikkk");
 			callback?.Invoke();
 		}
 	}

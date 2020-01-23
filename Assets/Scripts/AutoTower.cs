@@ -2,40 +2,76 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AutoTower : MonoBehaviour
 {
-
 	public float Range = 5.0f;
-	public float FocusTime = 3.0f;
 	public float CoolDownTime = 2.0f;
 	public float Smoothness = 1.3f;
-	public int lives = 1;
+
+	public float AttackStrength = 1.0f;
+
+	public float AutoTowerUpgradeTime = 2;
+	public float AutoTowerUpgradeIncrease = 1.1f;
 
 	public FloatingCounter FloatCounter;
+	public GameObject RangeIndicator;
+	public GameObject UpgradeIndicator;
 
 	public bool Dropped = false;
 
 	private Rigidbody2D rigidBody;
+
 	private bool coolDown = false;
-	private bool isFocusing = false;
+
 	private AudioSource audioSource;
-	private SpriteRenderer sp;
+
+	private GameObject UpgradeButton = null;
+
+	void SetRange(float range)
+	{
+		Range = range;
+		GetComponent<CircleCollider2D>().radius = Range;
+		RangeIndicator.transform.localScale = new Vector3(0.406f * Range, 0.406f * Range, 1);
+	}
+
 
 	void Start()
 	{
-		audioSource = GetComponent<AudioSource>();		
+		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
-		GetComponent<CircleCollider2D>().radius = Range;		
-		coolDown = false;
-        audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
-    }
+		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
+		SetRange(Range);
+	}
 
 	void OnEnable()
 	{
 		Dropped = false;
 		coolDown = false;
-	}	
+	}
+
+	public void Drop()
+	{
+		Dropped = true;
+		StartCoroutine(UpgradeCoolDown());
+
+		if (UpgradeButton == null)
+		{ 
+			UpgradeButton = Instantiate(UpgradeIndicator, RectTransformUtility.WorldToScreenPoint(null, (transform.position)), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
+		}
+		else
+		{
+			UpgradeButton.transform.position = RectTransformUtility.WorldToScreenPoint(null, (transform.position));
+		}
+
+		UpgradeButton.SetActive(false);
+
+		UpgradeButton.GetComponent<Button>().onClick.RemoveAllListeners();
+		UpgradeButton.GetComponent<Button>().onClick.AddListener(() => { UpgradeTower(); });
+	}
+
+	// Firing Method to get a Bullet and Fire it
 
 	private void Fire()
 	{
@@ -50,7 +86,7 @@ public class AutoTower : MonoBehaviour
 
 			var bulletScript = bullet.GetComponent<Bullet>();
 			bulletScript.Speed = 20;
-			bulletScript.Fire();
+			bulletScript.Fire(AttackStrength);
 
 			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
 			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y / 2);
@@ -58,21 +94,37 @@ public class AutoTower : MonoBehaviour
 		}
 	}
 
+
+	private IEnumerator UpgradeCoolDown()
+	{
+		yield return new WaitForSeconds(AutoTowerUpgradeTime);
+		UpgradeButton.gameObject.SetActive(true);
+
+
+	}
+
+	private void UpgradeTower()
+	{
+		SetRange(Range * AutoTowerUpgradeIncrease);
+		CoolDownTime *= (1.0f - (AutoTowerUpgradeIncrease - 1.0f));
+		StartCoroutine(UpgradeCoolDown());
+		UpgradeButton.SetActive(false);
+	}
+
+
+
+
+	// Cooldown Counter for Firing Bullets
+
 	private IEnumerator CoolDownCounter()
 	{
 		yield return new WaitForSeconds(CoolDownTime);
 		coolDown = false;
 	}
 
-	private IEnumerator FocusCounter()
-	{
-		yield return new WaitForSeconds(FocusTime);
-		isFocusing = false;
-		currentTarget = null;
-	}
 
+	// Simple AI that targets the first Enemy it sees to increase the effectiveness!
 	private GameObject currentTarget = null;
-	private Coroutine focusCoroutine;
 
 	private readonly List<GameObject> Focustargets = new List<GameObject>();
 	private readonly HashSet<GameObject> IsInRange = new HashSet<GameObject>();
@@ -91,17 +143,17 @@ public class AutoTower : MonoBehaviour
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
-	{		
+	{
 		if (collision.gameObject.tag == "Enemy")
 		{
 			IsInRange.Add(collision.gameObject);
-			Focustargets.Add(collision.gameObject);			
+			Focustargets.Add(collision.gameObject);
 		}
 	}
 
 	void LateUpdate()
-	{		
-		foreach(var target in Focustargets.ToArray())
+	{
+		foreach (var target in Focustargets.ToArray())
 		{
 			if (!target.activeSelf)
 				Focustargets.Remove(target);
@@ -117,10 +169,11 @@ public class AutoTower : MonoBehaviour
 				Fire();
 			}
 		}
-	}	
+	}
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		IsInRange.Remove(collision.gameObject);		
-	}	
+		IsInRange.Remove(collision.gameObject);
+	}
+
 }

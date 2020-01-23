@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.UI;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,8 +7,7 @@ public class AutoTowerSpawner : MonoBehaviour
 {
 
 	[Header("Variables")]
-	public float CoolDownTime = 10.0f;
-	public int Amount = 3;
+	public int Cost = 50;
 
 	[Header("Dependencies")]
 	public Button AutoSpawnButton;
@@ -18,103 +16,73 @@ public class AutoTowerSpawner : MonoBehaviour
 	public GameObject Placeable;
 
 	private GameObject additionalLayer;
-	private GameObject additionalLayerUI;
-
-	private bool canSpawn = true;
-	private float time = 0.0f;
+	private GameObject additionalLayerUI;	
 
 	private bool towerDropped = true;
-	private GameObject AutoTower;	
+	private GameObject AutoTower;
 	private GameObject Cross;
-
+	private StatsManager statsManager;
 
 	public void Start()
 	{
 		additionalLayer = GameObject.FindGameObjectWithTag("Additional");
 		additionalLayerUI = GameObject.FindGameObjectWithTag("AdditionalUI");
+		statsManager = GetComponent<GameManager>().statsManager;
+
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
-		Amount = s.AutoTowerAmount;
-		CoolDownTime = s.AutoTowerBuildCooldown;
+		Cost = s.AutoTowerBuildCost;
 
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, additionalLayer.transform);
-		Cross.SetActive(false);
 		Placeable.transform.position = new Vector3(Placeable.transform.position.x, Placeable.transform.position.y, 8);
 		Placeable.SetActive(false);
+		Cross.SetActive(false);
 	}
 
 	public void RefillAutoTower()
 	{
-		Amount++;
-		if (!isCoolingDown)
-		{
-			AutoSpawnButton.interactable = true;
-			canSpawn = true;
-		}
+		AutoSpawnButton.interactable = true;		
 	}
 
 	public void SpawnAutoTower()
 	{
-		if (Amount > 0 && canSpawn)
+		if (statsManager.Money >= Cost && towerDropped)
 		{
-			--Amount;
-
 			AutoTower = ObjectPooler.Instance.GetPooledObject("AutoTower");
 			if (AutoTower != null)
 			{
+				statsManager.Money -= Cost;
 				AutoTower.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				AutoTower.transform.rotation = Quaternion.identity;
 				AutoTower.layer = LayerMask.NameToLayer("UI");
+
 				AutoTower.SetActive(true);
 
+				Settings s = SettingsManager.Instance.GetCurrentSettings();				
+				var AutoTowerScript = AutoTower.GetComponent<AutoTower>();
+				AutoTowerScript.CoolDownTime = s.AutoTowerFireCooldown;
+				AutoTowerScript.AutoTowerUpgradeIncrease = s.AutoTowerUpgradeIncrease;
+				AutoTowerScript.AutoTowerUpgradeTime = s.AutoTowerUpgradeTime;
 
-                Settings s = SettingsManager.Instance.GetCurrentSettings();
-                AutoTower.GetComponent<AutoTower>().CoolDownTime = s.AutoTowerFireCooldown;
 
-                towerDropped = true;
-				canSpawn = false;
+				towerDropped = false;
 				Placeable.SetActive(true);
 				AutoSpawnButton.interactable = false;
 
-				StartCoroutine(CoolDown());
-				var Text = Instantiate(FloatingCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, additionalLayerUI.transform);
-				Text.Show(CoolDownTime, AutoSpawnButton.gameObject.transform, 0, true);
 			}
 		}
 	}
 
-	private bool isCoolingDown = false;
-	private IEnumerator CoolDown()
-	{
-		time = CoolDownTime;
-		isCoolingDown = true;
-		while (time >= 0.0f)
-		{
-			yield return new WaitForSeconds(0.1f);
-			time -= 0.1f;
-		}
-		isCoolingDown = false;
-		if (Amount > 0)
-		{
-			AutoSpawnButton.interactable = true;
-			canSpawn = true;
-		}
-	}
-
-
 	
-	void LateUpdate()
+
+	void Update()
 	{
-		if (towerDropped && AutoTower != null)
+		if (!towerDropped && AutoTower != null)
 		{
-			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);			
-
-			var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			AutoTower.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
-			
-			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.1f, Vector3.forward, 10f, 1 << LayerMask.NameToLayer("Default"));
-
+			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			bool canPlace = true;
+
+			RaycastHit2D hit = Physics2D.CircleCast(p1, 0.1f, Vector3.forward, 0f, 1 << LayerMask.NameToLayer("Default"));
 
 			if (hit.collider != null)
 			{
@@ -124,8 +92,8 @@ public class AutoTowerSpawner : MonoBehaviour
 				}
 			}
 
-
-			
+			var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			AutoTower.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
 
 			if (!EventSystem.current.IsPointerOverGameObject() && canPlace)
 			{
@@ -134,9 +102,9 @@ public class AutoTowerSpawner : MonoBehaviour
 
 				if (Input.GetButtonDown("Fire1"))
 				{
-					towerDropped = false;
+					towerDropped = true;
 					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
-					AutoTower.GetComponent<AutoTower>().Dropped = true;
+					AutoTower.GetComponent<AutoTower>().Drop();
 					AutoTower = null;
 					Placeable.SetActive(false);
 				}
@@ -147,6 +115,13 @@ public class AutoTowerSpawner : MonoBehaviour
 				Cross.transform.position = new Vector3(newPosition.x, newPosition.y, -2);
 				Cross.SetActive(true);
 			}
+		}
+		else
+		{
+			if (statsManager.Money >= Cost)
+				AutoSpawnButton.interactable = true;
+			else
+				AutoSpawnButton.interactable = false;
 		}
 	}
 

@@ -8,15 +8,18 @@ public class Bullet : MonoBehaviour
 	private SpriteRenderer sr;
 	private bool wasVisible = false;
 
+	public float Damage = 1f;
+
 	void Awake()
 	{
 		rigidBody2D = GetComponent<Rigidbody2D>();
 		sr = GetComponent<SpriteRenderer>();
 	}
 
-	public void Fire()
+	public void Fire(float Damage = 1.0f)
 	{
 		wasVisible = false;
+		Damage = 1.0f;
 		rigidBody2D.velocity = transform.up * Speed;
 	}
 
@@ -28,7 +31,6 @@ public class Bullet : MonoBehaviour
 			transform.gameObject.SetActive(false);
 		}
 	}
-
 	
 	private void Update()
 	{

@@ -13,6 +13,8 @@ public class Log
 	public int waveSurvived;
 	public int secondsSurvived;
 	public bool win;
+	public int moneySpent;
+	public int moneyEarned;
 	public bool restartedRound;
 	public int tutorialPressed;
 }
@@ -54,11 +56,13 @@ public class DataLogger
 		};
 	}
 
-	public void LogEnd(bool win, int score, int wavesSurvived, int secondsSurvived)
+	public void LogEnd(bool win, int score, int wavesSurvived, int secondsSurvived, int moneySpent)
 	{
 		if (currentRound != null)
 		{
 			currentRound.score = score;
+			currentRound.moneySpent = moneySpent;
+			currentRound.moneyEarned = 0;
 			currentRound.win = win;
 			currentRound.waveSurvived = wavesSurvived;
 			currentRound.secondsSurvived = secondsSurvived;
@@ -81,7 +85,7 @@ public class DataLogger
 	{
 		//(string username, string score, string wavesurvived, string secoondssurvived, string win, string restartround, string tutorialpressed)
 		var logData = JsonUtility.ToJson(log).ToString();
-		Console.WriteLine(logData);
+		
 
 		var send = "Username=" + log.userName + "&" +
 			"Score=" + log.score.ToString() + "&" +
@@ -89,10 +93,13 @@ public class DataLogger
 			"SecondsSurvived=" + log.secondsSurvived.ToString() + "&" +
 			"Win=" + ConvertBool(log.win) + "&" +
 			"RestartedRound=" + ConvertBool(log.restartedRound) + "&" +
-			"TutorialPressed=" + log.tutorialPressed.ToString();
+			"TutorialPressed=" + log.tutorialPressed.ToString() + 
+			"MoneyEarned="+log.moneyEarned.ToString() + "&" +
+			"MoneySpent=" +log.moneySpent.ToString();
 
-		
-			PushGameData(send);
+		Debug.Log(send);
+
+		PushGameData(send);
 
 		Debug.Log(logData);
 	}

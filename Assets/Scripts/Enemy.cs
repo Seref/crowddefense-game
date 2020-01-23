@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
 	private Path paths;
 	private List<Vector2> points;
-	public int lives = 1;
+	public float Health = 0.2f;
 	private int destPoint = 0;
 	private SpriteRenderer sp;
 	private StatsManager statsManager;
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 		agent.updateUpAxis = false;
 		agent.updateRotation = false;
 		agent.autoBraking = false;
-		agent.autoRepath = true;		
+		agent.autoRepath = true;
 	}
 
 	void OnEnable()
@@ -47,14 +47,14 @@ public class Enemy : MonoBehaviour
 	public void SetEnemyStrength(bool strong)
 	{
 		if (strong)
-		{			
+		{
 			sp.color = new Color(0.75f, 0.25f, 0.8f, 1f);
-			lives = 5;
+			Health = 5f;
 		}
 		else
 		{
 			sp.color = Color.white;
-			lives = 1;
+			Health = 1f;
 		}
 	}
 
@@ -91,11 +91,12 @@ public class Enemy : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Bullet")
 		{
-			if (--lives <= 0) { 
+			Health -= collision.gameObject.GetComponent<Bullet>().Damage;
+			if (Health <= 0.0f)
 				Die();
-			}
 		}
 	}
+
 
 	private bool isDead = false;
 
@@ -105,12 +106,12 @@ public class Enemy : MonoBehaviour
 		{
 			isDead = true;
 			AudioSource.PlayClipAtPoint(clip, gameObject.transform.position, (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f));
-
+			Health = 0.3f;
 			transform.position = start;
 			agent.destination = points[0];
 			destPoint = -1;
 			statsManager.Score += 1;
-			transform.gameObject.SetActive(false);				
+			transform.gameObject.SetActive(false);
 		}
 	}
 

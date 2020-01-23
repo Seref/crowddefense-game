@@ -12,10 +12,13 @@ public class StatsManager : MonoBehaviour
 
 	private int mScore = -1;
 	private int mWave = -1;
+	private int mMoney = -1;
+	
 
 	private TextMeshProUGUI itemScore;
 	private TextMeshProUGUI itemWave;
 	private TextMeshProUGUI itemPlayTime;
+	private TextMeshProUGUI itemMoney;
 
 	private GameManager gameManager;
 
@@ -25,14 +28,27 @@ public class StatsManager : MonoBehaviour
 		itemScore = StatsPanel.AddItem();
 		itemWave = StatsPanel.AddItem();
 		itemPlayTime = StatsPanel.AddItem();
+		itemMoney = StatsPanel.AddItem();
 
 		Score = 0;
 		PlayTime = 0;
 		Wave = 0;
+		Money = 100;
 
 		StartCoroutine(Timer());
 
 		gameManager = FindObjectOfType<GameManager>();
+	}
+
+	public int Money
+	{
+		get { return mMoney; }
+		set
+		{
+			if (mMoney == value) return;
+			mMoney = value;
+			itemMoney.text = "Money: " + mMoney+ "$";
+		}
 	}
 
 	private IEnumerator Timer()
