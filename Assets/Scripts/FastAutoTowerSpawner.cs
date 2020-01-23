@@ -33,7 +33,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 		statsManager = GetComponent<GameManager>().statsManager;
 
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
-		Cost = s.FastAutoTowerBuildCost;
+		Cost = s.FastAutoTowerBuildCost;		
 
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, additionalLayer.transform);
@@ -115,9 +115,11 @@ public class FastAutoTowerSpawner : MonoBehaviour
 			}
 		}
 		else
-		{
-			if (statsManager.Money >= Cost)
+		{			
+			if (statsManager.Money >= Cost) { 
 				AutoSpawnButton.interactable = true;
+				
+			}
 			else
 				AutoSpawnButton.interactable = false;
 		}

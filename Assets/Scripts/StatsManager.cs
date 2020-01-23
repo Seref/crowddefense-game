@@ -12,7 +12,7 @@ public class StatsManager : MonoBehaviour
 
 	private int mScore = -1;
 	private int mWave = -1;
-	private int mMoney = 100;
+	private int mMoney = -1;
 
 	private TextMeshProUGUI itemScore;
 	private TextMeshProUGUI itemWave;
@@ -32,7 +32,7 @@ public class StatsManager : MonoBehaviour
 		Score = 0;
 		PlayTime = 0;
 		Wave = 0;
-
+		Money = 100;
 
 		StartCoroutine(Timer());
 
@@ -41,12 +41,12 @@ public class StatsManager : MonoBehaviour
 
 	public int Money
 	{
-		get { return mWave; }
+		get { return mMoney; }
 		set
 		{
 			if (mMoney == value) return;
 			mMoney = value;
-			itemMoney.text = "Money: " + mMoney+ "$";
+			itemMoney.text = "Bank Balance: " + mMoney+ "$";
 		}
 	}
 
