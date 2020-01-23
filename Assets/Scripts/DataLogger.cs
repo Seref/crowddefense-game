@@ -87,7 +87,8 @@ public class DataLogger
 		var logData = JsonUtility.ToJson(log).ToString();
 		
 
-		var send =			
+		var send =
+			"Version=0.7.0&" +
 			"Username="			+ log.userName					+ "&" +
 			"Score="			+ log.score.ToString()			+ "&" +
 			"WaveSurvived="		+ log.waveSurvived.ToString()	+ "&" +

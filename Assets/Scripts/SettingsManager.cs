@@ -32,7 +32,7 @@ public class Settings
 
 public class SettingsManager
 {
-    public static int VERSION = 2;
+    public static int VERSION = 4;
 
     [DllImport("__Internal")]
 	private static extern string ReadSettings();
