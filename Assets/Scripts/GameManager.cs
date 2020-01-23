@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Multiplayer;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
