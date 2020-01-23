@@ -14,11 +14,13 @@ public class Settings
     public int MasterSound = 100;
 
 	//AutoTower Default Settings
-	public int AutoTowerBuildCost = 20;	
-	public float AutoTowerFireCooldown = 2.0f;
+	public int AutoTowerBuildCooldown = 10;
+	public int AutoTowerAmount = 3;
+	public int AutoTowerFireCooldown = 2;
 
     //AutoTower Default Settings
-    public int FastAutoTowerBuildCost = 50;    
+    public float FastAutoTowerBuildCooldown = 20;
+    public float FastAutoTowerAmount = 3;
     public float FastAutoTowerFireCooldown = 1.0f;
 
     //Wave Default Settings
@@ -28,7 +30,7 @@ public class Settings
 
 public class SettingsManager
 {
-    public static int VERSION = 2;
+    public static int VERSION = 1;
 
     [DllImport("__Internal")]
 	private static extern string ReadSettings();

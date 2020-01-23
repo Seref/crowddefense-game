@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,7 +8,8 @@ public class FastAutoTowerSpawner : MonoBehaviour
 {
 
 	[Header("Variables")]
-	public int Cost = 20;
+	public float CoolDownTime = 20.0f;
+	public float Amount = 3;
 
 	[Header("Dependencies")]
 	public Button AutoSpawnButton;
@@ -18,22 +20,21 @@ public class FastAutoTowerSpawner : MonoBehaviour
 	private GameObject additionalLayer;
 	private GameObject additionalLayerUI;
 
-	private bool canSpawn = true;	
+	private bool canSpawn = true;
+	private float time = 0.0f;
 
 	private bool towerDropped = true;
 	private GameObject AutoTower;
 	private GameObject Cross;
-	private StatsManager statsManager;
+
 
 	public void Start()
 	{
 		additionalLayer = GameObject.FindGameObjectWithTag("Additional");
 		additionalLayerUI = GameObject.FindGameObjectWithTag("AdditionalUI");
-
-		statsManager = GetComponent<GameManager>().statsManager;
-
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
-		Cost = s.FastAutoTowerBuildCost;
+		Amount = s.FastAutoTowerAmount;
+		CoolDownTime = s.FastAutoTowerBuildCooldown;
 
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, additionalLayer.transform);
@@ -43,39 +44,66 @@ public class FastAutoTowerSpawner : MonoBehaviour
 	}
 
 	public void RefillAutoTower()
-	{		
-		AutoSpawnButton.interactable = true;
-		canSpawn = true;		
+	{
+		Amount++;
+		if (!isCoolingDown)
+		{
+			AutoSpawnButton.interactable = true;
+			canSpawn = true;
+		}
 	}
 
 	public void SpawnAutoTower()
 	{
-		if (statsManager.Money >= Cost && towerDropped)
+		if (Amount > 0 && canSpawn)
 		{
+			--Amount;
+
 			AutoTower = ObjectPooler.Instance.GetPooledObject("AutoTowerWhite");
 			if (AutoTower != null)
 			{
-				statsManager.Money -= Cost;
 				AutoTower.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				AutoTower.transform.rotation = Quaternion.identity;
 				AutoTower.layer = LayerMask.NameToLayer("UI");
+                
+                AutoTower.SetActive(true);
 
-				AutoTower.SetActive(true);
+                Settings s = SettingsManager.Instance.GetCurrentSettings();
+                AutoTower.GetComponent<AutoTower>().CoolDownTime = s.FastAutoTowerFireCooldown;
 
-				Settings s = SettingsManager.Instance.GetCurrentSettings();
-				AutoTower.GetComponent<AutoTower>().CoolDownTime = s.FastAutoTowerFireCooldown;
-
-				towerDropped = false;				
+                towerDropped = true;
+				canSpawn = false;
 				Placeable.SetActive(true);
 				AutoSpawnButton.interactable = false;
 
+				StartCoroutine(CoolDown());
+				var Text = Instantiate(FloatingCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, additionalLayerUI.transform);
+				Text.Show(CoolDownTime, AutoSpawnButton.gameObject.transform, 0, true);
 			}
+		}
+	}
+
+	private bool isCoolingDown = false;
+	private IEnumerator CoolDown()
+	{
+		time = CoolDownTime;
+		isCoolingDown = true;
+		while (time >= 0.0f)
+		{
+			yield return new WaitForSeconds(0.1f);
+			time -= 0.1f;
+		}
+		isCoolingDown = false;
+		if (Amount > 0)
+		{
+			AutoSpawnButton.interactable = true;
+			canSpawn = true;
 		}
 	}
 
 	void Update()
 	{
-		if (!towerDropped && AutoTower != null)
+		if (towerDropped && AutoTower != null)
 		{
 			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			bool canPlace = true;
@@ -100,7 +128,7 @@ public class FastAutoTowerSpawner : MonoBehaviour
 
 				if (Input.GetButtonDown("Fire1"))
 				{
-					towerDropped = true;
+					towerDropped = false;
 					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
 					AutoTower.GetComponent<AutoTower>().Dropped = true;
 					AutoTower = null;
@@ -113,13 +141,6 @@ public class FastAutoTowerSpawner : MonoBehaviour
 				Cross.transform.position = new Vector3(newPosition.x, newPosition.y, -2);
 				Cross.SetActive(true);
 			}
-		}
-		else
-		{
-			if (statsManager.Money >= Cost)
-				AutoSpawnButton.interactable = true;
-			else
-				AutoSpawnButton.interactable = false;
 		}
 	}
 
