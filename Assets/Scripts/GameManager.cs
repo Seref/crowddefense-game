@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
 				var Stats = GetComponent<StatsManager>();
 				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
 				Score.text = Text;
-				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime);
+				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime, 100 - Stats.Money);
 				GameOverScreen.SetActive(true);
 			}
 			else
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 				var Stats = GetComponent<StatsManager>();
 				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
 				Score.text = Text;
-				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime);
+				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, 100 - Stats.Money);
 				GameOverScreen.SetActive(true);
 			}
 		}

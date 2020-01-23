@@ -13,6 +13,7 @@ public class StatsManager : MonoBehaviour
 	private int mScore = -1;
 	private int mWave = -1;
 	private int mMoney = -1;
+	
 
 	private TextMeshProUGUI itemScore;
 	private TextMeshProUGUI itemWave;
