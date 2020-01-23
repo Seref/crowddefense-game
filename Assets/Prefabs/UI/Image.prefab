@@ -583,7 +583,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118, y: 33}
+  m_AnchoredPosition: {x: -117, y: 44}
   m_SizeDelta: {x: 387.4, y: 176.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2971047071746049683
@@ -614,9 +614,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "This is an intelligent autonomous tower that can shoot on its own!\n\rUse
     the mouse to select it from the \"Buildings\" tab\n\rand place it on all the green
-    marked areas!\nIt costs 20$ to build and has a shoot cooldown of 2s.\nIt only
-    has a limited area of effect which is also visible on the map.\nYou can upgrade
-    the range and attack speed by pressing on it after a certain amount of time."
+    marked areas!\nIt costs 20$ to build and has a shoot cooldown of 2s. It only has
+    a limited area of effect which is also visible on the map.\nYou can upgrade the
+    range and attack speed by pressing on it after a certain amount of time."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -661,7 +661,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 219
+  m_firstOverflowCharacterIndex: 241
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1102,7 +1102,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 325, y: 0}
-  m_SizeDelta: {x: 650, y: 420}
+  m_SizeDelta: {x: 650, y: 430}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2971047072229218554
 CanvasRenderer:
@@ -1298,7 +1298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251.10002, y: 175.80005}
+  m_AnchoredPosition: {x: -250.1, y: 186.80005}
   m_SizeDelta: {x: 135.41, y: 33.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2971047072405461678
@@ -1613,8 +1613,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -69.4, y: -30}
-  m_SizeDelta: {x: 790.5, y: 500}
+  m_AnchoredPosition: {x: -32.07498, y: -44.450027}
+  m_SizeDelta: {x: 715.8, y: 633.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2971047072593415977
 CanvasRenderer:
@@ -1976,12 +1976,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "This is an intelligent autonomous tower that can shoot on its own! \rUse
-    the mouse to select,  it from the \"Buildings\" tab\n\rand place it on all the
-    green marked areas!\nIt costs 50$ to build and has a shoot cooldown of 1s. It
-    only has a limited area of effect which is also visible on the map. \nYou can
-    upgrade the range and attack speed by pressing on it after a certain amount of
-    time."
+  m_text: "This is an intelligent autonomous tower that can shoot on its own! \nUse
+    the mouse to select,\nit from the \"Buildings\" tab\n\rand place it on all the
+    green marked areas! It costs 50$ to build and has a shoot cooldown of 1s. It only
+    has a limited area of effect which is also visible on the map. \nYou can upgrade
+    the range and attack speed by pressing on it after a certain amount of time."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2026,7 +2025,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 205
+  m_firstOverflowCharacterIndex: 198
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -2050,7 +2049,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -71.923164, w: 0}
   m_textInfo:
     textComponent: {fileID: 2971047072903433910}
-    characterCount: 385
+    characterCount: 384
     spriteCount: 0
     spaceCount: 77
     wordCount: 76
@@ -2190,8 +2189,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2971047072132723696}
   m_HandleRect: {fileID: 2971047072132723699}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.29411602
+  m_Value: 1.003676
+  m_Size: 0.31292593
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2206,7 +2205,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2971047073035030196}
   - component: {fileID: 2971047073035030154}
-  - component: {fileID: 2971047073035030197}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -2238,8 +2236,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -599.99994}
-  m_SizeDelta: {x: 650, y: 1700}
+  m_AnchoredPosition: {x: 0, y: -688.07184}
+  m_SizeDelta: {x: 650, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2971047073035030154
 MonoBehaviour:
@@ -2266,20 +2264,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &2971047073035030197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2971047073035030199}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!1 &2971047073057837231
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,7 +2526,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 37.164}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 233.39998, y: 63.80004}
+  m_AnchoredPosition: {x: 234.4, y: 74.80005}
   m_SizeDelta: {x: 1, y: 1.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2971047073339769378
