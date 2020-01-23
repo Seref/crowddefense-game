@@ -44,18 +44,10 @@ public class Enemy : MonoBehaviour
 		GotoNextPoint();
 	}
 
-	public void SetEnemyStrength(bool strong)
+	public void SetHealth(float health)
 	{
-		if (strong)
-		{
-			sp.color = new Color(0.75f, 0.25f, 0.8f, 1f);
-			Health = 5f;
-		}
-		else
-		{
-			sp.color = Color.white;
-			Health = 1f;
-		}
+		sp.color = new Color(0.2f + 0.8f * ((10-health)/10), 0f + 1.0f * ((10 - health) / 10), 0.3f + 0.7f * ((10 - health) / 10), 1f);
+		Health = health;
 	}
 
 	void GotoNextPoint()
@@ -92,6 +84,8 @@ public class Enemy : MonoBehaviour
 		if (collision.gameObject.tag == "Bullet")
 		{
 			Health -= collision.gameObject.GetComponent<Bullet>().Damage;
+			SetHealth(Health);
+
 			if (Health <= 0.0f)
 				Die();
 		}

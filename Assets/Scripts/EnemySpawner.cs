@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Path;
 using Assets.Scripts.UI;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -25,14 +24,14 @@ public class EnemySpawner : MonoBehaviour
 		gameManager = GetComponent<GameManager>();
 
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
-		Amount = s.WaveEnemyAmount*s.WaveAmount;
+		Amount = s.WaveEnemyAmount * s.WaveAmount;
 		WaveSize = s.WaveEnemyAmount;
 
 		InitialAmount = Amount;
 		StartCoroutine(SpawnWaves());
-	}
+	}	
 
-	private bool stronggenes = false;
+	private int CurrentWave = 1;
 
 	IEnumerator SpawnWaves()
 	{
@@ -41,9 +40,9 @@ public class EnemySpawner : MonoBehaviour
 		while (true)
 		{
 
-			
-			for (int i = 0; i <WaveSize; i++)
-			{				
+
+			for (int i = 0; i < WaveSize; i++)
+			{
 				GameObject enemy = ObjectPooler.Instance.GetPooledObject("Enemy");
 
 				if (enemy != null)
@@ -53,15 +52,17 @@ public class EnemySpawner : MonoBehaviour
 					enemy.SetActive(true);
 					var enemyScript = enemy.GetComponent<Enemy>();
 					enemyScript.StartPath(PathCreator.path, statsManager);
-					enemyScript.SetEnemyStrength(stronggenes);
+					enemyScript.SetHealth(CurrentWave);
 				}
 
 				if (--Amount <= 0)
 					yield break;
 
-				
+
 			}
-			stronggenes = !stronggenes;
+
+			CurrentWave ++;
+
 			yield return new WaitForSeconds(Timer);
 		}
 

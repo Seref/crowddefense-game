@@ -87,14 +87,15 @@ public class DataLogger
 		var logData = JsonUtility.ToJson(log).ToString();
 		
 
-		var send = "Username=" + log.userName + "&" +
-			"Score=" + log.score.ToString() + "&" +
-			"WaveSurvived=" + log.waveSurvived.ToString() + "&" +
-			"SecondsSurvived=" + log.secondsSurvived.ToString() + "&" +
-			"Win=" + ConvertBool(log.win) + "&" +
+		var send =			
+			"Username="			+ log.userName					+ "&" +
+			"Score="			+ log.score.ToString()			+ "&" +
+			"WaveSurvived="		+ log.waveSurvived.ToString()	+ "&" +
+			"SecondsSurvived="	+ log.secondsSurvived.ToString()+ "&" +
+			"Win=" + ConvertBool(log.win)						+ "&" +
 			"RestartedRound=" + ConvertBool(log.restartedRound) + "&" +
 			"TutorialPressed=" + log.tutorialPressed.ToString() + "&" +
-			"MoneyEarned=" +log.moneyEarned.ToString() + "&" +
+			"MoneyEarned=" +log.moneyEarned.ToString()			+ "&" +
 			"MoneySpent=" +log.moneySpent.ToString();
 
 		Debug.Log(send);
