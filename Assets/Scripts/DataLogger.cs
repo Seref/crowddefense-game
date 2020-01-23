@@ -93,8 +93,8 @@ public class DataLogger
 			"SecondsSurvived=" + log.secondsSurvived.ToString() + "&" +
 			"Win=" + ConvertBool(log.win) + "&" +
 			"RestartedRound=" + ConvertBool(log.restartedRound) + "&" +
-			"TutorialPressed=" + log.tutorialPressed.ToString() + 
-			"MoneyEarned="+log.moneyEarned.ToString() + "&" +
+			"TutorialPressed=" + log.tutorialPressed.ToString() + "&" +
+			"MoneyEarned=" +log.moneyEarned.ToString() + "&" +
 			"MoneySpent=" +log.moneySpent.ToString();
 
 		Debug.Log(send);
