@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c540dba6ca618a4b8373ec4088e38f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 1
+  Health: 0.2
   clip: {fileID: 8300000, guid: 5d9ba37eb4b21dc488061339263f6c1a, type: 3}
 --- !u!95 &503403438638623760
 Animator:

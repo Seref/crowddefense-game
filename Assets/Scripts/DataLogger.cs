@@ -85,22 +85,23 @@ public class DataLogger
 	{
 		//(string username, string score, string wavesurvived, string secoondssurvived, string win, string restartround, string tutorialpressed)
 		var logData = JsonUtility.ToJson(log).ToString();
-		
 
-		var send = "Username=" + log.userName + "&" +
+
+		var send =
+			"Version=0.7.0&" +
+			"Username=" + log.userName + "&" +
 			"Score=" + log.score.ToString() + "&" +
 			"WaveSurvived=" + log.waveSurvived.ToString() + "&" +
 			"SecondsSurvived=" + log.secondsSurvived.ToString() + "&" +
 			"Win=" + ConvertBool(log.win) + "&" +
 			"RestartedRound=" + ConvertBool(log.restartedRound) + "&" +
 			"TutorialPressed=" + log.tutorialPressed.ToString() + "&" +
-			"MoneyEarned=" +log.moneyEarned.ToString() + "&" +
-			"MoneySpent=" +log.moneySpent.ToString();
+			"MoneyEarned=" + log.moneyEarned.ToString() + "&" +
+			"MoneySpent=" + log.moneySpent.ToString();
 
 		Debug.Log(send);
 
-		PushGameData(send);
-
-		Debug.Log(logData);
+		if (!Application.isEditor)
+			PushGameData(send);
 	}
 }
