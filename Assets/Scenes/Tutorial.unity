@@ -298,8 +298,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -855,6 +855,26 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6137497776126162736, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -871,6 +891,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6137497776126162736, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -1137,46 +1177,6 @@ PrefabInstance:
         gets hit, it is destroyed and you lose the game!\r\nWhile you are pressing
         \"crtl\" or the right mouse button you can aim with the red tower. Press the
         left mouse button to fire!"
-      objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4347088790160606602, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1cfd5f73e93e943baf7caf4abd78b9, type: 3}
