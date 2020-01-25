@@ -27,14 +27,15 @@ public class Settings
 
     //Wave Default Settings
     public int WaveEnemyAmount = 8;
-	public int WaveAmount = 48;
+	public int WaveAmount = 6;
 }
 
 public class SettingsManager
 {
-    public static int VERSION = 4;
+    public static int VERSION = 5;
+	public static string VERSIONNAME = "1.1.0";
 
-    [DllImport("__Internal")]
+	[DllImport("__Internal")]
 	private static extern string ReadSettings();
 
 	[DllImport("__Internal")]

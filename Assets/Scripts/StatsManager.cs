@@ -13,6 +13,9 @@ public class StatsManager : MonoBehaviour
 	private int mScore = -1;
 	private int mWave = -1;
 	private int mMoney = -1;
+	public int moneyEarned = 0;
+
+
 	
 
 	private TextMeshProUGUI itemScore;
@@ -34,6 +37,7 @@ public class StatsManager : MonoBehaviour
 		PlayTime = 0;
 		Wave = 0;
 		Money = 100;
+		moneyEarned = 0;
 
 		StartCoroutine(Timer());
 
@@ -82,6 +86,8 @@ public class StatsManager : MonoBehaviour
 			if (mWave == value) return;
 			mWave = value;
 			itemWave.text = "Wave: " + mWave;
+			Money += 30;
+			moneyEarned += 30;
 		}
 	}
 }

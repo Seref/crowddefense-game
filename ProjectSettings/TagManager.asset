@@ -48,6 +48,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1054982289
+    locked: 0
+  - name: AreaofEffect
+    uniqueID: 2507053959
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

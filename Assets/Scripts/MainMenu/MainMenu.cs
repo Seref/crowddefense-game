@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
 {
 	public string clientID;
 	public TMPro.TextMeshProUGUI text;
-
+	public TMPro.TextMeshProUGUI VersionText;	
 	private bool userNameSet = false;
 
 	[DllImport("__Internal")]
@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
 	{		
 		if (!Application.isEditor)
 			OnAppReady();
+		VersionText.text = "Version " + SettingsManager.VERSIONNAME;
 	}
 
 	public void LoadGame()
