@@ -89,7 +89,7 @@ public class DataLogger
 
 
 		var send =
-			"Version=0.7.0&" +
+			"Version="+SettingsManager.VERSIONNAME + "&" +
 			"Username=" + log.userName + "&" +
 			"Score=" + log.score.ToString() + "&" +
 			"WaveSurvived=" + log.waveSurvived.ToString() + "&" +

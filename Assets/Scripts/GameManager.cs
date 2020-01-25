@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 	[Header("GameOver Screen")]
 	public GameObject GameOverScreen;
+	public GameObject VictoryAnimation;
 	public TextMeshProUGUI Title;
 	public TextMeshProUGUI Score;
 
@@ -57,8 +58,7 @@ public class GameManager : MonoBehaviour
 		{
 			GameObject.FindWithTag("AdditionalUI").SetActive(false);
 			if (isWin)
-			{
-				PauseGame();
+			{								
 				currentWindow = Windows.GAMEOVER;
 				Title.text = "You Won!";
 				var Stats = GetComponent<StatsManager>();
@@ -66,6 +66,8 @@ public class GameManager : MonoBehaviour
 				Score.text = Text;
 				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned);
 				GameOverScreen.SetActive(true);
+				VictoryAnimation.SetActive(true);
+
 			}
 			else
 			{
