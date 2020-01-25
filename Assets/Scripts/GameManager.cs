@@ -62,9 +62,9 @@ public class GameManager : MonoBehaviour
 				currentWindow = Windows.GAMEOVER;
 				Title.text = "You Won!";
 				var Stats = GetComponent<StatsManager>();
-				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
+				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime + "\nMoney Earned\t" + Stats.moneyEarned;
 				Score.text = Text;
-				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime, 100 - Stats.Money);
+				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned);
 				GameOverScreen.SetActive(true);
 			}
 			else
@@ -73,9 +73,9 @@ public class GameManager : MonoBehaviour
 				currentWindow = Windows.GAMEOVER;
 				Title.text = "Game Over!";
 				var Stats = GetComponent<StatsManager>();
-				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime;
+				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime + "\nMoney Earned\t" + Stats.moneyEarned;
 				Score.text = Text;
-				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, 100 - Stats.Money);
+				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned);
 				GameOverScreen.SetActive(true);
 			}
 		}

@@ -5473,6 +5473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StatsPanel: {fileID: 1591241501}
   PlayTime: -1
+  moneyEarned: 100
 --- !u!114 &1482522673
 MonoBehaviour:
   m_ObjectHideFlags: 0

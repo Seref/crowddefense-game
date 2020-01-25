@@ -56,13 +56,13 @@ public class DataLogger
 		};
 	}
 
-	public void LogEnd(bool win, int score, int wavesSurvived, int secondsSurvived, int moneySpent)
+	public void LogEnd(bool win, int score, int wavesSurvived, int secondsSurvived, int moneySpent, int moneyEarned)
 	{
 		if (currentRound != null)
 		{
 			currentRound.score = score;
 			currentRound.moneySpent = moneySpent;
-			currentRound.moneyEarned = 0;
+			currentRound.moneyEarned = moneyEarned;
 			currentRound.win = win;
 			currentRound.waveSurvived = wavesSurvived;
 			currentRound.secondsSurvived = secondsSurvived;
@@ -75,6 +75,7 @@ public class DataLogger
 		if (currentRound != null)
 			currentRound.tutorialPressed = currentRound.tutorialPressed + 1;
 	}
+
 
 	private string ConvertBool(bool b)
 	{
