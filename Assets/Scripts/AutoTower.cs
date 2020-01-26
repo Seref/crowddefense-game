@@ -28,9 +28,10 @@ public class AutoTower : MonoBehaviour
 	private AudioSource audioSource;
 
 	private GameObject UpgradeButton = null;
+	private SpriteRenderer sr;
 
 	void SetRange(float range)
-	{
+	{		
 		Range = range;
 		GetComponent<CircleCollider2D>().radius = Range;
 		RangeIndicator.transform.localScale = new Vector3(0.406f * Range, 0.406f * Range, 1);
@@ -42,6 +43,7 @@ public class AutoTower : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
 		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
+		sr = GetComponent<SpriteRenderer>();
 		SetRange(Range);
 	}
 
@@ -88,12 +90,25 @@ public class AutoTower : MonoBehaviour
 			bulletScript.Speed = 20;
 			bulletScript.Fire(AttackStrength);
 
+			/*
 			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
-			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y / 2);
+			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y / 2);			
+			*/
+
+			StartCoroutine(FillIndicator());
 			StartCoroutine(CoolDownCounter());
 		}
 	}
 
+	private IEnumerator FillIndicator() {
+		sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.2f);
+		float increaseBy = 0.8f / (CoolDownTime /0.1f);
+		while (sr.color.a < 1.0f)
+		{
+			yield return new WaitForSeconds(0.1f);
+			sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a + increaseBy);
+		}
+	}
 
 	private IEnumerator UpgradeCoolDown()
 	{

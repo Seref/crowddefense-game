@@ -75,6 +75,11 @@ public class FastAutoTowerSpawner : MonoBehaviour
 
 	void Update()
 	{
+		if (Input.GetKey(KeyCode.Alpha2))
+		{
+			SpawnAutoTower();
+		}
+
 		if (!towerDropped && AutoTower != null)
 		{
 			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);

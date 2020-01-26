@@ -72,11 +72,13 @@ public class AutoTowerSpawner : MonoBehaviour
 			}
 		}
 	}
-
 	
 
 	void Update()
 	{
+		if (Input.GetKey(KeyCode.Alpha1)){
+			SpawnAutoTower();
+		}
 		if (!towerDropped && AutoTower != null)
 		{
 			Vector3 p1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
