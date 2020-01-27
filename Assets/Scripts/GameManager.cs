@@ -139,9 +139,10 @@ public class GameManager : MonoBehaviour
 	}
 
 	
-	private void OnApplicationQuit()
+	public void OnApplicationQuit()
 	{
-		var Stats = GetComponent<StatsManager>();
+		Debug.Log("Application Exited");
+		var Stats = statsManager;
 		DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned, true);
 	}
 }

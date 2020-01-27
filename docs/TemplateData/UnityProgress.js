@@ -1,6 +1,10 @@
-function UnityProgress(gameInstance, progress) {
+
+function UnityProgress(gameInstance, progress) {  
   if (!gameInstance.Module)
     return;
+  
+  game = gameInstance;
+  
   if (!gameInstance.logo) {
     gameInstance.logo = document.createElement("div");
     gameInstance.logo.className = "logo " + gameInstance.Module.splashScreenStyle;
