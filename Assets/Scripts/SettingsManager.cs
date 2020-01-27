@@ -32,8 +32,8 @@ public class Settings
 
 public class SettingsManager
 {
-    public static int VERSION = 6;
-	public static string VERSIONNAME = "1.3.0";
+    public static int VERSION = 7;
+	public static string VERSIONNAME = "1.4.0";
 
 	[DllImport("__Internal")]
 	private static extern string ReadSettings();

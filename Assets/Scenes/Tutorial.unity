@@ -698,7 +698,7 @@ PrefabInstance:
     - target: {fileID: 2971047073035030196, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -933.0499
       objectReference: {fileID: 0}
     - target: {fileID: 2971047073558230847, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
@@ -835,6 +835,26 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2971047073603273727, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -855,22 +875,22 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+    - target: {fileID: 8837568970050024172, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+    - target: {fileID: 8837568970050024172, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+    - target: {fileID: 8837568970050024172, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6133352553532225995, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+    - target: {fileID: 8837568970050024172, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -1148,22 +1168,22 @@ PrefabInstance:
     - target: {fileID: 2971047073628149362, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 243
+      value: 213
       objectReference: {fileID: 0}
     - target: {fileID: 2971047073628149362, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 48
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 2971047073628149362, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 49
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 2971047073628149362, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2971047073628149362, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
         type: 3}
@@ -1174,9 +1194,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: "This is your tower, you have to protect it at all cost!\nIf you tower
-        gets hit, it is destroyed and you lose the game!\r\nWhile you are pressing
-        \"crtl\" or the right mouse button you can aim with the red tower. Press the
-        left mouse button to fire!"
+        gets hit three times, it is destroyed and you lose the game!\r\nYou can use
+        your mouse to aim with the tower. Press the left mouse button to fire!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2971047073628149362, guid: 6f1cfd5f73e93e943baf7caf4abd78b9,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 23.45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1cfd5f73e93e943baf7caf4abd78b9, type: 3}

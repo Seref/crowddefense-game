@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 
 	private bool coolDown = false;
 	private GameObject additionalUI;
+    private int health = 3;
 
 	void Start()
 	{
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-		if ((Input.GetKey(KeyCode.LeftControl) && !EventSystem.current.IsPointerOverGameObject()) || (Input.GetKey(KeyCode.Mouse1) && !EventSystem.current.IsPointerOverGameObject()))
+		if (!EventSystem.current.IsPointerOverGameObject())
 
         {
 			var mousePos = Input.mousePosition;
@@ -68,8 +69,15 @@ public class Player : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Enemy")
 		{
-			transform.gameObject.SetActive(false);
-			gameManager.GameEnd(false);
+
+            var enemyScript = collision.gameObject.GetComponent<Enemy>();
+            enemyScript.Die();
+            health -= 1;
+            if (health == 0)
+            {
+                transform.gameObject.SetActive(false);
+                gameManager.GameEnd(false);
+            }
 		}
 	}
 
