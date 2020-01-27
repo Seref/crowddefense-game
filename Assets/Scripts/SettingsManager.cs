@@ -26,14 +26,14 @@ public class Settings
 	public float FastAutoTowerFireCooldown = 1.0f;
 
     //Wave Default Settings
-    public int WaveEnemyAmount = 8;
+    public int WaveEnemyAmount = 10000;
 	public int WaveAmount = 6;
 }
 
 public class SettingsManager
 {
-    public static int VERSION = 5;
-	public static string VERSIONNAME = "1.2.0";
+    public static int VERSION = 6;
+	public static string VERSIONNAME = "1.3.0";
 
 	[DllImport("__Internal")]
 	private static extern string ReadSettings();

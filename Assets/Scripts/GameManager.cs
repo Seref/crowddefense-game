@@ -1,9 +1,14 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+	[Header("PreparationTime Screen")]
+	public GameObject Preparation;
+	public TextMeshProUGUI PrepTime;
+
 	[Header("GameOver Screen")]
 	public GameObject GameOverScreen;
 	public GameObject VictoryAnimation;
@@ -34,11 +39,24 @@ public class GameManager : MonoBehaviour
 		autoTowerSpawner = GetComponent<AutoTowerSpawner>();
 		bombSpawner = GetComponent<BombSpawner>();
 
-		enemySpawner.enabled = true;
+		//enemySpawner.enabled = true;
 		statsManager.enabled = true;
 		autoTowerSpawner.enabled = true;
 		ContinueGame();
 		//bombSpawner.enabled = false;
+		StartCoroutine(PreparationTime());
+	}
+
+	private IEnumerator PreparationTime() {
+		float time= 15f;
+		while (time >= 0.0f)
+		{
+			yield return new WaitForSeconds(0.1f);
+			time -= 0.1f;
+			PrepTime.text = time.ToString("F1") + "s";			
+		}
+		Preparation.SetActive(false);
+		enemySpawner.enabled = true;
 	}
 
 	void LateUpdate()
@@ -50,6 +68,7 @@ public class GameManager : MonoBehaviour
 				GameEnd(true);
 			}
 		}
+		
 	}
 
 	public void GameEnd(bool isWin)
