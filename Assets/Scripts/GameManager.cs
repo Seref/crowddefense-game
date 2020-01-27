@@ -37,13 +37,12 @@ public class GameManager : MonoBehaviour
 		autoTowerSpawner = GetComponent<AutoTowerSpawner>();
 		bombSpawner = GetComponent<BombSpawner>();
 
-		//enemySpawner.enabled = true;
+		
 		statsManager.enabled = true;
 		autoTowerSpawner.enabled = true;
 		ContinueGame();
 		//bombSpawner.enabled = false;		
 	}
-
 	
 
 	void LateUpdate()
