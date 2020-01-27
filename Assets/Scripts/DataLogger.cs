@@ -17,6 +17,7 @@ public class Log
 	public int moneyEarned;
 	public bool restartedRound;
 	public int tutorialPressed;
+	public bool forceQuit = false;
 }
 
 public class DataLogger
@@ -56,7 +57,7 @@ public class DataLogger
 		};
 	}
 
-	public void LogEnd(bool win, int score, int wavesSurvived, int secondsSurvived, int moneySpent, int moneyEarned)
+	public void LogEnd(bool win, int score, int wavesSurvived, int secondsSurvived, int moneySpent, int moneyEarned, bool forceQuit)
 	{
 		if (currentRound != null)
 		{
@@ -66,9 +67,10 @@ public class DataLogger
 			currentRound.win = win;
 			currentRound.waveSurvived = wavesSurvived;
 			currentRound.secondsSurvived = secondsSurvived;
+			currentRound.forceQuit = forceQuit;			
 			SendData(currentRound);
 		}
-	}
+	}	
 
 	public void LogTutorialPressed()
 	{
@@ -98,11 +100,14 @@ public class DataLogger
 			"RestartedRound=" + ConvertBool(log.restartedRound) + "&" +
 			"TutorialPressed=" + log.tutorialPressed.ToString() + "&" +
 			"MoneyEarned=" + log.moneyEarned.ToString() + "&" +
-			"MoneySpent=" + log.moneySpent.ToString();
+			"MoneySpent=" + log.moneySpent.ToString() + "&" +
+			"ForceQuit="+ ConvertBool(log.forceQuit);
 
-		Debug.Log(send);
+		Debug.Log(send);		
 
 		if (!Application.isEditor)
 			PushGameData(send);
+
+		currentRound = null;
 	}
 }

@@ -72,8 +72,7 @@ public class EnemySpawner : MonoBehaviour
 
 			CurrentWave ++;
 
-			while(statsManager.Score< scoreBefore+ WaveSize) {
-				Debug.Log(statsManager.Score);
+			while(statsManager.Score< scoreBefore+ WaveSize) {				
 				yield return new WaitForSeconds(0.5f);
 			}
 

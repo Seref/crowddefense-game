@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 				var Stats = GetComponent<StatsManager>();
 				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime + "\nMoney Earned\t" + Stats.moneyEarned;
 				Score.text = Text;
-				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned);
+				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned, false);
 				GameOverScreen.SetActive(true);
 				VictoryAnimation.SetActive(true);
 
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 				var Stats = GetComponent<StatsManager>();
 				var Text = "Killed Enemies\t" + Stats.Score + "\nSurvived Waves\t" + Stats.Wave + "\nSurvived Time\t" + Stats.PlayTime + "\nMoney Earned\t" + Stats.moneyEarned;
 				Score.text = Text;
-				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned);
+				DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned, false);
 				GameOverScreen.SetActive(true);
 			}
 		}
@@ -100,6 +100,8 @@ public class GameManager : MonoBehaviour
 	public void BackToTheMenu()
 	{
 		ContinueGame();
+		var Stats = GetComponent<StatsManager>();
+		DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned, true);
 		SceneManager.LoadScene("MainMenu");
 	}
 
@@ -136,4 +138,10 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 1f;
 	}
 
+	
+	private void OnApplicationQuit()
+	{
+		var Stats = GetComponent<StatsManager>();
+		DataLogger.Instance.LogEnd(false, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned, true);
+	}
 }
