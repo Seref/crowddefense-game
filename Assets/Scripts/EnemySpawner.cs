@@ -1,10 +1,15 @@
 ﻿using Assets.Scripts.Path;
 using Assets.Scripts.UI;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+	[Header("PreparationTime Screen")]
+	public GameObject Preparation;
+	public TextMeshProUGUI PrepTime;
+
 	[Header("Variables")]
 	public int Amount;
 	public float Timer;
@@ -35,11 +40,15 @@ public class EnemySpawner : MonoBehaviour
 
 	IEnumerator SpawnWaves()
 	{
-		yield return new WaitForSeconds(2);
+		//yield return new WaitForSeconds(2);
 
 		while (true)
 		{
 
+			StartCoroutine(PreparationTime());
+			yield return new WaitForSeconds(10.9f);
+
+			int scoreBefore = statsManager.Score;
 
 			for (int i = 0; i < WaveSize; i++)
 			{
@@ -63,11 +72,26 @@ public class EnemySpawner : MonoBehaviour
 
 			CurrentWave ++;
 
-			yield return new WaitForSeconds(Timer);
+			while(statsManager.Score< scoreBefore+ WaveSize) {
+				Debug.Log(statsManager.Score);
+				yield return new WaitForSeconds(0.5f);
+			}
+
 		}
 
 	}
 
-
+	private IEnumerator PreparationTime()
+	{
+		float time = 10f;
+		Preparation.SetActive(true);
+		while (time >= 0.0f)
+		{
+			yield return new WaitForSeconds(0.1f);
+			time -= 0.1f;
+			PrepTime.text = time.ToString("F1") + "s";
+		}
+		Preparation.SetActive(false);	
+	}
 
 }

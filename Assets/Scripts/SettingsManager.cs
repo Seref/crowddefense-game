@@ -26,8 +26,8 @@ public class Settings
 	public float FastAutoTowerFireCooldown = 1.0f;
 
     //Wave Default Settings
-    public int WaveEnemyAmount = 10000;
-	public int WaveAmount = 6;
+    public int WaveEnemyAmount = 8;
+	public int WaveAmount = 10000;
 }
 
 public class SettingsManager
