@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
 
 	private bool coolDown = false;
 	private GameObject additionalUI;
-    private int health = 3;
+    public int Health = 3;
 
 	void Start()
 	{
@@ -47,10 +47,11 @@ public class Player : MonoBehaviour
 			coolDown = true;
 			audioSource.Play();
 			bullet.transform.position = transform.position + transform.up * 1.25f;
-			bullet.transform.rotation = transform.rotation;
+			bullet.transform.rotation = transform.rotation;			
 			bullet.SetActive(true);
 			var bulletScript = bullet.GetComponent<Bullet>();
 			bulletScript.Speed = 20;
+			bulletScript.ShotBy = Bullet.BULLETUSER.PLAYER;
 			bulletScript.Fire();
 
 			var Text = Instantiate(floatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, additionalUI.transform);
@@ -72,8 +73,8 @@ public class Player : MonoBehaviour
 
             var enemyScript = collision.gameObject.GetComponent<Enemy>();
             enemyScript.Die();
-            health -= 1;
-            if (health == 0)
+            Health -= 1;
+            if (Health == 0)
             {
                 transform.gameObject.SetActive(false);
                 gameManager.GameEnd(false);

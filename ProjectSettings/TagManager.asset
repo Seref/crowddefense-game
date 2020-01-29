@@ -15,6 +15,7 @@ TagManager:
   - UIEffects
   - AutoTowerWhite
   - Wall
+  - TankyEnemy
   layers:
   - Default
   - TransparentFX

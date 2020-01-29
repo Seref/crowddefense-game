@@ -52,16 +52,25 @@ public class EnemySpawner : MonoBehaviour
 
 			for (int i = 0; i < WaveSize; i++)
 			{
-				GameObject enemy = ObjectPooler.Instance.GetPooledObject("Enemy");
+				GameObject enemy = null;
+				if (Gamble(0.125f)) {
+					enemy = ObjectPooler.Instance.GetPooledObject("TankyEnemy");										
+				}
+				else
+				{
+					enemy = ObjectPooler.Instance.GetPooledObject("Enemy");
+				}
 
 				if (enemy != null)
 				{
 					enemy.transform.position = new Vector3(-10f + i, 15f, 0);
 					enemy.transform.rotation = Quaternion.identity;
 					enemy.SetActive(true);
+
 					var enemyScript = enemy.GetComponent<Enemy>();
 					enemyScript.StartPath(PathCreator.path, statsManager);
 					enemyScript.SetHealth(CurrentWave);
+
 				}
 
 				if (--Amount <= 0)
@@ -78,6 +87,11 @@ public class EnemySpawner : MonoBehaviour
 
 		}
 
+	}
+
+	private bool Gamble(float bid)
+	{
+		return (Random.value < bid);		
 	}
 
 	private IEnumerator PreparationTime()

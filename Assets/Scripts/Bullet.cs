@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public partial class Bullet : MonoBehaviour
 {
+	public enum BULLETUSER { AUTOTOWER, PLAYER };
+
 	public float Speed = 10;
 
 	private Rigidbody2D rigidBody2D;
@@ -9,6 +11,7 @@ public class Bullet : MonoBehaviour
 	private bool wasVisible = false;
 
 	public float Damage = 1f;
+	public BULLETUSER ShotBy;
 
 	void Awake()
 	{
@@ -25,7 +28,7 @@ public class Bullet : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{		
-		if (collision.tag == "Enemy" || collision.tag == "Wall")
+		if (collision.tag == "Enemy" || collision.tag == "Wall" || collision.tag == "TankyEnemy")
 		{
 			rigidBody2D.velocity = new Vector3(0, 0, 0);
 			transform.gameObject.SetActive(false);

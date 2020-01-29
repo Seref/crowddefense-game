@@ -89,11 +89,12 @@ public class AutoTower : MonoBehaviour
 			var bulletScript = bullet.GetComponent<Bullet>();
 			bulletScript.Speed = 20;
 			bulletScript.Fire(AttackStrength);
-
+			bulletScript.ShotBy = Bullet.BULLETUSER.AUTOTOWER;
 			/*
 			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
 			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y / 2);			
 			*/
+
 
 			StartCoroutine(FillIndicator());
 			StartCoroutine(CoolDownCounter());
@@ -115,7 +116,6 @@ public class AutoTower : MonoBehaviour
 		yield return new WaitForSeconds(AutoTowerUpgradeTime);
 		UpgradeButton.gameObject.SetActive(true);
 
-
 	}
 
 	private void UpgradeTower()
@@ -125,8 +125,6 @@ public class AutoTower : MonoBehaviour
 		StartCoroutine(UpgradeCoolDown());
 		UpgradeButton.SetActive(false);
 	}
-
-
 
 
 	// Cooldown Counter for Firing Bullets

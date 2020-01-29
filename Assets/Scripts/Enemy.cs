@@ -11,14 +11,12 @@ public class Enemy : MonoBehaviour
 	private Path paths;
 	private List<Vector2> points;
 	public float Health = 0.2f;
-	private int destPoint = 0;
-	private SpriteRenderer sp;
+	private int destPoint = 0;	
 	private StatsManager statsManager;
 	public AudioClip clip;
 
 	void Awake()
-	{
-		sp = GetComponent<SpriteRenderer>();
+	{		
 		agent = GetComponent<NavMeshAgent>();
 		agent.updateUpAxis = false;
 		agent.updateRotation = false;
@@ -44,9 +42,9 @@ public class Enemy : MonoBehaviour
 		GotoNextPoint();
 	}
 
-	public void SetHealth(float health)
+	public virtual void SetHealth(float health)
 	{
-		sp.color = new Color(0.2f + 0.8f * ((10-health)/10), 0f + 1.0f * ((10 - health) / 10), 0.3f + 0.7f * ((10 - health) / 10), 1f);
+		GetComponent<SpriteRenderer>().color = new Color(0.2f + 0.8f * ((10-health)/10), 0f + 1.0f * ((10 - health) / 10), 0.3f + 0.7f * ((10 - health) / 10), 1f);
 		Health = health;
 	}
 
