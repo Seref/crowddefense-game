@@ -71,6 +71,7 @@ public class AutoTower : MonoBehaviour
 
 		UpgradeButton.GetComponent<Button>().onClick.RemoveAllListeners();
 		UpgradeButton.GetComponent<Button>().onClick.AddListener(() => { UpgradeTower(); });
+        //RangeIndicator.SetActive(false);
 	}
 
 	// Firing Method to get a Bullet and Fire it
