@@ -14,6 +14,7 @@ public class AutoTower : MonoBehaviour
 
 	public float AutoTowerUpgradeTime = 2;
 	public float AutoTowerUpgradeIncrease = 1.1f;
+	public Bullet.BULLETUSER bullettype;
 
 	public FloatingCounter FloatCounter;
 	public GameObject RangeIndicator;
@@ -90,7 +91,7 @@ public class AutoTower : MonoBehaviour
 			var bulletScript = bullet.GetComponent<Bullet>();
 			bulletScript.Speed = 20;
 			bulletScript.Fire(AttackStrength);
-			bulletScript.ShotBy = Bullet.BULLETUSER.AUTOTOWER;
+			bulletScript.ShotBy = bullettype;
 			/*
 			var Text = Instantiate(FloatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
 			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y / 2);			

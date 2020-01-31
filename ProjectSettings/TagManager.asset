@@ -16,6 +16,7 @@ TagManager:
   - AutoTowerWhite
   - Wall
   - TankyEnemy
+  - AutoTowerYellow
   layers:
   - Default
   - TransparentFX

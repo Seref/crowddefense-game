@@ -4,8 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class AutoTowerSpawner : MonoBehaviour
-{
-
+{	
 	[Header("Variables")]
 	public int Cost = 50;
 
