@@ -181,7 +181,7 @@ public class AutoTower : MonoBehaviour
 			{
 				var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, currentTarget.transform.position).eulerAngles.z + 90.0f);
 				rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
-				Fire();
+                Fire();
 			}
 		}
 	}
