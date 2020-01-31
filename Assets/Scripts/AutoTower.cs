@@ -9,7 +9,7 @@ public class AutoTower : MonoBehaviour
 	public float Range = 5.0f;
 	public float CoolDownTime = 2.0f;
 	public float Smoothness = 1.3f;
-    public StatsManager statsmanager;
+    private StatsManager statsmanager;
 
 	public float AttackStrength = 1.0f;
 
@@ -33,7 +33,7 @@ public class AutoTower : MonoBehaviour
 	private SpriteRenderer sr;
 
 	void SetRange(float range)
-	{		
+	{	
 		Range = range;
 		GetComponent<CircleCollider2D>().radius = Range;
 		RangeIndicator.transform.localScale = new Vector3(0.406f * Range, 0.406f * Range, 1);
@@ -46,6 +46,7 @@ public class AutoTower : MonoBehaviour
 		rigidBody = GetComponent<Rigidbody2D>();
 		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
 		sr = GetComponent<SpriteRenderer>();
+		statsmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StatsManager>();
 		SetRange(Range);
 	}
 
@@ -125,11 +126,11 @@ public class AutoTower : MonoBehaviour
 	{
         if (statsmanager.Money >= 20)
         {
-            SetRange(Range * AutoTowerUpgradeIncrease);
+			statsmanager.Money -= 20;
+			SetRange(Range * AutoTowerUpgradeIncrease);
             CoolDownTime *= (1.0f - (AutoTowerUpgradeIncrease - 1.0f));
             StartCoroutine(UpgradeCoolDown());
-            UpgradeButton.SetActive(false);
-            statsmanager.Money -= 20;
+            UpgradeButton.SetActive(false);            
         }
 	}
 

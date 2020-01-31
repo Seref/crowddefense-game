@@ -13,6 +13,7 @@ public class StatsManager : MonoBehaviour
 	private int mScore = -1;
 	private int mWave = -1;
 	private int mMoney = -1;
+	private int mLives = -1;
 	public int moneyEarned = 0;
 
 
@@ -22,6 +23,7 @@ public class StatsManager : MonoBehaviour
 	private TextMeshProUGUI itemWave;
 	private TextMeshProUGUI itemPlayTime;
 	private TextMeshProUGUI itemMoney;
+	private TextMeshProUGUI itemLives;
 
 	private GameManager gameManager;
 
@@ -32,16 +34,28 @@ public class StatsManager : MonoBehaviour
 		itemWave = StatsPanel.AddItem();
 		itemPlayTime = StatsPanel.AddItem();
 		itemMoney = StatsPanel.AddItem();
+		itemLives = StatsPanel.AddItem();
 
 		Score = 0;
 		PlayTime = 0;
 		Wave = 0;
 		Money = 100;
 		moneyEarned = 0;
+		Lives = 3;
 
 		StartCoroutine(Timer());
 
 		gameManager = FindObjectOfType<GameManager>();
+	}
+
+	public int Lives {
+		get { return mLives; }
+		set
+		{
+			if (mLives == value) return;
+			mLives = value;
+			itemLives.text = "Lives: " + mLives ;
+		}
 	}
 
 	public int Money

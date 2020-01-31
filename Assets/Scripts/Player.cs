@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
 	private Rigidbody2D rigidBody;
 	private GameManager gameManager;
+	private StatsManager statsManager;
 	private AudioSource audioSource;
 
 	private bool coolDown = false;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
 		gameManager = FindObjectOfType<GameManager>();
+		statsManager = gameManager.GetComponent<StatsManager>();
 		additionalUI = GameObject.FindWithTag("AdditionalUI");
         audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
     }
@@ -37,6 +39,8 @@ public class Player : MonoBehaviour
 			if (Input.GetButtonDown("Fire1"))
 				Fire();
 		}
+
+		statsManager.Lives = Health;
 	}
 
 	private void Fire()
@@ -74,7 +78,8 @@ public class Player : MonoBehaviour
             var enemyScript = collision.gameObject.GetComponent<Enemy>();
             enemyScript.Die();
             Health -= 1;
-            if (Health == 0)
+			
+			if (Health == 0)
             {
                 transform.gameObject.SetActive(false);
                 gameManager.GameEnd(false);
