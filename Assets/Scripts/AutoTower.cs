@@ -9,6 +9,7 @@ public class AutoTower : MonoBehaviour
 	public float Range = 5.0f;
 	public float CoolDownTime = 2.0f;
 	public float Smoothness = 1.3f;
+    public StatsManager statsmanager;
 
 	public float AttackStrength = 1.0f;
 
@@ -72,7 +73,7 @@ public class AutoTower : MonoBehaviour
 
 		UpgradeButton.GetComponent<Button>().onClick.RemoveAllListeners();
 		UpgradeButton.GetComponent<Button>().onClick.AddListener(() => { UpgradeTower(); });
-        //RangeIndicator.SetActive(false);
+        RangeIndicator.SetActive(false);
 	}
 
 	// Firing Method to get a Bullet and Fire it
@@ -122,10 +123,14 @@ public class AutoTower : MonoBehaviour
 
 	private void UpgradeTower()
 	{
-		SetRange(Range * AutoTowerUpgradeIncrease);
-		CoolDownTime *= (1.0f - (AutoTowerUpgradeIncrease - 1.0f));
-		StartCoroutine(UpgradeCoolDown());
-		UpgradeButton.SetActive(false);
+        if (statsmanager.Money >= 20)
+        {
+            SetRange(Range * AutoTowerUpgradeIncrease);
+            CoolDownTime *= (1.0f - (AutoTowerUpgradeIncrease - 1.0f));
+            StartCoroutine(UpgradeCoolDown());
+            UpgradeButton.SetActive(false);
+            statsmanager.Money -= 20;
+        }
 	}
 
 
