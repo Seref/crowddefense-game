@@ -5812,8 +5812,8 @@ GameObject:
   - component: {fileID: 1482522671}
   - component: {fileID: 1482522668}
   - component: {fileID: 1482522670}
-  - component: {fileID: 1482522669}
   - component: {fileID: 1482522674}
+  - component: {fileID: 1482522669}
   - component: {fileID: 1482522672}
   - component: {fileID: 1482522667}
   - component: {fileID: 1482522673}
@@ -5934,11 +5934,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1482522664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99a234b7dc397f041a70e0649b890a12, type: 3}
+  m_Script: {fileID: 11500000, guid: 07bfc5cb641a2534fb2b660a76f42999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 20
-  AutoSpawnButton: {fileID: 1659660650}
+  Cost: 60
+  Type: 2
+  AutoSpawnButton: {fileID: 745991101}
   FloatingCounter: {fileID: 872245027861170536, guid: a1c5b0d5c7e59a34d8c36db8f228e8c7,
     type: 3}
   NotPlaceable: {fileID: 7518015452614792017, guid: 0ebbd9cafffba5e40bbec4060d2276a5,
@@ -5956,7 +5957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07bfc5cb641a2534fb2b660a76f42999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 50
+  Cost: 20
+  Type: 0
   AutoSpawnButton: {fileID: 127780266}
   FloatingCounter: {fileID: 872245027861170536, guid: a1c5b0d5c7e59a34d8c36db8f228e8c7,
     type: 3}
@@ -6020,11 +6022,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1482522664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13d24b4a4c5d5ea4b8811494899e55fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 07bfc5cb641a2534fb2b660a76f42999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 60
-  AutoSpawnButton: {fileID: 745991101}
+  Cost: 50
+  Type: 1
+  AutoSpawnButton: {fileID: 1659660650}
   FloatingCounter: {fileID: 872245027861170536, guid: a1c5b0d5c7e59a34d8c36db8f228e8c7,
     type: 3}
   NotPlaceable: {fileID: 7518015452614792017, guid: 0ebbd9cafffba5e40bbec4060d2276a5,

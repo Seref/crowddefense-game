@@ -71,14 +71,8 @@ public class BombSpawner : MonoBehaviour
 		startCoroutine = StartCoroutine(SpawnTimer());
 	}
 
-	private void ExplodeEverything()
-	{		
-		StopCoroutine(deleteTimer);
-		RemoveBomb();
-		var Enemies = GameObject.Find("Enemy");
-		var AutoTower = GameObject.Find("AutoTower");
-
-		foreach (Transform transformChild in AutoTower.transform)
+	private void RemoveAutoTower(GameObject group) {
+		foreach (Transform transformChild in group.transform)
 		{
 			var child = transformChild.gameObject;
 			if (child.activeSelf)
@@ -86,31 +80,52 @@ public class BombSpawner : MonoBehaviour
 				if (child.GetComponent<Renderer>().isVisible)
 				{
 					var position = child.transform.position;
-					child.SetActive(false);					
+					child.SetActive(false);
 					var e = Instantiate(Explosion, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), additionalLayer.transform);
-					e.transform.localScale = new Vector2(Random.Range(0.3f, 0.5f), Random.Range(0.3f, 0.5f));
-					autoTowerSpawner.RefillAutoTower();
+					var scale = Random.Range(0.3f, 0.5f);
+					e.transform.localScale = new Vector2(scale, scale);
 				}
 			}
 		}
+	}
 
-		foreach (Transform transformChild in Enemies.transform)
+	private void KillEnemies(GameObject Group)
+	{
+		foreach (Transform transformChild in Group.transform)
 		{
 			var child = transformChild.gameObject;
 			if (child.activeSelf)
 			{
 				if (child.GetComponent<Renderer>().isVisible)
-				{					
+				{
 					var position = child.transform.position;
 					Enemy enemy = child.GetComponent<Enemy>();
 					enemy.Die();
 					var e = Instantiate(Explosion, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), additionalLayer.transform);
-					e.transform.localScale = new Vector2(Random.Range(0.3f, 0.5f), Random.Range(0.3f, 0.5f));
-					
+					var scale = Random.Range(0.3f, 0.5f);
+					e.transform.localScale = new Vector2(scale, scale);
 				}
 			}
 		}
+	}
 
+	private void ExplodeEverything()
+	{		
+		StopCoroutine(deleteTimer);
+		RemoveBomb();
+		var Enemies = GameObject.Find("Enemy");
+		var Enemies2 = GameObject.Find("TankyEnemy");
+		var AutoTower = GameObject.Find("AutoTower");
+		var AutoTower1 = GameObject.Find("AutoTowerWhite");
+		var AutoTower2 = GameObject.Find("AutoTowerYellow");
+
+		RemoveAutoTower(AutoTower);
+		RemoveAutoTower(AutoTower1);
+		RemoveAutoTower(AutoTower2);
+
+		KillEnemies(Enemies);
+		KillEnemies(Enemies2);
+		
 		startCoroutine = StartCoroutine(SpawnTimer());
 	}
 

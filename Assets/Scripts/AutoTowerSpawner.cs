@@ -4,9 +4,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class AutoTowerSpawner : MonoBehaviour
-{	
+{
+	public enum AutoTowerType { AutoTower, AutoTowerWhite, AutoTowerYellow };
+
 	[Header("Variables")]
 	public int Cost = 50;
+	public AutoTowerType Type;
 
 	[Header("Dependencies")]
 	public Button AutoSpawnButton;
@@ -15,7 +18,7 @@ public class AutoTowerSpawner : MonoBehaviour
 	public GameObject Placeable;
 
 	private GameObject additionalLayer;
-	private GameObject additionalLayerUI;	
+	private GameObject additionalLayerUI;
 
 	private bool towerDropped = true;
 	private GameObject AutoTower;
@@ -27,10 +30,7 @@ public class AutoTowerSpawner : MonoBehaviour
 		additionalLayer = GameObject.FindGameObjectWithTag("Additional");
 		additionalLayerUI = GameObject.FindGameObjectWithTag("AdditionalUI");
 		statsManager = GetComponent<GameManager>().statsManager;
-
-		Settings s = SettingsManager.Instance.GetCurrentSettings();
-		Cost = s.AutoTowerBuildCost;
-
+		
 		AutoSpawnButton.onClick.AddListener(SpawnAutoTower);
 		Cross = Instantiate(NotPlaceable, new Vector3(0, 0, 10), Quaternion.identity, additionalLayer.transform);
 		Placeable.transform.position = new Vector3(Placeable.transform.position.x, Placeable.transform.position.y, 8);
@@ -40,14 +40,14 @@ public class AutoTowerSpawner : MonoBehaviour
 
 	public void RefillAutoTower()
 	{
-		AutoSpawnButton.interactable = true;		
+		AutoSpawnButton.interactable = true;
 	}
 
 	public void SpawnAutoTower()
 	{
 		if (statsManager.Money >= Cost && towerDropped)
 		{
-			AutoTower = ObjectPooler.Instance.GetPooledObject("AutoTower");
+			AutoTower = ObjectPooler.Instance.GetPooledObject(Type.ToString());
 			if (AutoTower != null)
 			{
 				statsManager.Money -= Cost;
@@ -57,13 +57,6 @@ public class AutoTowerSpawner : MonoBehaviour
 
 				AutoTower.SetActive(true);
 
-				Settings s = SettingsManager.Instance.GetCurrentSettings();				
-				var AutoTowerScript = AutoTower.GetComponent<AutoTower>();
-				AutoTowerScript.CoolDownTime = s.AutoTowerFireCooldown;
-				AutoTowerScript.AutoTowerUpgradeIncrease = s.AutoTowerUpgradeIncrease;
-				AutoTowerScript.AutoTowerUpgradeTime = s.AutoTowerUpgradeTime;
-
-
 				towerDropped = false;
 				Placeable.SetActive(true);
 				AutoSpawnButton.interactable = false;
@@ -71,11 +64,12 @@ public class AutoTowerSpawner : MonoBehaviour
 			}
 		}
 	}
-	
+
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.Alpha1)){
+		if (Input.GetKey(KeyCode.Alpha1))
+		{
 			SpawnAutoTower();
 		}
 		if (!towerDropped && AutoTower != null)
@@ -96,25 +90,37 @@ public class AutoTowerSpawner : MonoBehaviour
 			var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			AutoTower.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
 
-			if (!EventSystem.current.IsPointerOverGameObject() && canPlace)
+			if (Input.GetButtonDown("Fire2"))
 			{
-				Cross.transform.position = new Vector3(-1000, -1000, 5);
-				Cross.SetActive(false);
-
-				if (Input.GetButtonDown("Fire1"))
-				{
-					towerDropped = true;
-					AutoTower.layer = LayerMask.NameToLayer("AutoTower");
-					AutoTower.GetComponent<AutoTower>().Drop();
-					AutoTower = null;
-					Placeable.SetActive(false);
-				}
+				towerDropped = true;
+				AutoTower.layer = LayerMask.NameToLayer("AutoTower");
+				AutoTower.SetActive(false);
+				statsManager.Money += Cost;
+				AutoTower = null;
+				Placeable.SetActive(false);
 			}
 			else
 			{
-				var newPosition = AutoTower.transform.position;
-				Cross.transform.position = new Vector3(newPosition.x, newPosition.y, -2);
-				Cross.SetActive(true);
+				if (!EventSystem.current.IsPointerOverGameObject() && canPlace)
+				{
+					Cross.transform.position = new Vector3(-1000, -1000, 5);
+					Cross.SetActive(false);
+
+					if (Input.GetButtonDown("Fire1"))
+					{
+						towerDropped = true;
+						AutoTower.layer = LayerMask.NameToLayer("AutoTower");
+						AutoTower.GetComponent<AutoTower>().Drop();
+						AutoTower = null;
+						Placeable.SetActive(false);
+					}
+				}
+				else
+				{
+					var newPosition = AutoTower.transform.position;
+					Cross.transform.position = new Vector3(newPosition.x, newPosition.y, -2);
+					Cross.SetActive(true);
+				}
 			}
 		}
 		else
