@@ -9,7 +9,7 @@ public class AutoTower : MonoBehaviour
 	public float Range = 5.0f;
 	public float CoolDownTime = 2.0f;
 	public float Smoothness = 1.3f;
-    private StatsManager statsmanager;
+	private StatsManager statsmanager;
 
 	public float AttackStrength = 1.0f;
 
@@ -33,7 +33,7 @@ public class AutoTower : MonoBehaviour
 	private SpriteRenderer sr;
 
 	void SetRange(float range)
-	{	
+	{
 		Range = range;
 		GetComponent<CircleCollider2D>().radius = Range;
 		RangeIndicator.transform.localScale = new Vector3(0.406f * Range, 0.406f * Range, 1);
@@ -56,13 +56,19 @@ public class AutoTower : MonoBehaviour
 		coolDown = false;
 	}
 
+	void OnDisable()
+	{
+		if (UpgradeButton != null)
+			UpgradeButton.SetActive(false);
+	}
+
 	public void Drop()
 	{
 		Dropped = true;
 		StartCoroutine(UpgradeCoolDown());
 
 		if (UpgradeButton == null)
-		{ 
+		{
 			UpgradeButton = Instantiate(UpgradeIndicator, RectTransformUtility.WorldToScreenPoint(null, (transform.position)), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
 		}
 		else
@@ -74,11 +80,10 @@ public class AutoTower : MonoBehaviour
 
 		UpgradeButton.GetComponent<Button>().onClick.RemoveAllListeners();
 		UpgradeButton.GetComponent<Button>().onClick.AddListener(() => { UpgradeTower(); });
-        RangeIndicator.SetActive(false);
+		RangeIndicator.SetActive(false);
 	}
 
 	// Firing Method to get a Bullet and Fire it
-
 	private void Fire()
 	{
 		GameObject bullet = ObjectPooler.Instance.GetPooledObject("Bullet");
@@ -105,9 +110,10 @@ public class AutoTower : MonoBehaviour
 		}
 	}
 
-	private IEnumerator FillIndicator() {
+	private IEnumerator FillIndicator()
+	{
 		sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.2f);
-		float increaseBy = 0.8f / (CoolDownTime /0.1f);
+		float increaseBy = 0.8f / (CoolDownTime / 0.1f);
 		while (sr.color.a < 1.0f)
 		{
 			yield return new WaitForSeconds(0.1f);
@@ -124,14 +130,14 @@ public class AutoTower : MonoBehaviour
 
 	private void UpgradeTower()
 	{
-        if (statsmanager.Money >= 20)
-        {
+		if (statsmanager.Money >= 20)
+		{
 			statsmanager.Money -= 20;
 			SetRange(Range * AutoTowerUpgradeIncrease);
-            CoolDownTime *= (1.0f - (AutoTowerUpgradeIncrease - 1.0f));
-            StartCoroutine(UpgradeCoolDown());
-            UpgradeButton.SetActive(false);            
-        }
+			CoolDownTime *= (1.0f - (AutoTowerUpgradeIncrease - 1.0f));
+			StartCoroutine(UpgradeCoolDown());
+			UpgradeButton.SetActive(false);
+		}
 	}
 
 
@@ -187,7 +193,7 @@ public class AutoTower : MonoBehaviour
 			{
 				var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, currentTarget.transform.position).eulerAngles.z + 90.0f);
 				rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
-                Fire();
+				Fire();
 			}
 		}
 	}
