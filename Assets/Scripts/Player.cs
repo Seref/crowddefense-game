@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 	private bool coolDown = false;
 	private GameObject additionalUI;
     public int Health = 3;
+	public float Damage = 0.25f;
 
 	void Start()
 	{
@@ -54,9 +55,9 @@ public class Player : MonoBehaviour
 			bullet.transform.rotation = transform.rotation;			
 			bullet.SetActive(true);
 			var bulletScript = bullet.GetComponent<Bullet>();
-			bulletScript.Speed = 20;
-			bulletScript.ShotBy = Bullet.BULLETUSER.PLAYER;
-			bulletScript.Fire();
+			bulletScript.Speed = 40;
+			bulletScript.ShotBy = Bullet.BULLETUSER.PLAYER;			
+			bulletScript.Fire(Damage);
 
 			var Text = Instantiate(floatCounter, new Vector3(-1000, -1000, 0), Quaternion.identity, additionalUI.transform);
 			Text.Show(CoolDownTime, transform, GetComponent<SpriteRenderer>().bounds.size.y);

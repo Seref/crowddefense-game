@@ -10,10 +10,13 @@ public class Enemy : MonoBehaviour
 
 	private Path paths;
 	private List<Vector2> points;
-	public float Health = 0.2f;
+	public float Health = 1f;
 	private int destPoint = 0;
 	private StatsManager statsManager;
 	public AudioClip clip;
+	public GameObject Explosion;
+
+	private GameObject additionalLayer;
 
 	void Awake()
 	{
@@ -22,6 +25,7 @@ public class Enemy : MonoBehaviour
 		agent.updateRotation = false;
 		agent.autoBraking = false;
 		agent.autoRepath = true;
+		additionalLayer = GameObject.FindGameObjectWithTag("Additional");
 	}
 
 	void OnEnable()
@@ -81,7 +85,7 @@ public class Enemy : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Bullet")
 		{
-			Health -= collision.gameObject.GetComponent<Bullet>().Damage;
+			Health -= collision.gameObject.GetComponent<Bullet>().Damage;			
 			SetHealth(Health);
 
 			if (Health <= 0.0f)
@@ -96,6 +100,7 @@ public class Enemy : MonoBehaviour
 	{
 		if (!isDead)
 		{
+			var position = transform.position;
 			isDead = true;
 			AudioSource.PlayClipAtPoint(clip, gameObject.transform.position, (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f));
 			Health = 0.3f;
@@ -104,6 +109,11 @@ public class Enemy : MonoBehaviour
 			destPoint = -1;
 			statsManager.Score += 1;
 			transform.gameObject.SetActive(false);
+
+			
+			var e = Instantiate(Explosion, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), additionalLayer.transform);
+			var scale = Random.Range(0.1f, 0.5f);
+			e.transform.localScale = new Vector2(scale, scale);
 		}
 	}
 }

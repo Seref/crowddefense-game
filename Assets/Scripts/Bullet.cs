@@ -19,10 +19,10 @@ public partial class Bullet : MonoBehaviour
 		sr = GetComponent<SpriteRenderer>();
 	}
 
-	public void Fire(float Damage = 1.0f)
+	public void Fire(float damage = 1.0f)
 	{
 		wasVisible = false;
-		Damage = 1.0f;
+		Damage = damage;
 		rigidBody2D.velocity = transform.up * Speed;
 	}
 

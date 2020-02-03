@@ -398,6 +398,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 0.2
   clip: {fileID: 8300000, guid: 5d9ba37eb4b21dc488061339263f6c1a, type: 3}
+  Explosion: {fileID: 3014185761133826077, guid: ce63611139222ca4a882bb778c8fb21d,
+    type: 3}
   sr: {fileID: 5771132564301318716}
   sr1: {fileID: 8754670767286931567}
   sr2: {fileID: 7365394672265768481}
