@@ -14,6 +14,7 @@ public class StatsManager : MonoBehaviour
 	private int mWave = -1;
 	private int mMoney = -1;
 	private int mLives = -1;
+	private int mOutpostLives = -1;
 	public int moneyEarned = 0;
 
 
@@ -24,6 +25,7 @@ public class StatsManager : MonoBehaviour
 	private TextMeshProUGUI itemPlayTime;
 	private TextMeshProUGUI itemMoney;
 	private TextMeshProUGUI itemLives;
+	private TextMeshProUGUI itemOutPostLives;
 
 	private GameManager gameManager;
 
@@ -35,6 +37,7 @@ public class StatsManager : MonoBehaviour
 		itemPlayTime = StatsPanel.AddItem();
 		itemMoney = StatsPanel.AddItem();
 		itemLives = StatsPanel.AddItem();
+		itemOutPostLives = StatsPanel.AddItem();
 
 		Score = 0;
 		PlayTime = 0;
@@ -42,10 +45,22 @@ public class StatsManager : MonoBehaviour
 		Money = 100;
 		moneyEarned = 0;
 		Lives = 3;
+		OutpostLives = 3;
 
 		StartCoroutine(Timer());
 
 		gameManager = FindObjectOfType<GameManager>();
+	}
+
+	public int OutpostLives
+	{
+		get { return mOutpostLives; }
+		set
+		{
+			if (mOutpostLives == value) return;
+			mOutpostLives = value;
+			itemOutPostLives.text = "OutPost Lives: " + mOutpostLives;
+		}
 	}
 
 	public int Lives {
