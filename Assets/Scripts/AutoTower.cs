@@ -32,6 +32,7 @@ public class AutoTower : MonoBehaviour
 	private GameObject UpgradeButton = null;
 	private SpriteRenderer sr;
 
+
 	void SetRange(float range)
 	{
 		Range = range;
@@ -52,6 +53,7 @@ public class AutoTower : MonoBehaviour
 
 	void OnEnable()
 	{
+		fireAmount = 0;
 		Dropped = false;
 		coolDown = false;
 	}
@@ -84,10 +86,11 @@ public class AutoTower : MonoBehaviour
 	}
 
 	// Firing Method to get a Bullet and Fire it
+	int fireAmount = 0;
 	private void Fire()
 	{
 		GameObject bullet = ObjectPooler.Instance.GetPooledObject("Bullet");
-		if (bullet != null && !coolDown)
+		if (bullet != null && !coolDown && fireAmount++ > 0)
 		{
 			audioSource.Play();
 			coolDown = true;
@@ -192,7 +195,8 @@ public class AutoTower : MonoBehaviour
 			if (currentTarget.activeSelf && Dropped)
 			{
 				var destination = Quaternion.Euler(0, 0, HelperFunctions.LookAt2D(transform.position, currentTarget.transform.position).eulerAngles.z + 90.0f);
-				rigidBody.rotation = Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
+				rigidBody.rotation = destination.eulerAngles.z; // Quaternion.Slerp(transform.rotation, destination, Time.deltaTime * Smoothness).eulerAngles.z;
+
 				Fire();
 			}
 		}

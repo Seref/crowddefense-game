@@ -312,7 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Range: 4.5
   CoolDownTime: 2
-  Smoothness: 4
+  Smoothness: 50
   AttackStrength: 0.1
   AutoTowerUpgradeTime: 20
   AutoTowerUpgradeIncrease: 1.2
