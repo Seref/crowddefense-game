@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 0.2
   clip: {fileID: 8300000, guid: 5d9ba37eb4b21dc488061339263f6c1a, type: 3}
+  deathclip: {fileID: 8300000, guid: 5fca7392a85a5e945bb09d67d67bed46, type: 3}
   Explosion: {fileID: 3014185761133826077, guid: ce63611139222ca4a882bb778c8fb21d,
     type: 3}
 --- !u!95 &503403438638623760

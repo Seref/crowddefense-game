@@ -23,6 +23,8 @@ public class EnemySpawner : MonoBehaviour
 	private StatsManager statsManager;
 	private GameManager gameManager;
 
+	private GameObject UpgradeButtons;
+
 	void Start()
 	{
 		statsManager = GetComponent<StatsManager>();
@@ -31,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
 		Amount = s.WaveEnemyAmount * s.WaveAmount;
 		WaveSize = s.WaveEnemyAmount;
-
+		UpgradeButtons = GameObject.FindWithTag("AdditionalUIUpgrade");
 		InitialAmount = Amount;
 		StartCoroutine(SpawnWaves());
 	}	
@@ -41,13 +43,13 @@ public class EnemySpawner : MonoBehaviour
 	IEnumerator SpawnWaves()
 	{
 		//yield return new WaitForSeconds(2);
-
 		while (true)
 		{
 
 			StartCoroutine(PreparationTime());
+			UpgradeButtons.SetActive(true);
 			yield return new WaitForSeconds(10.9f);
-
+			UpgradeButtons.SetActive(false);
 			int scoreBefore = statsManager.Score;
 
 			for (int i = 0; i < WaveSize; i++)

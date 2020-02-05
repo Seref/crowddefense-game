@@ -45,7 +45,7 @@ public class AutoTower : MonoBehaviour
 	{
 		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
-		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
+		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f)*0.35f;
 		sr = GetComponent<SpriteRenderer>();
 		statsmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StatsManager>();
 		SetRange(Range);
@@ -71,7 +71,7 @@ public class AutoTower : MonoBehaviour
 
 		if (UpgradeButton == null)
 		{
-			UpgradeButton = Instantiate(UpgradeIndicator, RectTransformUtility.WorldToScreenPoint(null, (transform.position)), Quaternion.identity, GameObject.FindWithTag("AdditionalUI").transform);
+			UpgradeButton = Instantiate(UpgradeIndicator, RectTransformUtility.WorldToScreenPoint(null, (transform.position)), Quaternion.identity, GameObject.FindWithTag("AdditionalUIUpgrade").transform);
 		}
 		else
 		{

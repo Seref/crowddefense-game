@@ -18,6 +18,7 @@ TagManager:
   - TankyEnemy
   - AutoTowerYellow
   - GameManager
+  - AdditionalUIUpgrade
   layers:
   - Default
   - TransparentFX

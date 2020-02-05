@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 	private int destPoint = 0;
 	private StatsManager statsManager;
 	public AudioClip clip;
+	public AudioClip deathclip;
 	public GameObject Explosion;
 
 	private GameObject additionalLayer;
@@ -102,7 +103,8 @@ public class Enemy : MonoBehaviour
 		{
 			var position = transform.position;
 			isDead = true;
-			AudioSource.PlayClipAtPoint(clip, gameObject.transform.position, (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f));
+			AudioSource.PlayClipAtPoint(clip, gameObject.transform.position, (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f)*0.25f);
+			AudioSource.PlayClipAtPoint(deathclip, gameObject.transform.position, (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f)*1.25f);
 			Health = 0.3f;
 			transform.position = start;
 			agent.destination = points[0];

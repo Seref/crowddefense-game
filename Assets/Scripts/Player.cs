@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 		gameManager = FindObjectOfType<GameManager>();
 		statsManager = gameManager.GetComponent<StatsManager>();
 		additionalUI = GameObject.FindWithTag("AdditionalUI");
-		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f);
+		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f)*0.2f;
 	}
 
 
