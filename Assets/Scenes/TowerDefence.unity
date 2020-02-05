@@ -5949,6 +5949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4014d18a9aa24347b481e30cbe0b38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AdditionalUpgrade: {fileID: 408036669}
   GameOverScreen: {fileID: 47360901}
   VictoryAnimation: {fileID: 1400816426}
   Title: {fileID: 1808085441}

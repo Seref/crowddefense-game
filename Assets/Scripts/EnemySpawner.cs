@@ -3,6 +3,7 @@ using Assets.Scripts.UI;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -33,10 +34,10 @@ public class EnemySpawner : MonoBehaviour
 		Settings s = SettingsManager.Instance.GetCurrentSettings();
 		Amount = s.WaveEnemyAmount * s.WaveAmount;
 		WaveSize = s.WaveEnemyAmount;
-		UpgradeButtons = GameObject.FindWithTag("AdditionalUIUpgrade");
+		UpgradeButtons = gameManager.AdditionalUpgrade;
 		InitialAmount = Amount;
 		StartCoroutine(SpawnWaves());
-	}	
+	}
 
 	private int CurrentWave = 1;
 
@@ -47,16 +48,20 @@ public class EnemySpawner : MonoBehaviour
 		{
 
 			StartCoroutine(PreparationTime());
-			UpgradeButtons.SetActive(true);
+			UpgradeButtons.GetComponent<Canvas>().sortingLayerName = "Default";
+			UpgradeButtons.GetComponent<GraphicRaycaster>().enabled = true;
 			yield return new WaitForSeconds(10.9f);
-			UpgradeButtons.SetActive(false);
+
+			UpgradeButtons.GetComponent<GraphicRaycaster>().enabled = false;
+			UpgradeButtons.GetComponent<Canvas>().sortingLayerName = "BehindBackground";
 			int scoreBefore = statsManager.Score;
 
 			for (int i = 0; i < WaveSize; i++)
 			{
 				GameObject enemy = null;
-				if (Gamble(0.125f)) {
-					enemy = ObjectPooler.Instance.GetPooledObject("TankyEnemy");										
+				if (Gamble(0.125f))
+				{
+					enemy = ObjectPooler.Instance.GetPooledObject("TankyEnemy");
 				}
 				else
 				{
@@ -81,9 +86,10 @@ public class EnemySpawner : MonoBehaviour
 
 			}
 
-			CurrentWave ++;
+			CurrentWave++;
 
-			while(statsManager.Score< scoreBefore+ WaveSize) {				
+			while (statsManager.Score < scoreBefore + WaveSize)
+			{
 				yield return new WaitForSeconds(0.5f);
 			}
 
@@ -93,7 +99,7 @@ public class EnemySpawner : MonoBehaviour
 
 	private bool Gamble(float bid)
 	{
-		return (Random.value < bid);		
+		return (Random.value < bid);
 	}
 
 	private IEnumerator PreparationTime()
@@ -106,7 +112,7 @@ public class EnemySpawner : MonoBehaviour
 			time -= 0.1f;
 			PrepTime.text = time.ToString("F1") + "s";
 		}
-		Preparation.SetActive(false);	
+		Preparation.SetActive(false);
 	}
 
 }

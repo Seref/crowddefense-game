@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	
+
+	public GameObject AdditionalUpgrade; 
 
 	[Header("GameOver Screen")]
 	public GameObject GameOverScreen;
@@ -72,7 +73,6 @@ public class GameManager : MonoBehaviour
 				DataLogger.Instance.LogEnd(true, Stats.Score, Stats.Wave, Stats.PlayTime, (100 + Stats.moneyEarned) - Stats.Money, Stats.moneyEarned, false);
 				GameOverScreen.SetActive(true);
 				VictoryAnimation.SetActive(true);
-
 			}
 			else
 			{

@@ -31,7 +31,7 @@ public class AutoTower : MonoBehaviour
 
 	private GameObject UpgradeButton = null;
 	private SpriteRenderer sr;
-
+	private GameObject AdditonalUIUpgrade;
 
 	void SetRange(float range)
 	{
@@ -45,9 +45,11 @@ public class AutoTower : MonoBehaviour
 	{
 		audioSource = GetComponent<AudioSource>();
 		rigidBody = GetComponent<Rigidbody2D>();
-		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f)*0.35f;
+		audioSource.volume = (SettingsManager.Instance.GetCurrentSettings().MasterSound / 100.0f)*0.15f;
 		sr = GetComponent<SpriteRenderer>();
-		statsmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StatsManager>();
+		var gameManager = GameObject.FindGameObjectWithTag("GameManager");
+		statsmanager = gameManager.GetComponent<StatsManager>();
+		AdditonalUIUpgrade = gameManager.GetComponent<GameManager>().AdditionalUpgrade;
 		SetRange(Range);
 	}
 
@@ -71,11 +73,11 @@ public class AutoTower : MonoBehaviour
 
 		if (UpgradeButton == null)
 		{
-			UpgradeButton = Instantiate(UpgradeIndicator, RectTransformUtility.WorldToScreenPoint(null, (transform.position)), Quaternion.identity, GameObject.FindWithTag("AdditionalUIUpgrade").transform);
+			UpgradeButton = Instantiate(UpgradeIndicator, RectTransformUtility.WorldToScreenPoint(null,  (transform.position)), Quaternion.identity, AdditonalUIUpgrade.transform);
 		}
 		else
 		{
-			UpgradeButton.transform.position = RectTransformUtility.WorldToScreenPoint(null, (transform.position));
+			UpgradeButton.transform.position = RectTransformUtility.WorldToScreenPoint(null , (transform.position));
 		}
 
 		UpgradeButton.SetActive(false);
