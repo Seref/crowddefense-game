@@ -48,12 +48,15 @@ public class EnemySpawner : MonoBehaviour
 		{
 
 			StartCoroutine(PreparationTime());
+			UpgradeButtons.GetComponent<Canvas>().enabled = true;
 			UpgradeButtons.GetComponent<Canvas>().sortingLayerName = "Default";
+
 			UpgradeButtons.GetComponent<GraphicRaycaster>().enabled = true;
 			yield return new WaitForSeconds(10.9f);
 
 			UpgradeButtons.GetComponent<GraphicRaycaster>().enabled = false;
 			UpgradeButtons.GetComponent<Canvas>().sortingLayerName = "BehindBackground";
+			UpgradeButtons.GetComponent<Canvas>().enabled = false;
 			int scoreBefore = statsManager.Score;
 
 			for (int i = 0; i < WaveSize; i++)
