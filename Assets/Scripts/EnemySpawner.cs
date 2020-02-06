@@ -52,7 +52,7 @@ public class EnemySpawner : MonoBehaviour
 				var Message = Instantiate(WaveWon, new Vector3(0, 0, 0), Quaternion.identity);
 				var e = Message.GetComponentInChildren<ManagedWave>();
 				e.PlayAnimation("Wave " + (CurrentWave - 1) + " cleared!");
-				yield return new WaitForSeconds(1.4f);
+				yield return new WaitForSeconds(2.3f);
 				Destroy(Message);
 			}
 			
