@@ -54,8 +54,7 @@ public class GameManager : MonoBehaviour
 			{
 				GameEnd(true);
 			}
-		}
-		
+		}		
 	}
 
 	public void GameEnd(bool isWin)

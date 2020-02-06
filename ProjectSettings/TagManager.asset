@@ -65,6 +65,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: PreClcik
+    uniqueID: 182610337
+    locked: 0
   - name: Clickable
     uniqueID: 1378052387
     locked: 0

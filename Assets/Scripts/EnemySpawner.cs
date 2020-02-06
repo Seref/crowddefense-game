@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
 {
 	[Header("PreparationTime Screen")]
 	public GameObject Preparation;
+	public GameObject WaveWon;
 	public TextMeshProUGUI PrepTime;
 
 	[Header("Variables")]
@@ -47,6 +48,15 @@ public class EnemySpawner : MonoBehaviour
 		while (true)
 		{
 
+			if(CurrentWave % 5 == 1 && CurrentWave>1) { 
+				var Message = Instantiate(WaveWon, new Vector3(0, 0, 0), Quaternion.identity);
+				var e = Message.GetComponentInChildren<ManagedWave>();
+				e.PlayAnimation("Wave " + (CurrentWave - 1) + " cleared!");
+				yield return new WaitForSeconds(1.4f);
+				Destroy(Message);
+			}
+			
+			//Preparation Time
 			StartCoroutine(PreparationTime());
 			UpgradeButtons.GetComponent<Canvas>().enabled = true;
 			UpgradeButtons.GetComponent<Canvas>().sortingLayerName = "Default";
